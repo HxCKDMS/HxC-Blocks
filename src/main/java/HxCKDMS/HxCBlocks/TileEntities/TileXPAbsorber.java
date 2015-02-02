@@ -29,7 +29,7 @@ public class TileXPAbsorber extends TileEntity{
         par1.setInteger("z", z);
         par1.setInteger("Mod", modifier);
         par1.setInteger("XP", XP);
-        par1.setString("BoundPlayer", BoundPlayer);
+        if (!BoundPlayer.isEmpty()) par1.setString("BoundPlayer", BoundPlayer);
     }
 
     @Override
@@ -44,13 +44,9 @@ public class TileXPAbsorber extends TileEntity{
         this.player = par1.getString("BoundPlayer");
     }
 
-    @Override
-    public boolean canUpdate() {
-        return super.canUpdate();
-    }
-
     public void updateEntity(){
         worldObj.markBlockForUpdate(x, y, z);
+        worldObj.getTileEntity(x, y, z).markDirty();
         coords[0] = x; coords[1] = y; coords[2] = z;
         if(worldObj != null && !worldObj.isRemote && Enabled){
             event.vacuum(coords, worldObj);
