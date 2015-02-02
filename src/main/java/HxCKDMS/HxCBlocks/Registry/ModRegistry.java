@@ -48,6 +48,7 @@ public class ModRegistry {
 
     private static void registerItems() {
         GameRegistry.registerItem(SoulFragment, "SoulFragment");
+        GameRegistry.registerItem(SoulBinder, "SoulBinder");
     }
 
     private static void registerTileEntities() {
@@ -57,7 +58,9 @@ public class ModRegistry {
 
     private static void registerCraftingRecipes() {
         GameRegistry.addRecipe(new ItemStack(SoulBinder), " i ", "ifi", " i ", 'i', Items.iron_ingot, 'f', SoulFragment);
-        GameRegistry.addRecipe(new ItemStack(SoulFragment), SoulFragment);
+        GameRegistry.addShapelessRecipe(new ItemStack(SoulFragment), SoulFragment);
         GameRegistry.addRecipe(new ItemStack(SoulExtractor), "o o", "ese", "o o", 'e', Items.ender_eye, 's', Items.nether_star, 'o', Blocks.obsidian);
+        GameRegistry.addRecipe(new ItemStack(XPAbsorber), "oho", "ede", "obo", 'e', Items.ender_eye, 'd', Items.diamond, 'o', Blocks.obsidian, 'b', Items.bucket, 'h', Blocks.hopper);
+        GameRegistry.addRecipe(new ItemStack(SlaughterBlock), "o o", "sps", "o o", 's', Items.diamond_sword, 'p', Blocks.piston, 'o', Blocks.obsidian);
     }
 }

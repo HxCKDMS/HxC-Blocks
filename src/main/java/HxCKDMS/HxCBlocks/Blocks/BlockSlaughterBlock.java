@@ -1,6 +1,7 @@
 package HxCKDMS.HxCBlocks.Blocks;
 
-import HxCKDMS.HxCBlocks.Registry.ModRegistry;
+import HxCKDMS.HxCBlocks.Reference.References;
+import HxCKDMS.HxCBlocks.Registry.CreativeTabHxCBlocks;
 import HxCKDMS.HxCBlocks.TileEntities.TileSlaughterBlock;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -11,10 +12,10 @@ public class BlockSlaughterBlock extends BlockContainer {
 
 	public BlockSlaughterBlock(Material material) {
 		super(material);
-		setCreativeTab(ModRegistry.HxCBlocks);
+		setCreativeTab(CreativeTabHxCBlocks.tabHxCBlocks);
 		setBlockName("SlaughterBlock");
 		setStepSound(soundTypeMetal);
-        setBlockTextureName("SlaughterBlock");
+        setBlockTextureName(References.MOD_ID + ":SlaughterBlock");
 		setHardness(1.0F);
 		setResistance(1600.0F);
         setLightLevel(1);

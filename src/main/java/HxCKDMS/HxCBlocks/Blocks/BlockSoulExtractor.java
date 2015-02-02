@@ -1,16 +1,17 @@
 package HxCKDMS.HxCBlocks.Blocks;
 
-import HxCKDMS.HxCBlocks.Registry.ModRegistry;
+import HxCKDMS.HxCBlocks.Reference.References;
+import HxCKDMS.HxCBlocks.Registry.CreativeTabHxCBlocks;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 
 public class BlockSoulExtractor extends Block {
 	public BlockSoulExtractor(Material material) {
         super(material);
-        setCreativeTab(ModRegistry.HxCBlocks);
+        setCreativeTab(CreativeTabHxCBlocks.tabHxCBlocks);
         setBlockName("SoulExtractor");
         setStepSound(soundTypeMetal);
-        setBlockTextureName("SoulExtractor");
+        setBlockTextureName(References.MOD_ID + ":SoulExtractor");
         setHardness(1.0F);
         setResistance(1600.0F);
         setLightLevel(1);

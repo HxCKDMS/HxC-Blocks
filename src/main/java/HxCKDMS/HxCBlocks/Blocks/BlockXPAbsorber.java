@@ -1,6 +1,7 @@
 package HxCKDMS.HxCBlocks.Blocks;
 
-import HxCKDMS.HxCBlocks.Registry.ModRegistry;
+import HxCKDMS.HxCBlocks.Reference.References;
+import HxCKDMS.HxCBlocks.Registry.CreativeTabHxCBlocks;
 import HxCKDMS.HxCBlocks.TileEntities.TileXPAbsorber;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
@@ -11,9 +12,9 @@ public class BlockXPAbsorber extends BlockContainer {
 
 	public BlockXPAbsorber(Material material) {
         super(material);
-        setCreativeTab(ModRegistry.HxCBlocks);
+        setCreativeTab(CreativeTabHxCBlocks.tabHxCBlocks);
         setBlockName("XPAbsorber");
-        setBlockTextureName("XPAbsorber");
+        setBlockTextureName(References.MOD_ID + ":XPAbsorber");
         setStepSound(soundTypeMetal);
         setHardness(1.0F);
         setResistance(1600.0F);

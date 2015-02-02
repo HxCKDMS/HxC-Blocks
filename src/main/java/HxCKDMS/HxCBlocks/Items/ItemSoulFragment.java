@@ -1,7 +1,7 @@
 package HxCKDMS.HxCBlocks.Items;
 
 import HxCKDMS.HxCBlocks.Reference.References;
-import net.minecraft.creativetab.CreativeTabs;
+import HxCKDMS.HxCBlocks.Registry.CreativeTabHxCBlocks;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -14,7 +14,7 @@ public class ItemSoulFragment extends Item{
 	public NBTTagCompound data;
 
     public ItemSoulFragment(){
-		setCreativeTab(CreativeTabs.tabTools);
+        setCreativeTab(CreativeTabHxCBlocks.tabHxCBlocks);
 		setUnlocalizedName("SoulFragment");
 		setTextureName(References.MOD_ID + ":SoulFragment");
 		setMaxStackSize(4);
