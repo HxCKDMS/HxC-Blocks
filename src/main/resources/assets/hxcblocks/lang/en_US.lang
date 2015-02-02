@@ -1,6 +1,8 @@
 tile.XPAbsorber.name=XP Absorber
 tile.SlaughterBlock.name=Slaughter Block
 tile.SoulExtractor.name=Soul Extractor
+tile.Vacuum.name=Item Vacuum
 item.SoulFragment.name=Soul Fragment
 item.SoulBinder.name=Soul Binder
 itemGroup.HxCBlocks=HxC-Blocks
+death.attack.SoulExtraction=%1$s extracted their soul.

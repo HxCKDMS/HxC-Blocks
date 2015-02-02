@@ -12,6 +12,7 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -38,6 +39,7 @@ public class EventBlockInteract implements EventListener {
         EntityPlayer player = event.entityPlayer;
         String UUID = player.getUniqueID().toString();
         File CustomPlayerData = new File(HxCCore.HxCCoreDir, "HxC-" + UUID + ".dat");
+        NBTTagCompound nbt = NBTFileIO.getData(CustomPlayerData);
         Item item = null; ItemStack stack = null;
         if (event.entityPlayer.getHeldItem() != null){
             item = event.entityPlayer.getHeldItem().getItem();
@@ -46,15 +48,15 @@ public class EventBlockInteract implements EventListener {
         /**                                                             *
          *        All data possibly needed gathered above               *
          *                                                             **/
-        if(block instanceof BlockSoulExtractor){
-            float soul = NBTFileIO.getFloat(CustomPlayerData, "Soul");
-            if (randfloat <= soul){
+        if(block instanceof BlockSoulExtractor && event.action.equals(PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)){
+            float soul = nbt.getFloat("Soul");
+            if (randfloat <= soul) {
                 ItemStack fragment = new ItemStack(ModRegistry.SoulFragment);
                 NBTTagCompound tag = new NBTTagCompound();
                 tag.setString("Player", player.getDisplayName());
                 fragment.setTagCompound(tag);
                 if (!world.isRemote) world.spawnEntityInWorld(new EntityItem(world, player.posX, player.posY, player.posZ, fragment));
-                NBTFileIO.setFloat(CustomPlayerData, "Soul", (soul - randfloat));
+                nbt.setFloat("Soul", (soul - randfloat));
                 float hp = player.getHealth();
                 player.attackEntityFrom(new DamageSource("SoulExtraction"), hp*1000);
             }
@@ -67,15 +69,15 @@ public class EventBlockInteract implements EventListener {
             } else if (item instanceof ItemSoulFragment) {
                 TileXPAbsorber xpAbsorber = (TileXPAbsorber)tile;
                 xpAbsorber.modifier = (xpAbsorber.modifier+3);
-                player.addChatMessage(new ChatComponentText("\u00A73Range was set to " + xpAbsorber.modifier));
+                if (!world.isRemote)player.addChatMessage(new ChatComponentText("\u00A73Range was set to " + xpAbsorber.modifier));
                 if (!player.capabilities.isCreativeMode)player.inventory.decrStackSize(player.inventory.currentItem, 1);
             }
             //TODO: Add Configuring Item and gui to block if the item was used on block.
         } else if (tile instanceof TileSlaughterBlock) {
-            if (item instanceof ItemSoulFragment) {
+            if (item == Items.diamond_sword) {
                 TileSlaughterBlock HxCTile = (TileSlaughterBlock)tile;
                 HxCTile.modifier = (HxCTile.modifier+3);
-                player.addChatMessage(new ChatComponentText("\u00A73Range was set to " + HxCTile.modifier));
+                if (!world.isRemote)player.addChatMessage(new ChatComponentText("\u00A73Range was set to " + HxCTile.modifier));
                 if (!player.capabilities.isCreativeMode)player.inventory.decrStackSize(player.inventory.currentItem, 1);
             }
         }
