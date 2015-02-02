@@ -2,7 +2,6 @@ package HxCKDMS.HxCBlocks.Events;
 
 import HxCKDMS.HxCBlocks.TileEntities.TileSlaughterBlock;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
@@ -25,7 +24,6 @@ public class EventSlaughter {
                 entity.setLastAttacker(world.getPlayerEntityByName(BoundPlayer));
                 entity.attackEntityFrom(new DamageSource("SlaughterBlock"), 300f);
                 entity.setLastAttacker(world.getPlayerEntityByName(BoundPlayer));
-                entity.worldObj.spawnEntityInWorld(new EntityXPOrb(world, coords[0], coords[1]+0.5, coords[2], 2));
             }
         }
     }

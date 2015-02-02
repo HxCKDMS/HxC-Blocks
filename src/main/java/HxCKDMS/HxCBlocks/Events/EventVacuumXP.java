@@ -28,7 +28,7 @@ public class EventVacuumXP {
                 HxCTile.getDescriptionPacket();
             }
         }
-        if (HxCTile.XP >= 100){
+        if (HxCTile.XP >= 1000){
             String BoundPlayer = HxCTile.BoundPlayer;
             try {
                 EntityPlayer player = world.getPlayerEntityByName(BoundPlayer);
