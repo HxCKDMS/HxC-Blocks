@@ -21,7 +21,7 @@ public class EventEntityUpdate {
             if (soul != 1f) {
                 SoulTimer--;
                 NBTFileIO.setInteger(CustomPlayerData, "SoulTimer", SoulTimer);
-                if (SoulTimer == 0){
+                if (SoulTimer <= 0){
                     NBTFileIO.setFloat(CustomPlayerData, "Soul", soul+.01f);
                     NBTFileIO.setInteger(CustomPlayerData, "SoulTimer", 12000);
                 }

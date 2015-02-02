@@ -29,7 +29,7 @@ public class EventVacuumXP {
             }
         }
         if (HxCTile.XP >= 100){
-            String BoundPlayer = HxCTile.player;
+            String BoundPlayer = HxCTile.BoundPlayer;
             try {
                 EntityPlayer player = world.getPlayerEntityByName(BoundPlayer);
                 player.addExperience(HxCTile.XP);

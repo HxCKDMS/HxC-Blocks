@@ -38,7 +38,6 @@ public class EventBlockInteract implements EventListener {
         EntityPlayer player = event.entityPlayer;
         String UUID = player.getUniqueID().toString();
         File CustomPlayerData = new File(HxCCore.HxCCoreDir, "HxC-" + UUID + ".dat");
-        NBTTagCompound playerData = NBTFileIO.getData(CustomPlayerData);
         Item item = null; ItemStack stack = null;
         if (event.entityPlayer.getHeldItem() != null){
             item = event.entityPlayer.getHeldItem().getItem();
@@ -54,7 +53,7 @@ public class EventBlockInteract implements EventListener {
                 NBTTagCompound tag = new NBTTagCompound();
                 tag.setString("Player", player.getDisplayName());
                 fragment.setTagCompound(tag);
-                world.spawnEntityInWorld(new EntityItem(world, player.posX, player.posY, player.posZ, fragment));
+                if (!world.isRemote) world.spawnEntityInWorld(new EntityItem(world, player.posX, player.posY, player.posZ, fragment));
                 NBTFileIO.setFloat(CustomPlayerData, "Soul", (soul - randfloat));
                 float hp = player.getHealth();
                 player.attackEntityFrom(new DamageSource("SoulExtraction"), hp*1000);
@@ -65,13 +64,11 @@ public class EventBlockInteract implements EventListener {
                 TileXPAbsorber xpAbsorber = (TileXPAbsorber)tile;
                 xpAbsorber.BoundPlayer = p;
                 xpAbsorber.AllowUpdate = true;
-                world.markBlockForUpdate(event.x, event.y, event.z);
             } else if (item instanceof ItemSoulFragment) {
                 TileXPAbsorber xpAbsorber = (TileXPAbsorber)tile;
                 xpAbsorber.modifier = (xpAbsorber.modifier+3);
                 player.addChatMessage(new ChatComponentText("\u00A73Range was set to " + xpAbsorber.modifier));
                 if (!player.capabilities.isCreativeMode)player.inventory.decrStackSize(player.inventory.currentItem, 1);
-                world.markBlockForUpdate(event.x, event.y, event.z);
             }
             //TODO: Add Configuring Item and gui to block if the item was used on block.
         } else if (tile instanceof TileSlaughterBlock) {
@@ -80,7 +77,6 @@ public class EventBlockInteract implements EventListener {
                 HxCTile.modifier = (HxCTile.modifier+3);
                 player.addChatMessage(new ChatComponentText("\u00A73Range was set to " + HxCTile.modifier));
                 if (!player.capabilities.isCreativeMode)player.inventory.decrStackSize(player.inventory.currentItem, 1);
-                world.markBlockForUpdate(event.x, event.y, event.z);
             }
         }
     }

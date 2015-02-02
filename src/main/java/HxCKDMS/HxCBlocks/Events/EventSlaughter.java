@@ -21,7 +21,7 @@ public class EventSlaughter {
         List list  = world.getEntitiesWithinAABB(EntityLiving.class, getAreaBoundingBox(coords[0], coords[1], coords[2], modifier));
         for (EntityLiving entity : (List<EntityLiving>) list) {
             if (!entity.isDead) {
-                String BoundPlayer = HxCTile.player;
+                String BoundPlayer = HxCTile.BoundPlayer;
                 entity.setLastAttacker(world.getPlayerEntityByName(BoundPlayer));
                 entity.attackEntityFrom(new DamageSource("SlaughterBlock"), 300f);
                 entity.setLastAttacker(world.getPlayerEntityByName(BoundPlayer));

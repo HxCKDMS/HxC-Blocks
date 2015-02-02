@@ -31,7 +31,6 @@ public class BlockXPAbsorber extends BlockContainer {
     public void onBlockAdded(World world, int x, int y, int z) {
         super.onBlockAdded(world, x, y, z);
         TileXPAbsorber block = (TileXPAbsorber)world.getTileEntity(x, y, z);
-        block.x = x; block.y = y; block.z = z; block.AllowUpdate = false; block.modifier = 1; block.BoundPlayer = "none";
-        world.markBlockForUpdate(x, y, z);
+        block.AllowUpdate = false; block.modifier = 1; block.BoundPlayer = "none";
     }
 }

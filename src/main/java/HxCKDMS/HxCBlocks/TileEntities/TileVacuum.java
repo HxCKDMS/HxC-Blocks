@@ -8,18 +8,12 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
-@SuppressWarnings("unchecked")
 public class TileVacuum extends TileEntity{
-    public int x;
-    public int y;
-    public int z;
     public int XP;
     public int modifier;
     public boolean AllowUpdate;
-    public boolean Enabled;
     public String BoundPlayer;
-    public String player;
-    private int[] coords = new int[3];
+
     EventVacuumItems event = new EventVacuumItems();
 
     private ItemStack[] slots = new ItemStack[5];
@@ -28,28 +22,18 @@ public class TileVacuum extends TileEntity{
     public void writeToNBT(NBTTagCompound par1) {
         super.writeToNBT(par1);
         par1.setBoolean("Enabled", AllowUpdate);
-        par1.setInteger("x", x);
-        par1.setInteger("y", y);
-        par1.setInteger("z", z);
         par1.setInteger("Mod", modifier);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound par1) {
         super.readFromNBT(par1);
-        this.x = par1.getInteger("x");
-        this.y = par1.getInteger("y");
-        this.z = par1.getInteger("z");
         this.modifier = par1.getInteger("Mod");
-        this.Enabled = par1.getBoolean("Enabled");
+        this.AllowUpdate = par1.getBoolean("Enabled");
     }
 
     public void updateEntity(){
-        worldObj.markBlockForUpdate(x, y, z);
-        coords[0] = x; coords[1] = y; coords[2] = z;
-        if(worldObj != null && !worldObj.isRemote && Enabled){
-            event.vacuum(coords, worldObj);
-        }
+        if(worldObj != null && !worldObj.isRemote && AllowUpdate) event.vacuum(new int[]{xCoord, yCoord, zCoord}, worldObj);
     }
 
     public int getSizeInventory()
