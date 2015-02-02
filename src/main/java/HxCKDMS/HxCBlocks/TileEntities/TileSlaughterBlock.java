@@ -28,7 +28,7 @@ public class TileSlaughterBlock extends TileEntity{
         par1.setInteger("y", y);
         par1.setInteger("z", z);
         par1.setInteger("Mod", modifier);
-        if (!BoundPlayer.isEmpty() && BoundPlayer != null) par1.setString("BoundPlayer", BoundPlayer);
+        if (BoundPlayer != null) par1.setString("BoundPlayer", BoundPlayer);
     }
 
     @Override
