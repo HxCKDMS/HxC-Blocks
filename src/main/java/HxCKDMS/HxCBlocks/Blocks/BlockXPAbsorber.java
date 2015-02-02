@@ -34,9 +34,4 @@ public class BlockXPAbsorber extends BlockContainer {
         block.x = x; block.y = y; block.z = z; block.AllowUpdate = false; block.modifier = 1;
         world.markBlockForUpdate(x, y, z);
     }
-
-    @Override
-    public int getRenderType() {
-        return -1;
-    }
 }
