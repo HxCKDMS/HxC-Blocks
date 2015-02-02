@@ -33,12 +33,15 @@ public class EventBlockInteract implements EventListener {
         Block block = event.world.getBlock(event.x, event.y, event.z);
         TileEntity tile = event.world.getTileEntity(event.x, event.y, event.z);
         World world = event.world;
-        Item item = event.entityPlayer.getHeldItem().getItem();
-        ItemStack stack = event.entityPlayer.getHeldItem();
         EntityPlayer player = event.entityPlayer;
         String UUID = player.getUniqueID().toString();
         File CustomPlayerData = new File(HxCCore.HxCCoreDir, "HxC-" + UUID + ".dat");
         NBTTagCompound playerData = NBTFileIO.getData(CustomPlayerData);
+        Item item = null; ItemStack stack = null;
+        if (event.entityPlayer.getHeldItem() != null){
+            item = event.entityPlayer.getHeldItem().getItem();
+            stack = event.entityPlayer.getHeldItem();
+        }
         /**                                                             *
          *        All data possibly needed gathered above               *
          *                                                             **/
