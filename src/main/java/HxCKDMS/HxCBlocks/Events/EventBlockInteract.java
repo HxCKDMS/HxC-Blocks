@@ -60,20 +60,20 @@ public class EventBlockInteract implements EventListener {
                 float hp = player.getHealth();
                 player.attackEntityFrom(new DamageSource("SoulExtraction"), hp*1000);
             }
-        } else if (tile instanceof TileXPAbsorber) {
+        } else if (tile instanceof TileXPAbsorber && event.action.equals(PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)) {
             if (item instanceof ItemSoulBinder) {
                 String p = stack.getTagCompound().getString("Player");
                 TileXPAbsorber xpAbsorber = (TileXPAbsorber)tile;
                 xpAbsorber.BoundPlayer = p;
                 xpAbsorber.AllowUpdate = true;
             } else if (item instanceof ItemSoulFragment) {
-                TileXPAbsorber xpAbsorber = (TileXPAbsorber)tile;
-                xpAbsorber.modifier = (xpAbsorber.modifier+3);
-                if (!world.isRemote)player.addChatMessage(new ChatComponentText("\u00A73Range was set to " + xpAbsorber.modifier));
+                TileXPAbsorber HxCTile = (TileXPAbsorber)tile;
+                HxCTile.modifier = (HxCTile.modifier+3);
+                if (!world.isRemote)player.addChatMessage(new ChatComponentText("\u00A73Range was set to " + HxCTile.modifier));
                 if (!player.capabilities.isCreativeMode)player.inventory.decrStackSize(player.inventory.currentItem, 1);
             }
             //TODO: Add Configuring Item and gui to block if the item was used on block.
-        } else if (tile instanceof TileSlaughterBlock) {
+        } else if (tile instanceof TileSlaughterBlock && event.action.equals(PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)) {
             if (item == Items.diamond_sword) {
                 TileSlaughterBlock HxCTile = (TileSlaughterBlock)tile;
                 HxCTile.modifier = (HxCTile.modifier+3);

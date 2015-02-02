@@ -31,6 +31,6 @@ public class BlockVacuum extends BlockContainer {
     public void onBlockAdded(World world, int x, int y, int z) {
         super.onBlockAdded(world, x, y, z);
         TileVacuum block = (TileVacuum)world.getTileEntity(x, y, z);
-        block.AllowUpdate = false; block.modifier = 1; block.BoundPlayer = "none";
+        block.AllowUpdate = true; block.modifier = 1;
     }
 }

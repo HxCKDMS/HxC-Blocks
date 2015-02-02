@@ -2,12 +2,14 @@ package HxCKDMS.HxCBlocks.Registry;
 
 import HxCKDMS.HxCBlocks.Blocks.BlockSlaughterBlock;
 import HxCKDMS.HxCBlocks.Blocks.BlockSoulExtractor;
+import HxCKDMS.HxCBlocks.Blocks.BlockVacuum;
 import HxCKDMS.HxCBlocks.Blocks.BlockXPAbsorber;
 import HxCKDMS.HxCBlocks.Events.EventBlockInteract;
 import HxCKDMS.HxCBlocks.Events.EventEntityUpdate;
 import HxCKDMS.HxCBlocks.Items.ItemSoulBinder;
 import HxCKDMS.HxCBlocks.Items.ItemSoulFragment;
 import HxCKDMS.HxCBlocks.TileEntities.TileSlaughterBlock;
+import HxCKDMS.HxCBlocks.TileEntities.TileVacuum;
 import HxCKDMS.HxCBlocks.TileEntities.TileXPAbsorber;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.material.Material;
@@ -22,6 +24,7 @@ public class ModRegistry {
     public static BlockSlaughterBlock SlaughterBlock = new BlockSlaughterBlock(Material.iron);
     public static BlockXPAbsorber XPAbsorber = new BlockXPAbsorber(Material.iron);
     public static BlockSoulExtractor SoulExtractor = new BlockSoulExtractor(Material.iron);
+    public static BlockVacuum Vacuum = new BlockVacuum(Material.iron);
     //tab
     public static CreativeTabs HxCBlocks = CreativeTabHxCBlocks.tabHxCBlocks;
     //items
@@ -44,6 +47,7 @@ public class ModRegistry {
         GameRegistry.registerBlock(SlaughterBlock, "SlaughterBlock");
         GameRegistry.registerBlock(XPAbsorber, "XPAbsorber");
         GameRegistry.registerBlock(SoulExtractor, "SoulExtractor");
+        GameRegistry.registerBlock(Vacuum, "Vacuum");
     }
 
     private static void registerItems() {
@@ -54,6 +58,7 @@ public class ModRegistry {
     private static void registerTileEntities() {
         GameRegistry.registerTileEntity(TileSlaughterBlock.class, "TileSlaughterBlock");
         GameRegistry.registerTileEntity(TileXPAbsorber.class, "TileXPAbsorber");
+        GameRegistry.registerTileEntity(TileVacuum.class, "TileVacuum");
     }
 
     private static void registerCraftingRecipes() {
@@ -62,5 +67,6 @@ public class ModRegistry {
         GameRegistry.addRecipe(new ItemStack(SoulExtractor), "o o", "ese", "o o", 'e', Items.ender_eye, 's', Items.nether_star, 'o', Blocks.obsidian);
         GameRegistry.addRecipe(new ItemStack(XPAbsorber), "oho", "ede", "obo", 'e', Items.ender_eye, 'd', Items.diamond, 'o', Blocks.obsidian, 'b', Items.bucket, 'h', Blocks.hopper);
         GameRegistry.addRecipe(new ItemStack(SlaughterBlock), "o o", "sps", "o o", 's', Items.diamond_sword, 'p', Blocks.piston, 'o', Blocks.obsidian);
+        GameRegistry.addRecipe(new ItemStack(Vacuum), "oho", "epe", "oho", 'h', Blocks.hopper, 'p', Blocks.piston, 'o', Blocks.obsidian, 'e', Items.ender_eye);
     }
 }

@@ -12,10 +12,8 @@ import java.util.List;
 @SuppressWarnings("unchecked")
 public class EventVacuumXP {
     public void vacuum(int[] coords, World world) {
-        world.markBlockForUpdate(coords[0], coords[1], coords[2]);
         TileEntity tile = world.getTileEntity(coords[0], coords[1], coords[2]);
         TileXPAbsorber HxCTile = (TileXPAbsorber)tile;
-        HxCTile.getDescriptionPacket();
         int modifier = HxCTile.modifier;
         List list  = world.getEntitiesWithinAABB(EntityXPOrb.class, getAreaBoundingBox(coords[0], coords[1], coords[2], modifier));
         for (EntityXPOrb entity : (List<EntityXPOrb>) list) {
@@ -25,7 +23,6 @@ public class EventVacuumXP {
                 int newxp = xp+storedxp;
                 entity.setDead();
                 HxCTile.XP = newxp;
-                HxCTile.getDescriptionPacket();
             }
         }
         if (HxCTile.XP >= 1000){
@@ -34,7 +31,6 @@ public class EventVacuumXP {
                 EntityPlayer player = world.getPlayerEntityByName(BoundPlayer);
                 player.addExperience(HxCTile.XP);
                 HxCTile.XP = 0;
-                HxCTile.getDescriptionPacket();
             } catch (Exception ignored){}
         }
     }
