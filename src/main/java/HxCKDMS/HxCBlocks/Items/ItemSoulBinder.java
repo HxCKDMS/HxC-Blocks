@@ -39,14 +39,8 @@ public class ItemSoulBinder extends Item{
     public void addInformation(ItemStack stack, EntityPlayer player, List tooltips, boolean boo) {
         super.addInformation(stack, player, tooltips, boo);
         try {
-            int[] coords = stack.getTagCompound().getIntArray("PB");
-            int mode = stack.getTagCompound().getInteger("Mode");
-            tooltips.add("X:" + coords[0]);
-            tooltips.add("Y:" + coords[1]);
-            tooltips.add("Z:" + coords[2]);
-            tooltips.add("Dim:" + coords[3]);
-            if (mode == 1 || mode == 2) tooltips.add("Mode: Read/Write");
-            else tooltips.add("Mode: Read Only");
+            String p = stack.getTagCompound().getString("Player");
+            tooltips.add("\u00A7bThis bound to " + p + "'s soul.");
         } catch (Exception e){
             tooltips.add("\u00A74ERROR! Please put in crafting grid.");
         }

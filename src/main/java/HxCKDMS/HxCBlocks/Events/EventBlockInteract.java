@@ -48,7 +48,7 @@ public class EventBlockInteract implements EventListener {
          *                                                             **/
         if(block instanceof BlockSoulExtractor){
             float soul = playerData.getFloat("Soul");
-            if (randfloat <= 0.5f && randfloat <= soul){
+            if (randfloat <= soul){
                 ItemStack fragment = new ItemStack(ModRegistry.SoulFragment);
                 NBTTagCompound tag = new NBTTagCompound();
                 tag.setString("Player", player.getDisplayName());

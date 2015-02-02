@@ -7,7 +7,7 @@ import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
 import net.minecraft.tileentity.TileEntity;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings("all")
 public class TileSlaughterBlock extends TileEntity{
     public int x;
     public int y;
@@ -28,7 +28,7 @@ public class TileSlaughterBlock extends TileEntity{
         par1.setInteger("y", y);
         par1.setInteger("z", z);
         par1.setInteger("Mod", modifier);
-        if (!BoundPlayer.isEmpty()) par1.setString("BoundPlayer", BoundPlayer);
+        if (!BoundPlayer.isEmpty() && BoundPlayer != null) par1.setString("BoundPlayer", BoundPlayer);
     }
 
     @Override

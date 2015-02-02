@@ -29,7 +29,7 @@ public class TileXPAbsorber extends TileEntity{
         par1.setInteger("z", z);
         par1.setInteger("Mod", modifier);
         par1.setInteger("XP", XP);
-        if (!BoundPlayer.isEmpty()) par1.setString("BoundPlayer", BoundPlayer);
+        if (!BoundPlayer.isEmpty() && BoundPlayer != null) par1.setString("BoundPlayer", BoundPlayer);
     }
 
     @Override
