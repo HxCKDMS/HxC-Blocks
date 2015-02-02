@@ -1,7 +1,6 @@
 package HxCKDMS.HxCBlocks.Events;
 
 import HxCKDMS.HxCBlocks.TileEntities.TileSlaughterBlock;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.tileentity.TileEntity;
@@ -19,15 +18,14 @@ public class EventSlaughter {
         TileSlaughterBlock HxCTile = (TileSlaughterBlock)tile;
         HxCTile.getDescriptionPacket();
         int modifier = HxCTile.modifier;
-        List list  = world.getEntitiesWithinAABB(Entity.class, getAreaBoundingBox(coords[0], coords[1], coords[2], modifier));
-        for (Entity entity : (List<Entity>) list) {
-            if (entity instanceof EntityLiving && !entity.isDead) {
+        List list  = world.getEntitiesWithinAABB(EntityLiving.class, getAreaBoundingBox(coords[0], coords[1], coords[2], modifier));
+        for (EntityLiving entity : (List<EntityLiving>) list) {
+            if (!entity.isDead) {
                 String BoundPlayer = HxCTile.player;
-                EntityLiving ent = (EntityLiving) entity;
-                ent.setLastAttacker(world.getPlayerEntityByName(BoundPlayer));
-                ent.attackEntityFrom(new DamageSource("SlaughterBlock"), 300f);
-                ent.setLastAttacker(world.getPlayerEntityByName(BoundPlayer));
-                ent.worldObj.spawnEntityInWorld(new EntityXPOrb(world, coords[0], coords[1]+0.5, coords[2], 2));
+                entity.setLastAttacker(world.getPlayerEntityByName(BoundPlayer));
+                entity.attackEntityFrom(new DamageSource("SlaughterBlock"), 300f);
+                entity.setLastAttacker(world.getPlayerEntityByName(BoundPlayer));
+                entity.worldObj.spawnEntityInWorld(new EntityXPOrb(world, coords[0], coords[1]+0.5, coords[2], 2));
             }
         }
     }

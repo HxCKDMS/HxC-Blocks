@@ -4,7 +4,6 @@ import HxCKDMS.HxCCore.Handlers.NBTFileIO;
 import HxCKDMS.HxCCore.HxCCore;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraftforge.event.entity.living.LivingEvent;
 
 import java.io.File;
@@ -17,15 +16,14 @@ public class EventEntityUpdate {
             EntityPlayer player = (EntityPlayer)event.entityLiving;
             String UUID = player.getUniqueID().toString();
             File CustomPlayerData = new File(HxCCore.HxCCoreDir, "HxC-" + UUID + ".dat");
-            NBTTagCompound playerData = NBTFileIO.getData(CustomPlayerData);
-            float soul = playerData.getFloat("Soul");
-            int SoulTimer = playerData.getInteger("SoulTimer");
+            float soul = NBTFileIO.getFloat(CustomPlayerData, "Soul");
+            int SoulTimer = NBTFileIO.getInteger(CustomPlayerData, "SoulTimer");
             if (soul != 1f) {
                 SoulTimer--;
-                playerData.setInteger("SoulTimer", SoulTimer);
+                NBTFileIO.setInteger(CustomPlayerData, "SoulTimer", SoulTimer);
                 if (SoulTimer == 0){
-                    playerData.setFloat("Soul", soul+.01f);
-                    playerData.setInteger("SoulTimer", 12000);
+                    NBTFileIO.setFloat(CustomPlayerData, "Soul", soul+.01f);
+                    NBTFileIO.setInteger(CustomPlayerData, "SoulTimer", 12000);
                 }
             }
         }

@@ -47,14 +47,14 @@ public class EventBlockInteract implements EventListener {
          *        All data possibly needed gathered above               *
          *                                                             **/
         if(block instanceof BlockSoulExtractor){
-            float soul = playerData.getFloat("Soul");
+            float soul = NBTFileIO.getFloat(CustomPlayerData, "Soul");
             if (randfloat <= soul){
                 ItemStack fragment = new ItemStack(ModRegistry.SoulFragment);
                 NBTTagCompound tag = new NBTTagCompound();
                 tag.setString("Player", player.getDisplayName());
                 fragment.setTagCompound(tag);
                 world.spawnEntityInWorld(new EntityItem(world, player.posX, player.posY, player.posZ, fragment));
-                playerData.setFloat("Soul", (soul - randfloat));
+                NBTFileIO.setFloat(CustomPlayerData, "Soul", (soul - randfloat));
                 float hp = player.getHealth();
                 player.attackEntityFrom(new DamageSource("SoulExtraction"), hp*1000);
             }
