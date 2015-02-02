@@ -4,6 +4,7 @@ import HxCKDMS.HxCBlocks.Blocks.BlockSoulExtractor;
 import HxCKDMS.HxCBlocks.Items.ItemSoulBinder;
 import HxCKDMS.HxCBlocks.Items.ItemSoulFragment;
 import HxCKDMS.HxCBlocks.Registry.ModRegistry;
+import HxCKDMS.HxCBlocks.TileEntities.TileSlaughterBlock;
 import HxCKDMS.HxCBlocks.TileEntities.TileXPAbsorber;
 import HxCKDMS.HxCCore.Handlers.NBTFileIO;
 import HxCKDMS.HxCCore.HxCCore;
@@ -69,10 +70,18 @@ public class EventBlockInteract implements EventListener {
                 TileXPAbsorber xpAbsorber = (TileXPAbsorber)tile;
                 xpAbsorber.modifier = (xpAbsorber.modifier+3);
                 player.addChatMessage(new ChatComponentText("\u00A73Range was set to " + xpAbsorber.modifier));
-                player.inventory.decrStackSize(player.inventory.currentItem, 1);
+                if (!player.capabilities.isCreativeMode)player.inventory.decrStackSize(player.inventory.currentItem, 1);
                 world.markBlockForUpdate(event.x, event.y, event.z);
             }
             //TODO: Add Configuring Item and gui to block if the item was used on block.
+        } else if (tile instanceof TileSlaughterBlock) {
+            if (item instanceof ItemSoulFragment) {
+                TileSlaughterBlock HxCTile = (TileSlaughterBlock)tile;
+                HxCTile.modifier = (HxCTile.modifier+3);
+                player.addChatMessage(new ChatComponentText("\u00A73Range was set to " + HxCTile.modifier));
+                if (!player.capabilities.isCreativeMode)player.inventory.decrStackSize(player.inventory.currentItem, 1);
+                world.markBlockForUpdate(event.x, event.y, event.z);
+            }
         }
     }
 }
