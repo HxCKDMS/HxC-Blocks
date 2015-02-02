@@ -3,3 +3,4 @@ tile.SlaughterBlock.name=Slaughter Block
 tile.SoulExtractor.name=Soul Extractor
 item.SoulFragment.name=Soul Fragment
 item.SoulBinder.name=Soul Binder
+itemGroup.HxCBlocks=HxC-Blocks

@@ -1,11 +1,11 @@
 package HxCKDMS.HxCBlocks.Registry;
 
-import HxCKDMS.HxCCore.lib.Reference;
+import HxCKDMS.HxCBlocks.Reference.References;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.Item;
 
 public class CreativeTabHxCBlocks {
-    public static CreativeTabs tabHxCBlocks = new CreativeTabs(Reference.MOD_ID){
+    public static CreativeTabs tabHxCBlocks = new CreativeTabs(References.MOD_ID){
         public Item getTabIconItem() {
             return ModRegistry.SoulFragment;
         }
