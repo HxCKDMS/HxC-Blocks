@@ -44,7 +44,6 @@ public class TileSlaughterBlock extends TileEntity{
 
     public void updateEntity(){
         worldObj.markBlockForUpdate(x, y, z);
-        worldObj.getTileEntity(x, y, z).markDirty();
         coords[0] = x; coords[1] = y; coords[2] = z;
         if(worldObj != null && !worldObj.isRemote && Enabled){
             event.Slaughter(coords, worldObj);
