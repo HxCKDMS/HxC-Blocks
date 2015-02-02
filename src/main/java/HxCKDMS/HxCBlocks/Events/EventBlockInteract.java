@@ -63,6 +63,7 @@ public class EventBlockInteract implements EventListener {
                 String p = stack.getTagCompound().getString("Player");
                 TileXPAbsorber xpAbsorber = (TileXPAbsorber)tile;
                 xpAbsorber.BoundPlayer = p;
+                xpAbsorber.AllowUpdate = true;
                 world.markBlockForUpdate(event.x, event.y, event.z);
             } else if (item instanceof ItemSoulFragment) {
                 TileXPAbsorber xpAbsorber = (TileXPAbsorber)tile;
