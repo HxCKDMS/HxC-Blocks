@@ -13,6 +13,7 @@ public class BlockXPAbsorber extends BlockContainer {
         super(material);
         setCreativeTab(ModRegistry.HxCBlocks);
         setBlockName("XPAbsorber");
+        setBlockTextureName("XPAbsorber");
         setStepSound(soundTypeMetal);
         setHardness(1.0F);
         setResistance(1600.0F);

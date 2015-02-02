@@ -14,6 +14,7 @@ public class BlockSlaughterBlock extends BlockContainer {
 		setCreativeTab(ModRegistry.HxCBlocks);
 		setBlockName("SlaughterBlock");
 		setStepSound(soundTypeMetal);
+        setBlockTextureName("SlaughterBlock");
 		setHardness(1.0F);
 		setResistance(1600.0F);
         setLightLevel(1);

@@ -52,7 +52,7 @@ public class ModRegistry {
 
     private static void registerTileEntities() {
         GameRegistry.registerTileEntity(TileSlaughterBlock.class, "TileSlaughterBlock");
-        GameRegistry.registerTileEntity(TileXPAbsorber.class, "TileSlaughterBlock");
+        GameRegistry.registerTileEntity(TileXPAbsorber.class, "TileXPAbsorber");
     }
 
     private static void registerCraftingRecipes() {
