@@ -55,9 +55,9 @@ public class ModRegistry {
     private static void registerItems() {
         GameRegistry.registerItem(SoulFragment, "SoulFragment");
         GameRegistry.registerItem(SoulBinder, "SoulBinder");
-        GameRegistry.registerItem(VacuumCore, "SoulFragment");
-        GameRegistry.registerItem(SlaughterCore, "SoulBinder");
-        GameRegistry.registerItem(WitherCore, "SoulFragment");
+        GameRegistry.registerItem(VacuumCore, "VacuumCore");
+        GameRegistry.registerItem(SlaughterCore, "SlaughterCore");
+        GameRegistry.registerItem(WitherCore, "WitherCore");
     }
 
     private static void registerTileEntities() {
