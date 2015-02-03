@@ -7,5 +7,5 @@ item.SoulBinder.name=Soul Binder
 item.WitherCore.name=Wither Core
 item.SlaughterCore.name=Slaughter Core
 item.VacuumCore.name=Vacuum Core
-itemGroup.HxCBlocks=HxC-Blocks
+itemGroup.hxcblocks=HxC-Blocks
 death.attack.SoulExtraction=%1$s extracted their soul.

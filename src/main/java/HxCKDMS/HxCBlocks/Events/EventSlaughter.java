@@ -19,9 +19,9 @@ public class EventSlaughter {
         List list  = world.getEntitiesWithinAABB(EntityLiving.class, getAreaBoundingBox(coords[0], coords[1], coords[2], modifier));
         for (EntityLiving entity : (List<EntityLiving>) list) {
             if (!entity.isDead) {
-                String BoundPlayer = HxCTile.BoundPlayer;
+//                String BoundPlayer = HxCTile.BoundPlayer;
                 entity.attackEntityFrom(new DamageSource("SlaughterBlock"), 300f);
-                if (entity.worldObj.isRemote)entity.worldObj.spawnEntityInWorld(new EntityXPOrb(world, entity.posX, entity.posY, entity.posZ, 3));
+                if (!entity.worldObj.isRemote) entity.worldObj.spawnEntityInWorld(new EntityXPOrb(world, tile.xCoord, tile.yCoord+1, tile.zCoord, 1));
             }
         }
     }
