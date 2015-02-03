@@ -3,7 +3,6 @@ package HxCKDMS.HxCBlocks.Events;
 import HxCKDMS.HxCBlocks.TileEntities.TileVacuum;
 import HxCKDMS.HxCCore.Utils.IOHelper;
 import net.minecraft.entity.item.EntityItem;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
@@ -21,14 +20,10 @@ public class EventVacuumItems {
         List list  = world.getEntitiesWithinAABB(EntityItem.class, getAreaBoundingBox(coords[0], coords[1], coords[2], modifier));
         for (EntityItem entity : (List<EntityItem>) list) {
             if (!entity.isDead) {
-                Item item = entity.getEntityItem().getItem();
                 ItemStack s = IOHelper.insert(HxCTile, entity.getEntityItem(), ForgeDirection.UNKNOWN, true);
                 if (s == null) {
-                    System.out.println("success");
                     IOHelper.insert(HxCTile, entity.getEntityItem(), ForgeDirection.UNKNOWN, false);
                     entity.setDead();
-                } else {
-                    System.out.println("fail");
                 }
             }
         }

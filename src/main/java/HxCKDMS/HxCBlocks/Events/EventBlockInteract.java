@@ -58,35 +58,35 @@ public class EventBlockInteract implements EventListener {
                 tag.setString("Player", player.getDisplayName());
                 fragment.setTagCompound(tag);
                 if (!world.isRemote) world.spawnEntityInWorld(new EntityItem(world, player.posX, player.posY, player.posZ, fragment));
-                nbt.setFloat("Soul", (soul - randfloat));
+                float damagedSoul = soul - randfloat;
+                NBTFileIO.setFloat(CustomPlayerData, "Soul", damagedSoul);
                 float hp = player.getHealth();
                 player.attackEntityFrom(new DamageSource("SoulExtraction"), hp*1000);
             }
         } else if (tile instanceof TileXPAbsorber && event.action.equals(PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)) {
+            TileXPAbsorber HxCTile = (TileXPAbsorber)tile;
             if (item instanceof ItemSoulBinder) {
                 String p = stack.getTagCompound().getString("Player");
-                TileXPAbsorber xpAbsorber = (TileXPAbsorber)tile;
-                xpAbsorber.BoundPlayer = p;
-                xpAbsorber.AllowUpdate = true;
+                HxCTile.BoundPlayer = p;
+                HxCTile.AllowUpdate = true;
                 if (!player.capabilities.isCreativeMode)player.inventory.decrStackSize(player.inventory.currentItem, 1);
-            } else if (item instanceof ItemSoulFragment) {
-                TileXPAbsorber HxCTile = (TileXPAbsorber)tile;
-                HxCTile.modifier = (HxCTile.modifier+3);
+            } else if (item instanceof ItemSoulFragment && HxCTile.modifier <=31) {
+                HxCTile.modifier = (HxCTile.modifier+1);
                 if (!world.isRemote)player.addChatMessage(new ChatComponentText("\u00A73Range was set to " + HxCTile.modifier));
                 if (!player.capabilities.isCreativeMode)player.inventory.decrStackSize(player.inventory.currentItem, 1);
             }
             //TODO: Add Configuring Item and gui to block if the item was used on block.
         } else if (tile instanceof TileSlaughterBlock && event.action.equals(PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)) {
-            if (item instanceof ItemSlaughterCore) {
-                TileSlaughterBlock HxCTile = (TileSlaughterBlock)tile;
-                HxCTile.modifier = (HxCTile.modifier+3);
+            TileSlaughterBlock HxCTile = (TileSlaughterBlock)tile;
+            if (item instanceof ItemSlaughterCore && HxCTile.modifier <=31) {
+                HxCTile.modifier = (HxCTile.modifier+1);
                 if (!world.isRemote)player.addChatMessage(new ChatComponentText("\u00A73Range was set to " + HxCTile.modifier));
                 if (!player.capabilities.isCreativeMode)player.inventory.decrStackSize(player.inventory.currentItem, 1);
             }
         } else if (tile instanceof TileVacuum && event.action.equals(PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)) {
-            if (item instanceof ItemVacuumCore) {
-                TileVacuum HxCTile = (TileVacuum)tile;
-                HxCTile.modifier = (HxCTile.modifier+3);
+            TileVacuum HxCTile = (TileVacuum)tile;
+            if (item instanceof ItemVacuumCore && HxCTile.modifier <=31) {
+                HxCTile.modifier = (HxCTile.modifier+1);
                 if (!world.isRemote)player.addChatMessage(new ChatComponentText("\u00A73Range was set to " + HxCTile.modifier));
                 if (!player.capabilities.isCreativeMode)player.inventory.decrStackSize(player.inventory.currentItem, 1);
             }

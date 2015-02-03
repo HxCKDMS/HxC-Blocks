@@ -2,7 +2,6 @@ package HxCKDMS.HxCBlocks.Events;
 
 import HxCKDMS.HxCBlocks.TileEntities.TileSlaughterBlock;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
@@ -18,10 +17,9 @@ public class EventSlaughter {
         int modifier = HxCTile.modifier;
         List list  = world.getEntitiesWithinAABB(EntityLiving.class, getAreaBoundingBox(coords[0], coords[1], coords[2], modifier));
         for (EntityLiving entity : (List<EntityLiving>) list) {
-            if (!entity.isDead) {
-//                String BoundPlayer = HxCTile.BoundPlayer;
-                entity.attackEntityFrom(new DamageSource("SlaughterBlock"), 300f);
-                if (!entity.worldObj.isRemote) entity.worldObj.spawnEntityInWorld(new EntityXPOrb(world, tile.xCoord, tile.yCoord+1, tile.zCoord, 1));
+            if (!entity.isDead && entity.deathTime == 0) {
+                String BoundPlayer = HxCTile.BoundPlayer;
+                entity.attackEntityFrom(DamageSource.causePlayerDamage(world.getPlayerEntityByName(BoundPlayer)), 300f);
             }
         }
     }
