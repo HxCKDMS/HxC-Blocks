@@ -6,8 +6,7 @@ import HxCKDMS.HxCBlocks.Blocks.BlockVacuum;
 import HxCKDMS.HxCBlocks.Blocks.BlockXPAbsorber;
 import HxCKDMS.HxCBlocks.Events.EventBlockInteract;
 import HxCKDMS.HxCBlocks.Events.EventEntityUpdate;
-import HxCKDMS.HxCBlocks.Items.ItemSoulBinder;
-import HxCKDMS.HxCBlocks.Items.ItemSoulFragment;
+import HxCKDMS.HxCBlocks.Items.*;
 import HxCKDMS.HxCBlocks.TileEntities.TileSlaughterBlock;
 import HxCKDMS.HxCBlocks.TileEntities.TileVacuum;
 import HxCKDMS.HxCBlocks.TileEntities.TileXPAbsorber;
@@ -30,6 +29,9 @@ public class ModRegistry {
     //items
     public static ItemSoulFragment SoulFragment = new ItemSoulFragment();
     public static ItemSoulBinder SoulBinder = new ItemSoulBinder();
+    public static ItemVacuumCore VacuumCore = new ItemVacuumCore();
+    public static ItemSlaughterCore SlaughterCore = new ItemSlaughterCore();
+    public static ItemWitherCore WitherCore = new ItemWitherCore();
 
     public static void preInit(){
         registerBlocks();
@@ -53,6 +55,9 @@ public class ModRegistry {
     private static void registerItems() {
         GameRegistry.registerItem(SoulFragment, "SoulFragment");
         GameRegistry.registerItem(SoulBinder, "SoulBinder");
+        GameRegistry.registerItem(VacuumCore, "SoulFragment");
+        GameRegistry.registerItem(SlaughterCore, "SoulBinder");
+        GameRegistry.registerItem(WitherCore, "SoulFragment");
     }
 
     private static void registerTileEntities() {
@@ -63,10 +68,14 @@ public class ModRegistry {
 
     private static void registerCraftingRecipes() {
         GameRegistry.addRecipe(new ItemStack(SoulBinder), " i ", "ifi", " i ", 'i', Items.iron_ingot, 'f', SoulFragment);
+        GameRegistry.addRecipe(new ItemStack(WitherCore), "isi", "sws", "isi", 'i', Items.iron_ingot, 'w', Items.nether_star, 's', new ItemStack(Blocks.skull, 1, 1));
+        GameRegistry.addRecipe(new ItemStack(SlaughterCore), "idi", "dsd", "idi", 'i', Items.iron_ingot, 'd', Items.diamond_sword, 's', Items.nether_star);
+        GameRegistry.addRecipe(new ItemStack(VacuumCore), "ipi", "php", "ipi", 'i', Items.iron_ingot, 'h', Blocks.hopper, 'p', Items.ender_pearl);
         GameRegistry.addShapelessRecipe(new ItemStack(SoulFragment), SoulFragment);
-        GameRegistry.addRecipe(new ItemStack(SoulExtractor), "o o", "ese", "o o", 'e', Items.ender_eye, 's', Items.nether_star, 'o', Blocks.obsidian);
+        GameRegistry.addShapelessRecipe(new ItemStack(SoulBinder), SoulBinder);
+        GameRegistry.addRecipe(new ItemStack(SoulExtractor), "o o", "ewe", "o o", 'e', Items.ender_eye, 'w', WitherCore, 'o', Blocks.obsidian);
         GameRegistry.addRecipe(new ItemStack(XPAbsorber), "oho", "ede", "obo", 'e', Items.ender_eye, 'd', Items.diamond, 'o', Blocks.obsidian, 'b', Items.bucket, 'h', Blocks.hopper);
         GameRegistry.addRecipe(new ItemStack(SlaughterBlock), "o o", "sps", "o o", 's', Items.diamond_sword, 'p', Blocks.piston, 'o', Blocks.obsidian);
-        GameRegistry.addRecipe(new ItemStack(Vacuum), "oho", "epe", "oho", 'h', Blocks.hopper, 'p', Blocks.piston, 'o', Blocks.obsidian, 'e', Items.ender_eye);
+        GameRegistry.addRecipe(new ItemStack(Vacuum), "oho", "eve", "oho", 'h', Blocks.hopper, 'v', VacuumCore, 'o', Blocks.obsidian, 'e', Items.ender_eye);
     }
 }

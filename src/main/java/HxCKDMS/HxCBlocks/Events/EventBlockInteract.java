@@ -1,10 +1,13 @@
 package HxCKDMS.HxCBlocks.Events;
 
 import HxCKDMS.HxCBlocks.Blocks.BlockSoulExtractor;
+import HxCKDMS.HxCBlocks.Items.ItemSlaughterCore;
 import HxCKDMS.HxCBlocks.Items.ItemSoulBinder;
 import HxCKDMS.HxCBlocks.Items.ItemSoulFragment;
+import HxCKDMS.HxCBlocks.Items.ItemVacuumCore;
 import HxCKDMS.HxCBlocks.Registry.ModRegistry;
 import HxCKDMS.HxCBlocks.TileEntities.TileSlaughterBlock;
+import HxCKDMS.HxCBlocks.TileEntities.TileVacuum;
 import HxCKDMS.HxCBlocks.TileEntities.TileXPAbsorber;
 import HxCKDMS.HxCCore.Handlers.NBTFileIO;
 import HxCKDMS.HxCCore.HxCCore;
@@ -12,7 +15,6 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -66,6 +68,7 @@ public class EventBlockInteract implements EventListener {
                 TileXPAbsorber xpAbsorber = (TileXPAbsorber)tile;
                 xpAbsorber.BoundPlayer = p;
                 xpAbsorber.AllowUpdate = true;
+                if (!player.capabilities.isCreativeMode)player.inventory.decrStackSize(player.inventory.currentItem, 1);
             } else if (item instanceof ItemSoulFragment) {
                 TileXPAbsorber HxCTile = (TileXPAbsorber)tile;
                 HxCTile.modifier = (HxCTile.modifier+3);
@@ -74,8 +77,15 @@ public class EventBlockInteract implements EventListener {
             }
             //TODO: Add Configuring Item and gui to block if the item was used on block.
         } else if (tile instanceof TileSlaughterBlock && event.action.equals(PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)) {
-            if (item == Items.diamond_sword) {
+            if (item instanceof ItemSlaughterCore) {
                 TileSlaughterBlock HxCTile = (TileSlaughterBlock)tile;
+                HxCTile.modifier = (HxCTile.modifier+3);
+                if (!world.isRemote)player.addChatMessage(new ChatComponentText("\u00A73Range was set to " + HxCTile.modifier));
+                if (!player.capabilities.isCreativeMode)player.inventory.decrStackSize(player.inventory.currentItem, 1);
+            }
+        } else if (tile instanceof TileVacuum && event.action.equals(PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)) {
+            if (item instanceof ItemVacuumCore) {
+                TileVacuum HxCTile = (TileVacuum)tile;
                 HxCTile.modifier = (HxCTile.modifier+3);
                 if (!world.isRemote)player.addChatMessage(new ChatComponentText("\u00A73Range was set to " + HxCTile.modifier));
                 if (!player.capabilities.isCreativeMode)player.inventory.decrStackSize(player.inventory.currentItem, 1);

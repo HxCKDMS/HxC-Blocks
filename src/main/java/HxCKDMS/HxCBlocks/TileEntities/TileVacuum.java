@@ -59,6 +59,7 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
 
     public void updateEntity(){
         if(worldObj != null && !worldObj.isRemote && AllowUpdate) event.vacuum(new int[]{xCoord, yCoord, zCoord}, worldObj);
+        exportItem(64);
     }
 
     protected boolean exportItem(int maxItems){
@@ -162,7 +163,7 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
 
     @Override
     public boolean canInsertItem(int p_102007_1_, ItemStack p_102007_2_, int p_102007_3_) {
-        return false;
+        return true;
     }
 
     @Override
