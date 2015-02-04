@@ -94,9 +94,7 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
                 ItemStack remainder = IOHelper.insert(tile, exportedStack, ForgeDirection.UP, false);
                 int exportedItems = count - (remainder == null ? 0 : remainder.stackSize);
                 stack.stackSize -= exportedItems;
-                if(stack.stackSize <= 0) {
-                    setInventorySlotContents(i, null);
-                }
+                if(stack.stackSize <= 0) setInventorySlotContents(i, null);
                 maxItems -= exportedItems;
                 if(maxItems <= 0) return true;
             }

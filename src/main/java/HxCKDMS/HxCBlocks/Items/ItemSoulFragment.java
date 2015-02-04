@@ -28,9 +28,7 @@ public class ItemSoulFragment extends Item{
     }
 
     static NBTTagCompound getNBT(ItemStack stack) {
-        if (stack.stackTagCompound == null) {
-            stack.stackTagCompound = new NBTTagCompound();
-        }
+        if (stack.stackTagCompound == null) stack.stackTagCompound = new NBTTagCompound();
         return stack.stackTagCompound;
     }
 
@@ -41,7 +39,7 @@ public class ItemSoulFragment extends Item{
         try {
             String p = stack.getTagCompound().getString("Player");
             tooltips.add("\u00A7bThis is a fragment of " + p + "'s soul.");
-        } catch (Exception e){
+        } catch (Exception ignored){
             tooltips.add("\u00A74ERROR! Please put in crafting grid.");
         }
     }

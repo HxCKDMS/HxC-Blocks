@@ -19,7 +19,6 @@ public class BlockXPAbsorber extends BlockContainer {
         setHardness(1.0F);
         setResistance(1600.0F);
         setLightLevel(1);
-        setLightOpacity(0);
     }
 
     @Override

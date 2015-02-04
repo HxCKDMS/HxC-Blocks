@@ -50,7 +50,7 @@ public class ItemBinder extends Item{
             tooltips.add("Z:" + coords[2]);
             if (mode == 1) tooltips.add("Mode: Write");
             if (mode == 0) tooltips.add("Mode: Read");
-        } catch (Exception e){
+        } catch (Exception ignored){
             tooltips.add("\u00A74ERROR! Please put in crafting grid.");
         }
     }

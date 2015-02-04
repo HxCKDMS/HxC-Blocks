@@ -3,6 +3,7 @@ package HxCKDMS.HxCBlocks.Events;
 import HxCKDMS.HxCBlocks.Blocks.BlockSoulExtractor;
 import HxCKDMS.HxCBlocks.Items.*;
 import HxCKDMS.HxCBlocks.Registry.ModRegistry;
+import HxCKDMS.HxCBlocks.TileEntities.TileBarrier;
 import HxCKDMS.HxCBlocks.TileEntities.TileSlaughterBlock;
 import HxCKDMS.HxCBlocks.TileEntities.TileVacuum;
 import HxCKDMS.HxCBlocks.TileEntities.TileXPAbsorber;
@@ -12,11 +13,12 @@ import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemSpade;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
@@ -64,8 +66,7 @@ public class EventBlockInteract implements EventListener {
         } else if (tile instanceof TileXPAbsorber && event.action.equals(PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)) {
             TileXPAbsorber HxCTile = (TileXPAbsorber)tile;
             if (item instanceof ItemSoulBinder) {
-                String p = stack.getTagCompound().getString("Player");
-                HxCTile.BoundPlayer = p;
+                HxCTile.BoundPlayer = stack.getTagCompound().getString("Player");
                 HxCTile.AllowUpdate = true;
                 if (!player.capabilities.isCreativeMode)player.inventory.decrStackSize(player.inventory.currentItem, 1);
             } else if (item instanceof ItemSoulFragment && HxCTile.modifier <=31) {
@@ -93,12 +94,16 @@ public class EventBlockInteract implements EventListener {
                 int mode = dat.getInteger("Mode");
                 if (mode == 1) {
                     HxCTile.OtherPos = pb;
-                    dat.setIntArray("PB", new int[]{event.x, event.y, event.z});
                     dat.setInteger("Mode", 0);
                     stack.setTagCompound(dat);
                 }
             }
-        } else if (tile instanceof TileEntityChest && event.action.equals(PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) && item instanceof ItemBinder) {
+        } else if (tile instanceof TileBarrier && event.action.equals(PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) && item instanceof ItemSpade) {
+            TileBarrier HxCTile = (TileBarrier)tile;
+            HxCTile.modifier = (HxCTile.modifier+1);
+            if (!world.isRemote)player.addChatMessage(new ChatComponentText("\u00A73Range was set to " + HxCTile.modifier));
+            if (!player.capabilities.isCreativeMode)player.inventory.decrStackSize(player.inventory.currentItem, 1);
+        } else if (tile instanceof IInventory && event.action.equals(PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) && item instanceof ItemBinder) {
             NBTTagCompound dat = stack.getTagCompound();
             int[] pb = dat.getIntArray("PB");
             int mode = dat.getInteger("Mode");

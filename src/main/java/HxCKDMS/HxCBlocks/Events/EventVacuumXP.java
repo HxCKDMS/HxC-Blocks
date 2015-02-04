@@ -18,14 +18,11 @@ public class EventVacuumXP {
         List list  = world.getEntitiesWithinAABB(EntityXPOrb.class, getAreaBoundingBox(coords[0], coords[1], coords[2], modifier));
         for (EntityXPOrb entity : (List<EntityXPOrb>) list) {
             if (!entity.isDead) {
-                int xp = entity.getXpValue();
-                int storedxp = HxCTile.XP;
-                int newxp = xp+storedxp;
+                HxCTile.XP = (entity.getXpValue()+HxCTile.XP);
                 entity.setDead();
-                HxCTile.XP = newxp;
             }
         }
-        if (HxCTile.XP >= 1000){
+        if (HxCTile.XP > 1000){
             String BoundPlayer = HxCTile.BoundPlayer;
             try {
                 EntityPlayer player = world.getPlayerEntityByName(BoundPlayer);

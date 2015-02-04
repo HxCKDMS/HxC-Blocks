@@ -2,20 +2,20 @@ package HxCKDMS.HxCBlocks.Blocks;
 
 import HxCKDMS.HxCBlocks.Reference.References;
 import HxCKDMS.HxCBlocks.Registry.CreativeTabHxCBlocks;
-import HxCKDMS.HxCBlocks.TileEntities.TileSlaughterBlock;
+import HxCKDMS.HxCBlocks.TileEntities.TileBarrier;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
-public class BlockSlaughterBlock extends BlockContainer {
+public class BlockBarrier extends BlockContainer {
 
-	public BlockSlaughterBlock(Material material) {
+	public BlockBarrier(Material material) {
 		super(material);
 		setCreativeTab(CreativeTabHxCBlocks.tabHxCBlocks);
-		setBlockName("SlaughterBlock");
+		setBlockName("Barrier");
 		setStepSound(soundTypeMetal);
-        setBlockTextureName(References.MOD_ID + ":SlaughterBlock");
+        setBlockTextureName(References.MOD_ID + ":Barrier");
 		setHardness(1.0F);
 		setResistance(1600.0F);
         setLightLevel(1);
@@ -23,13 +23,13 @@ public class BlockSlaughterBlock extends BlockContainer {
 
     @Override
     public TileEntity createNewTileEntity(World world, int metadata) {
-        return new TileSlaughterBlock();
+        return new TileBarrier();
     }
 
     @Override
     public void onBlockAdded(World world, int x, int y, int z) {
         super.onBlockAdded(world, x, y, z);
-        TileSlaughterBlock block = (TileSlaughterBlock)world.getTileEntity(x, y, z);
-        block.AllowUpdate = true; block.BoundPlayer = world.getClosestPlayer(x,y,z,5).getDisplayName(); block.modifier = 1;
+        TileBarrier block = (TileBarrier)world.getTileEntity(x, y, z);
+        block.modifier = 1;
     }
 }
