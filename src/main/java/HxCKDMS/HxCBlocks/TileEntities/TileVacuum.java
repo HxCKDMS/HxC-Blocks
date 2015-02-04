@@ -16,41 +16,47 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
     public int modifier;
     public boolean AllowUpdate;
     public int[] OtherPos = null;
+    //Hostile, Neutral, Passive, Boss, Pets
+    public int[] Targets = new int[]{0,0,0,0,0};
 
     private ItemStack[] inventory = new ItemStack[getInvSize()];
     EventVacuumItems event = new EventVacuumItems();
 
-    protected int getInvSize(){
-        return 50;
-    }
+    protected int getInvSize() { return 50; }
+
+    private static final int[] accessibleSlots = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+    11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50};
 
     @Override
-    public void writeToNBT(NBTTagCompound par1) {
-        super.writeToNBT(par1);
-        par1.setBoolean("Enabled", AllowUpdate);
-        par1.setInteger("Mod", modifier);
-        if (OtherPos != null) par1.setIntArray("BoundBlockPos", OtherPos);
+    public void writeToNBT(NBTTagCompound tag) {
+        super.writeToNBT(tag);
+        tag.setBoolean("Enabled", AllowUpdate);
+        tag.setInteger("Mod", modifier);
+        if (OtherPos != null) tag.setIntArray("BoundBlockPos", OtherPos);
+        tag.setIntArray("Targets", Targets);
 
-        NBTTagList tagList = new NBTTagList();
+        NBTTagList List = new NBTTagList();
         for(int currentIndex = 0; currentIndex < inventory.length; ++currentIndex) {
             if(inventory[currentIndex] != null) {
                 NBTTagCompound tagCompound = new NBTTagCompound();
                 tagCompound.setByte("Slot", (byte)currentIndex);
                 inventory[currentIndex].writeToNBT(tagCompound);
-                tagList.appendTag(tagCompound);
+                List.appendTag(tagCompound);
             }
         }
-        par1.setTag("Inventory", tagList);
+        tag.setTag("Inventory", List);
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound par1) {
-        super.readFromNBT(par1);
-        this.modifier = par1.getInteger("Mod");
-        this.AllowUpdate = par1.getBoolean("Enabled");
-        this.OtherPos = par1.getIntArray("BoundBlockPos");
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
+        modifier = tag.getInteger("Mod");
+        AllowUpdate = tag.getBoolean("Enabled");
+        OtherPos = tag.getIntArray("BoundBlockPos");
+        Targets = tag.getIntArray("Targets");
 
-        NBTTagList tagList = par1.getTagList("Inventory", 50);
+        NBTTagList tagList = tag.getTagList("Inventory", getInvSize());
         inventory = new ItemStack[inventory.length];
         for(int i = 0; i < tagList.tagCount(); ++i) {
             NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
@@ -69,7 +75,6 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
     protected boolean exportItem(int maxItems){
         ForgeDirection[] dirs = ForgeDirection.VALID_DIRECTIONS;
         TileEntity tile = null;
-        System.out.println(worldObj.provider.dimensionId);
         try { tile = worldObj.getTileEntity(OtherPos[0], OtherPos[1], OtherPos[2]); } catch (Exception ignore) {
             for (ForgeDirection dir : dirs) {
                 TileEntity neighbor = IOHelper.getNeighbor(this, dir);
@@ -110,20 +115,20 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
     }
 
     @Override
-    public ItemStack decrStackSize(int p_70298_1_, int p_70298_2_) {
+    public ItemStack decrStackSize(int slot, int quantity) {
         return null;
     }
 
     @Override
-    public ItemStack getStackInSlotOnClosing(int p_70304_1_) {
+    public ItemStack getStackInSlotOnClosing(int slot) {
         return null;
     }
 
     @Override
-    public void setInventorySlotContents(int slot, ItemStack itemStack){
-        inventory[slot] = itemStack;
-        if(itemStack != null && itemStack.stackSize > getInventoryStackLimit()) {
-            itemStack.stackSize = getInventoryStackLimit();
+    public void setInventorySlotContents(int slot, ItemStack stack){
+        inventory[slot] = stack;
+        if(stack != null && stack.stackSize > getInventoryStackLimit()) {
+            stack.stackSize = getInventoryStackLimit();
         }
     }
 
@@ -143,7 +148,7 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
     }
 
     @Override
-    public boolean isUseableByPlayer(EntityPlayer p_70300_1_) {
+    public boolean isUseableByPlayer(EntityPlayer no) {
         return false;
     }
 
@@ -158,13 +163,9 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
     }
 
     @Override
-    public boolean isItemValidForSlot(int p_94041_1_, ItemStack p_94041_2_) {
+    public boolean isItemValidForSlot(int slot, ItemStack p_94041_2_) {
         return true;
     }
-
-    private static final int[] accessibleSlots = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ,10,
-    11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
-    31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50};
 
     @Override
     public int[] getAccessibleSlotsFromSide(int side) {
@@ -172,12 +173,12 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
     }
 
     @Override
-    public boolean canInsertItem(int p_102007_1_, ItemStack p_102007_2_, int p_102007_3_) {
+    public boolean canInsertItem(int slot, ItemStack stack, int side) {
         return true;
     }
 
     @Override
-    public boolean canExtractItem(int p_102008_1_, ItemStack p_102008_2_, int p_102008_3_) {
+    public boolean canExtractItem(int slot, ItemStack stack, int side) {
         return true;
     }
 }
