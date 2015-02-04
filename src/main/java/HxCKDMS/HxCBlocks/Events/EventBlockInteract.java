@@ -57,11 +57,11 @@ public class EventBlockInteract implements EventListener {
                 NBTTagCompound tag = new NBTTagCompound();
                 tag.setString("Player", player.getDisplayName());
                 fragment.setTagCompound(tag);
-                if (!world.isRemote) world.spawnEntityInWorld(new EntityItem(world, player.posX, player.posY, player.posZ, fragment));
                 float damagedSoul = soul - randfloat;
                 NBTFileIO.setFloat(CustomPlayerData, "Soul", damagedSoul);
                 float hp = player.getHealth();
                 player.attackEntityFrom(new DamageSource("SoulExtraction"), hp*1000);
+                if (!world.isRemote) world.spawnEntityInWorld(new EntityItem(world, player.posX, player.posY, player.posZ, fragment));
             }
         } else if (tile instanceof TileXPAbsorber && event.action.equals(PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)) {
             TileXPAbsorber HxCTile = (TileXPAbsorber)tile;

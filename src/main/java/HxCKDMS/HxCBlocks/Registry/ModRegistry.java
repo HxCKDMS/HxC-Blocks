@@ -68,7 +68,7 @@ public class ModRegistry {
 
     private static void registerCraftingRecipes() {
         GameRegistry.addRecipe(new ItemStack(SoulBinder), " i ", "ifi", " i ", 'i', Items.iron_ingot, 'f', SoulFragment);
-        GameRegistry.addRecipe(new ItemStack(WitherCore), "isi", "sws", "isi", 'i', Items.iron_ingot, 'w', Items.nether_star, 's', new ItemStack(Blocks.skull, 1, 1));
+        GameRegistry.addRecipe(new ItemStack(WitherCore), "isi", "sws", "isi", 'i', Items.iron_ingot, 'w', Items.nether_star, 's', new ItemStack(Items.skull, 1, 1));
         GameRegistry.addRecipe(new ItemStack(SlaughterCore), "idi", "dsd", "idi", 'i', Items.iron_ingot, 'd', Items.diamond_sword, 's', Items.nether_star);
         GameRegistry.addRecipe(new ItemStack(VacuumCore), "ipi", "php", "ipi", 'i', Items.iron_ingot, 'h', Blocks.hopper, 'p', Items.ender_pearl);
         GameRegistry.addRecipe(new ItemStack(Binder), " i ", "isi", " i ", 'i', Items.iron_ingot, 's', Items.sign);

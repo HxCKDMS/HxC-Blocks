@@ -34,6 +34,6 @@ public class TileBarrier extends TileEntity{
         }
     }
     protected AxisAlignedBB getAreaBoundingBox(float x, float y, float z, int mod) {
-        return AxisAlignedBB.getBoundingBox(x-0.25, y-0.25, z-0.25, x+0.25, y+1+mod, z+0.25);
+        return AxisAlignedBB.getBoundingBox(x-0.5, y-0.5, z-0.5, x+0.5, y+1+mod, z+0.5);
     }
 }
