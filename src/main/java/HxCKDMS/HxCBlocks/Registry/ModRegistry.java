@@ -31,6 +31,7 @@ public class ModRegistry {
     public static ItemSoulBinder SoulBinder = new ItemSoulBinder();
     public static ItemVacuumCore VacuumCore = new ItemVacuumCore();
     public static ItemSlaughterCore SlaughterCore = new ItemSlaughterCore();
+    public static ItemBinder Binder = new ItemBinder();
     public static ItemWitherCore WitherCore = new ItemWitherCore();
 
     public static void preInit(){
@@ -58,6 +59,7 @@ public class ModRegistry {
         GameRegistry.registerItem(VacuumCore, "VacuumCore");
         GameRegistry.registerItem(SlaughterCore, "SlaughterCore");
         GameRegistry.registerItem(WitherCore, "WitherCore");
+        GameRegistry.registerItem(Binder, "Binder");
     }
 
     private static void registerTileEntities() {
@@ -73,6 +75,7 @@ public class ModRegistry {
         GameRegistry.addRecipe(new ItemStack(VacuumCore), "ipi", "php", "ipi", 'i', Items.iron_ingot, 'h', Blocks.hopper, 'p', Items.ender_pearl);
         GameRegistry.addShapelessRecipe(new ItemStack(SoulFragment), SoulFragment);
         GameRegistry.addShapelessRecipe(new ItemStack(SoulBinder), SoulBinder);
+        GameRegistry.addShapelessRecipe(new ItemStack(Binder), Binder);
         GameRegistry.addRecipe(new ItemStack(SoulExtractor), "o o", "ewe", "o o", 'e', Items.ender_eye, 'w', WitherCore, 'o', Blocks.obsidian);
         GameRegistry.addRecipe(new ItemStack(XPAbsorber), "oho", "ede", "obo", 'e', Items.ender_eye, 'd', Items.diamond, 'o', Blocks.obsidian, 'b', Items.bucket, 'h', Blocks.hopper);
         GameRegistry.addRecipe(new ItemStack(SlaughterBlock), "o o", "sps", "o o", 's', Items.diamond_sword, 'p', Blocks.piston, 'o', Blocks.obsidian);

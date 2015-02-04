@@ -15,12 +15,13 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileVacuum extends TileEntity implements ISidedInventory {
     public int modifier;
     public boolean AllowUpdate;
+    public int[] OtherPos = null;
 
     private ItemStack[] inventory = new ItemStack[getInvSize()];
     EventVacuumItems event = new EventVacuumItems();
 
     protected int getInvSize(){
-        return 5;
+        return 50;
     }
 
     @Override
@@ -28,6 +29,7 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
         super.writeToNBT(par1);
         par1.setBoolean("Enabled", AllowUpdate);
         par1.setInteger("Mod", modifier);
+        if (OtherPos != null) par1.setIntArray("BoundBlockPos", OtherPos);
 
         NBTTagList tagList = new NBTTagList();
         for(int currentIndex = 0; currentIndex < inventory.length; ++currentIndex) {
@@ -46,7 +48,9 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
         super.readFromNBT(par1);
         this.modifier = par1.getInteger("Mod");
         this.AllowUpdate = par1.getBoolean("Enabled");
-        NBTTagList tagList = par1.getTagList("Inventory", 5);
+        this.OtherPos = par1.getIntArray("BoundBlockPos");
+
+        NBTTagList tagList = par1.getTagList("Inventory", 50);
         inventory = new ItemStack[inventory.length];
         for(int i = 0; i < tagList.tagCount(); ++i) {
             NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
@@ -65,13 +69,16 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
     protected boolean exportItem(int maxItems){
         ForgeDirection[] dirs = ForgeDirection.VALID_DIRECTIONS;
         TileEntity tile = null;
-        for (ForgeDirection dir : dirs) {
-            TileEntity neighbor = IOHelper.getNeighbor(this, dir);
-            if (neighbor instanceof TileEntityChest) {
-                tile = neighbor;
-                break;
+        try { tile = worldObj.getTileEntity(OtherPos[0], OtherPos[1], OtherPos[2]); } catch (Exception ignore) {
+            for (ForgeDirection dir : dirs) {
+                TileEntity neighbor = IOHelper.getNeighbor(this, dir);
+                if (neighbor instanceof TileEntityChest) {
+                    tile = neighbor;
+                    break;
+                }
             }
         }
+
         for(int i = 4; i >= 0; i--) {
             ItemStack stack = inventory[i];
             if(stack != null && tile != null) {
@@ -154,7 +161,9 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
         return true;
     }
 
-    private static final int[] accessibleSlots = {0, 1, 2, 3, 4};
+    private static final int[] accessibleSlots = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9 ,10,
+    11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
+    31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50};
 
     @Override
     public int[] getAccessibleSlotsFromSide(int side) {

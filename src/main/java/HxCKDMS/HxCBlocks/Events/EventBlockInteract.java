@@ -1,10 +1,7 @@
 package HxCKDMS.HxCBlocks.Events;
 
 import HxCKDMS.HxCBlocks.Blocks.BlockSoulExtractor;
-import HxCKDMS.HxCBlocks.Items.ItemSlaughterCore;
-import HxCKDMS.HxCBlocks.Items.ItemSoulBinder;
-import HxCKDMS.HxCBlocks.Items.ItemSoulFragment;
-import HxCKDMS.HxCBlocks.Items.ItemVacuumCore;
+import HxCKDMS.HxCBlocks.Items.*;
 import HxCKDMS.HxCBlocks.Registry.ModRegistry;
 import HxCKDMS.HxCBlocks.TileEntities.TileSlaughterBlock;
 import HxCKDMS.HxCBlocks.TileEntities.TileVacuum;
@@ -19,6 +16,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
@@ -89,6 +87,21 @@ public class EventBlockInteract implements EventListener {
                 HxCTile.modifier = (HxCTile.modifier+1);
                 if (!world.isRemote)player.addChatMessage(new ChatComponentText("\u00A73Range was set to " + HxCTile.modifier));
                 if (!player.capabilities.isCreativeMode)player.inventory.decrStackSize(player.inventory.currentItem, 1);
+            }
+        } else if (item instanceof ItemBinder) {
+            NBTTagCompound dat = stack.getTagCompound();
+            int[] pb = dat.getIntArray("PB");
+            int mode = dat.getInteger("Mode");
+            if (tile instanceof TileEntityChest && mode == 0){
+                dat.setIntArray("PB", new int[]{event.x, event.y, event.z});
+                dat.setInteger("Mode", 1);
+                stack.setTagCompound(dat);
+            } else if (tile instanceof TileVacuum && mode == 1){
+                TileVacuum HxCTile = (TileVacuum)tile;
+                HxCTile.OtherPos = pb;
+                dat.setIntArray("PB", new int[]{event.x, event.y, event.z});
+                dat.setInteger("Mode", 0);
+                stack.setTagCompound(dat);
             }
         }
     }
