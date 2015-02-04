@@ -87,20 +87,24 @@ public class EventBlockInteract implements EventListener {
                 HxCTile.modifier = (HxCTile.modifier+1);
                 if (!world.isRemote)player.addChatMessage(new ChatComponentText("\u00A73Range was set to " + HxCTile.modifier));
                 if (!player.capabilities.isCreativeMode)player.inventory.decrStackSize(player.inventory.currentItem, 1);
+            } else if (item instanceof ItemBinder) {
+                NBTTagCompound dat = stack.getTagCompound();
+                int[] pb = dat.getIntArray("PB");
+                int mode = dat.getInteger("Mode");
+                if (mode == 1) {
+                    HxCTile.OtherPos = pb;
+                    dat.setIntArray("PB", new int[]{event.x, event.y, event.z});
+                    dat.setInteger("Mode", 0);
+                    stack.setTagCompound(dat);
+                }
             }
-        } else if (item instanceof ItemBinder) {
+        } else if (tile instanceof TileEntityChest && event.action.equals(PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) && item instanceof ItemBinder) {
             NBTTagCompound dat = stack.getTagCompound();
             int[] pb = dat.getIntArray("PB");
             int mode = dat.getInteger("Mode");
-            if (tile instanceof TileEntityChest && mode == 0){
+            if (mode == 0) {
                 dat.setIntArray("PB", new int[]{event.x, event.y, event.z});
                 dat.setInteger("Mode", 1);
-                stack.setTagCompound(dat);
-            } else if (tile instanceof TileVacuum && mode == 1){
-                TileVacuum HxCTile = (TileVacuum)tile;
-                HxCTile.OtherPos = pb;
-                dat.setIntArray("PB", new int[]{event.x, event.y, event.z});
-                dat.setInteger("Mode", 0);
                 stack.setTagCompound(dat);
             }
         }

@@ -69,6 +69,7 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
     protected boolean exportItem(int maxItems){
         ForgeDirection[] dirs = ForgeDirection.VALID_DIRECTIONS;
         TileEntity tile = null;
+        System.out.println(worldObj.provider.dimensionId);
         try { tile = worldObj.getTileEntity(OtherPos[0], OtherPos[1], OtherPos[2]); } catch (Exception ignore) {
             for (ForgeDirection dir : dirs) {
                 TileEntity neighbor = IOHelper.getNeighbor(this, dir);
