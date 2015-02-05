@@ -20,6 +20,7 @@ public class ModRegistry {
     public static BlockSoulExtractor SoulExtractor = new BlockSoulExtractor(Material.iron);
     public static BlockVacuum Vacuum = new BlockVacuum(Material.iron);
     public static BlockBarrier Barrier = new BlockBarrier(Material.iron);
+    public static BlockSpawnerAccelerator Accelerator = new BlockSpawnerAccelerator(Material.iron);
     //tab
     public static CreativeTabs HxCBlocks = CreativeTabHxCBlocks.tabHxCBlocks;
     //items
@@ -48,6 +49,7 @@ public class ModRegistry {
         GameRegistry.registerBlock(SoulExtractor, "SoulExtractor");
         GameRegistry.registerBlock(Vacuum, "Vacuum");
         GameRegistry.registerBlock(Barrier, "Barrier");
+        GameRegistry.registerBlock(Accelerator, "Accelerator");
     }
 
     private static void registerItems() {
@@ -64,6 +66,7 @@ public class ModRegistry {
         GameRegistry.registerTileEntity(TileXPAbsorber.class, "TileXPAbsorber");
         GameRegistry.registerTileEntity(TileVacuum.class, "TileVacuum");
         GameRegistry.registerTileEntity(TileBarrier.class, "TileBarrier");
+        GameRegistry.registerTileEntity(TileSpawnerAccelerator.class, "TileSpawnerAccelerator");
     }
 
     private static void registerCraftingRecipes() {

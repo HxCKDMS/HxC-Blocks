@@ -9,12 +9,12 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 @SuppressWarnings("all")
 public class TileVacuum extends TileEntity implements ISidedInventory {
     public int modifier;
-    public boolean AllowUpdate;
     public int[] OtherPos = null;
     //Hostile, Neutral, Passive, Boss, Pets
     public int[] Targets = new int[]{0,0,0,0,0};
@@ -31,7 +31,6 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
     @Override
     public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
-        tag.setBoolean("Enabled", AllowUpdate);
         tag.setInteger("Mod", modifier);
         if (OtherPos != null) tag.setIntArray("BoundBlockPos", OtherPos);
         tag.setIntArray("Targets", Targets);
@@ -52,7 +51,6 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
         modifier = tag.getInteger("Mod");
-        AllowUpdate = tag.getBoolean("Enabled");
         OtherPos = tag.getIntArray("BoundBlockPos");
         Targets = tag.getIntArray("Targets");
 
@@ -68,8 +66,12 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
     }
 
     public void updateEntity(){
-        if(worldObj != null && !worldObj.isRemote && AllowUpdate) event.vacuum(new int[]{xCoord, yCoord, zCoord}, worldObj);
+        if(worldObj != null && !worldObj.isRemote && !powered) event.vacuum(new int[]{xCoord, yCoord, zCoord}, worldObj);
         exportItem(64);
+        boolean nowPowered = isPowered();
+        if (powered != nowPowered) {
+            powered = nowPowered;
+        }
     }
 
     protected boolean exportItem(int maxItems){
@@ -178,5 +180,18 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
     @Override
     public boolean canExtractItem(int slot, ItemStack stack, int side) {
         return true;
+    }
+
+    public boolean isPowered() {
+        return isPoweringTo(worldObj, xCoord, yCoord + 1, zCoord, 0) ||
+                isPoweringTo(worldObj, xCoord, yCoord - 1, zCoord, 1) ||
+                isPoweringTo(worldObj, xCoord, yCoord, zCoord + 1, 2) ||
+                isPoweringTo(worldObj, xCoord, yCoord, zCoord - 1, 3) ||
+                isPoweringTo(worldObj, xCoord + 1, yCoord, zCoord, 4) ||
+                isPoweringTo(worldObj, xCoord - 1, yCoord, zCoord, 5);
+    }
+    protected boolean powered = false;
+    public static boolean isPoweringTo(World world, int x, int y, int z, int side) {
+        return world.getBlock(x, y, z).isProvidingWeakPower(world, x, y, z, side) > 0;
     }
 }

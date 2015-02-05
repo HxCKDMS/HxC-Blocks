@@ -2,30 +2,24 @@ package HxCKDMS.HxCBlocks.Blocks;
 
 import HxCKDMS.HxCBlocks.Reference.References;
 import HxCKDMS.HxCBlocks.Registry.CreativeTabHxCBlocks;
-import HxCKDMS.HxCBlocks.TileEntities.TileSlaughterBlock;
+import HxCKDMS.HxCBlocks.TileEntities.TileSpawnerAccelerator;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-public class BlockSlaughterBlock extends BlockContainer {
+public class BlockSpawnerAccelerator extends BlockContainer {
 
-	public BlockSlaughterBlock(Material material) {
+    public BlockSpawnerAccelerator(Material material) {
 		super(material);
 		setCreativeTab(CreativeTabHxCBlocks.tabHxCBlocks);
-		setBlockName("SlaughterBlock");
+		setBlockName("Accelerator");
 		setStepSound(soundTypeMetal);
-        setBlockTextureName(References.MOD_ID + ":SlaughterBlock");
+        setBlockTextureName(References.MOD_ID + ":Accelerator");
 		setHardness(1.0F);
 		setResistance(1600.0F);
-        setLightLevel(1);
 	}
-
-    @Override
-    public TileEntity createNewTileEntity(World world, int metadata) {
-        return new TileSlaughterBlock();
-    }
 
     @Override
     public boolean canConnectRedstone(IBlockAccess world, int x, int y, int z, int side) {
@@ -33,9 +27,7 @@ public class BlockSlaughterBlock extends BlockContainer {
     }
 
     @Override
-    public void onBlockAdded(World world, int x, int y, int z) {
-        super.onBlockAdded(world, x, y, z);
-        TileSlaughterBlock block = (TileSlaughterBlock)world.getTileEntity(x, y, z);
-        block.modifier = 1;
+    public TileEntity createNewTileEntity(World world, int metadata) {
+        return new TileSpawnerAccelerator();
     }
 }

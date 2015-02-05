@@ -3,10 +3,7 @@ package HxCKDMS.HxCBlocks.Events;
 import HxCKDMS.HxCBlocks.Blocks.BlockSoulExtractor;
 import HxCKDMS.HxCBlocks.Items.*;
 import HxCKDMS.HxCBlocks.Registry.ModRegistry;
-import HxCKDMS.HxCBlocks.TileEntities.TileBarrier;
-import HxCKDMS.HxCBlocks.TileEntities.TileSlaughterBlock;
-import HxCKDMS.HxCBlocks.TileEntities.TileVacuum;
-import HxCKDMS.HxCBlocks.TileEntities.TileXPAbsorber;
+import HxCKDMS.HxCBlocks.TileEntities.*;
 import HxCKDMS.HxCCore.Handlers.NBTFileIO;
 import HxCKDMS.HxCCore.HxCCore;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
@@ -14,9 +11,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemSpade;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
@@ -34,7 +29,7 @@ public class EventBlockInteract implements EventListener {
     int randInt = rand.nextInt(50);
     float randfloat = (randInt*.01f);
     @SubscribeEvent
-    public void onPlayerInteract(PlayerInteractEvent event){
+    public void onPlayerInteract(PlayerInteractEvent event) {
         Block block = event.world.getBlock(event.x, event.y, event.z);
         TileEntity tile = event.world.getTileEntity(event.x, event.y, event.z);
         World world = event.world;
@@ -42,15 +37,16 @@ public class EventBlockInteract implements EventListener {
         String UUID = player.getUniqueID().toString();
         File CustomPlayerData = new File(HxCCore.HxCCoreDir, "HxC-" + UUID + ".dat");
         NBTTagCompound nbt = NBTFileIO.getData(CustomPlayerData);
-        Item item = null; ItemStack stack = null;
-        if (event.entityPlayer.getHeldItem() != null){
+        Item item = null;
+        ItemStack stack = null;
+        if (event.entityPlayer.getHeldItem() != null) {
             item = event.entityPlayer.getHeldItem().getItem();
             stack = event.entityPlayer.getHeldItem();
         }
         /**                                                             *
          *        All data possibly needed gathered above               *
          *                                                             **/
-        if(block instanceof BlockSoulExtractor && event.action.equals(PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)){
+        if (block instanceof BlockSoulExtractor && event.action.equals(PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)) {
             float soul = nbt.getFloat("Soul");
             if (randfloat <= soul) {
                 ItemStack fragment = new ItemStack(ModRegistry.SoulFragment);
@@ -60,34 +56,42 @@ public class EventBlockInteract implements EventListener {
                 float damagedSoul = soul - randfloat;
                 NBTFileIO.setFloat(CustomPlayerData, "Soul", damagedSoul);
                 float hp = player.getHealth();
-                player.attackEntityFrom(new DamageSource("SoulExtraction"), hp*1000);
-                if (!world.isRemote) world.spawnEntityInWorld(new EntityItem(world, player.posX, player.posY, player.posZ, fragment));
+                player.attackEntityFrom(new DamageSource("SoulExtraction"), hp * 1000);
+                if (!world.isRemote)
+                    world.spawnEntityInWorld(new EntityItem(world, player.posX, player.posY, player.posZ, fragment));
             }
         } else if (tile instanceof TileXPAbsorber && event.action.equals(PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)) {
-            TileXPAbsorber HxCTile = (TileXPAbsorber)tile;
+            TileXPAbsorber HxCTile = (TileXPAbsorber) tile;
             if (item instanceof ItemSoulBinder) {
                 HxCTile.BoundPlayer = stack.getTagCompound().getString("Player");
                 HxCTile.AllowUpdate = true;
-                if (!player.capabilities.isCreativeMode)player.inventory.decrStackSize(player.inventory.currentItem, 1);
-            } else if (item instanceof ItemSoulFragment && HxCTile.modifier <=31) {
-                HxCTile.modifier = (HxCTile.modifier+1);
-                if (!world.isRemote)player.addChatMessage(new ChatComponentText("\u00A73Range was set to " + HxCTile.modifier));
-                if (!player.capabilities.isCreativeMode)player.inventory.decrStackSize(player.inventory.currentItem, 1);
+                if (!player.capabilities.isCreativeMode)
+                    player.inventory.decrStackSize(player.inventory.currentItem, 1);
+            } else if (item instanceof ItemSoulFragment && HxCTile.modifier <= 31) {
+                HxCTile.modifier = (HxCTile.modifier + 1);
+                if (!world.isRemote)
+                    player.addChatMessage(new ChatComponentText("\u00A73Range was set to " + HxCTile.modifier));
+                if (!player.capabilities.isCreativeMode)
+                    player.inventory.decrStackSize(player.inventory.currentItem, 1);
             }
             //TODO: Add Configuring Item and gui to block if the item was used on block.
         } else if (tile instanceof TileSlaughterBlock && event.action.equals(PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)) {
-            TileSlaughterBlock HxCTile = (TileSlaughterBlock)tile;
-            if (item instanceof ItemSlaughterCore && HxCTile.modifier <=31) {
-                HxCTile.modifier = (HxCTile.modifier+1);
-                if (!world.isRemote)player.addChatMessage(new ChatComponentText("\u00A73Range was set to " + HxCTile.modifier));
-                if (!player.capabilities.isCreativeMode)player.inventory.decrStackSize(player.inventory.currentItem, 1);
+            TileSlaughterBlock HxCTile = (TileSlaughterBlock) tile;
+            if (item instanceof ItemSlaughterCore && HxCTile.modifier <= 31) {
+                HxCTile.modifier = (HxCTile.modifier + 1);
+                if (!world.isRemote)
+                    player.addChatMessage(new ChatComponentText("\u00A73Range was set to " + HxCTile.modifier));
+                if (!player.capabilities.isCreativeMode)
+                    player.inventory.decrStackSize(player.inventory.currentItem, 1);
             }
         } else if (tile instanceof TileVacuum && event.action.equals(PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK)) {
-            TileVacuum HxCTile = (TileVacuum)tile;
-            if (item instanceof ItemVacuumCore && HxCTile.modifier <=31) {
-                HxCTile.modifier = (HxCTile.modifier+1);
-                if (!world.isRemote)player.addChatMessage(new ChatComponentText("\u00A73Range was set to " + HxCTile.modifier));
-                if (!player.capabilities.isCreativeMode)player.inventory.decrStackSize(player.inventory.currentItem, 1);
+            TileVacuum HxCTile = (TileVacuum) tile;
+            if (item instanceof ItemVacuumCore && HxCTile.modifier <= 31) {
+                HxCTile.modifier = (HxCTile.modifier + 1);
+                if (!world.isRemote)
+                    player.addChatMessage(new ChatComponentText("\u00A73Range was set to " + HxCTile.modifier));
+                if (!player.capabilities.isCreativeMode)
+                    player.inventory.decrStackSize(player.inventory.currentItem, 1);
             } else if (item instanceof ItemBinder) {
                 NBTTagCompound dat = stack.getTagCompound();
                 int[] pb = dat.getIntArray("PB");
@@ -99,11 +103,75 @@ public class EventBlockInteract implements EventListener {
                 }
             }
         } else if (tile instanceof TileBarrier && event.action.equals(PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) && item instanceof ItemSpade) {
-            TileBarrier HxCTile = (TileBarrier)tile;
-            HxCTile.modifier = (HxCTile.modifier+1);
-            if (!world.isRemote)player.addChatMessage(new ChatComponentText("\u00A73Range was set to " + HxCTile.modifier));
-            if (!player.capabilities.isCreativeMode)player.inventory.decrStackSize(player.inventory.currentItem, 1);
-        } else if (tile instanceof IInventory && event.action.equals(PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) && item instanceof ItemBinder) {
+            TileBarrier HxCTile = (TileBarrier) tile;
+            HxCTile.modifier = (HxCTile.modifier + 1);
+            if (!world.isRemote)
+                player.addChatMessage(new ChatComponentText("\u00A73Range was set to " + HxCTile.modifier));
+            if (!player.capabilities.isCreativeMode) player.inventory.decrStackSize(player.inventory.currentItem, 1);
+        } else if (tile instanceof TileSpawnerAccelerator && item instanceof ItemMonsterPlacer) {
+            TileSpawnerAccelerator HxCTile = (TileSpawnerAccelerator) tile;
+            ItemMonsterPlacer egg = (ItemMonsterPlacer)item;
+            int d = egg.getDamage(stack);
+            switch (d){
+                case 50: HxCTile.Mob = "Creeper";
+                    break;
+                case 51: HxCTile.Mob = "Skeleton";
+                    break;
+                case 52: HxCTile.Mob = "Spider";
+                    break;
+                case 54: HxCTile.Mob = "Zombie";
+                    break;
+                case 55: HxCTile.Mob = "Slime";
+                    break;
+                case 56: HxCTile.Mob = "Ghast";
+                    break;
+                case 57: HxCTile.Mob = "PigZombie";
+                    break;
+                case 58: HxCTile.Mob = "Enderman";
+                    break;
+                case 59: HxCTile.Mob = "CaveSpider";
+                    break;
+                case 60: HxCTile.Mob = "Silverfish";
+                    break;
+                case 61: HxCTile.Mob = "Blaze";
+                    break;
+                case 62: HxCTile.Mob = "LavaSlime";
+                    break;
+                case 63: HxCTile.Mob = "EnderDragon";
+                    break;
+                case 64: HxCTile.Mob = "WitherBoss";
+                    break;
+                case 65: HxCTile.Mob = "Bat";
+                    break;
+                case 66: HxCTile.Mob = "Witch";
+                    break;
+                case 91: HxCTile.Mob = "Sheep";
+                    break;
+                case 92: HxCTile.Mob = "Cow";
+                    break;
+                case 93: HxCTile.Mob = "Chicken";
+                    break;
+                case 94: HxCTile.Mob = "Squid";
+                    break;
+                case 95: HxCTile.Mob = "Wolf";
+                    break;
+                case 96: HxCTile.Mob = "Mooshroom";
+                    break;
+                case 97: HxCTile.Mob = "SnowGolem";
+                    break;
+                case 98: HxCTile.Mob = "Ozelot";
+                    break;
+                case 99: HxCTile.Mob = "VillagerGolem";
+                    break;
+                case 100: HxCTile.Mob = "Horse";
+                    break;
+                case 120: HxCTile.Mob = "Villager";
+                    break;
+                default: HxCTile.Mob = "Pig";
+                    break;
+            }
+
+        }else if (tile instanceof IInventory && event.action.equals(PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) && item instanceof ItemBinder) {
             NBTTagCompound dat = stack.getTagCompound();
             int[] pb = dat.getIntArray("PB");
             int mode = dat.getInteger("Mode");

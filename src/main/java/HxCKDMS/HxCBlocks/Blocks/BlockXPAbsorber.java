@@ -6,6 +6,7 @@ import HxCKDMS.HxCBlocks.TileEntities.TileXPAbsorber;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockXPAbsorber extends BlockContainer {
@@ -26,6 +27,10 @@ public class BlockXPAbsorber extends BlockContainer {
         return new TileXPAbsorber();
     }
 
+    @Override
+    public boolean canConnectRedstone(IBlockAccess world, int x, int y, int z, int side) {
+        return true;
+    }
     @Override
     public void onBlockAdded(World world, int x, int y, int z) {
         super.onBlockAdded(world, x, y, z);

@@ -6,6 +6,7 @@ import HxCKDMS.HxCBlocks.TileEntities.TileVacuum;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.material.Material;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockVacuum extends BlockContainer {
@@ -27,9 +28,13 @@ public class BlockVacuum extends BlockContainer {
     }
 
     @Override
+    public boolean canConnectRedstone(IBlockAccess world, int x, int y, int z, int side) {
+        return true;
+    }
+    @Override
     public void onBlockAdded(World world, int x, int y, int z) {
         super.onBlockAdded(world, x, y, z);
         TileVacuum block = (TileVacuum)world.getTileEntity(x, y, z);
-        block.AllowUpdate = true; block.modifier = 1;
+        block.modifier = 1;
     }
 }
