@@ -27,7 +27,7 @@ minecraft {
 }
 
 dependencies {
-    runtime files('libs/HxCCore-1.7.10-1.8b-dev.jar')
+    runtime files('libs/HxCCore-1.7.10-1.8c-dev.jar')
 }
 
 processResources

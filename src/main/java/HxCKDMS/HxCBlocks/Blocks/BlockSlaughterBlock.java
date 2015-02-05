@@ -30,6 +30,6 @@ public class BlockSlaughterBlock extends BlockContainer {
     public void onBlockAdded(World world, int x, int y, int z) {
         super.onBlockAdded(world, x, y, z);
         TileSlaughterBlock block = (TileSlaughterBlock)world.getTileEntity(x, y, z);
-        block.AllowUpdate = true; block.BoundPlayer = world.getClosestPlayer(x,y,z,5).getDisplayName(); block.modifier = 1;
+        block.modifier = 1;
     }
 }
