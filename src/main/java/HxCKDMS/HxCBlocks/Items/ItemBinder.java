@@ -15,8 +15,8 @@ public class ItemBinder extends Item{
 
     public ItemBinder(){
         setCreativeTab(CreativeTabHxCBlocks.tabHxCBlocks);
-        setUnlocalizedName("ItemBinder");
-        setTextureName(References.MOD_ID + ":ItemBinder");
+        setUnlocalizedName("Binder");
+        setTextureName(References.MOD_ID + ":Binder");
         setMaxStackSize(1);
         setMaxDamage(0);
     }
