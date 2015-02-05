@@ -27,7 +27,7 @@ import java.util.Random;
 public class EventBlockInteract implements EventListener {
     Random rand = new Random();
     int randInt = rand.nextInt(50);
-    float randfloat = (randInt*.01f);
+    float randfloat = (randInt/10);
     @SubscribeEvent
     public void onPlayerInteract(PlayerInteractEvent event) {
         Block block = event.world.getBlock(event.x, event.y, event.z);
