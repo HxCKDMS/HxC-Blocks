@@ -102,7 +102,7 @@ public class EventBlockInteract implements EventListener {
                     stack.setTagCompound(dat);
                 }
             }
-        } else if (tile instanceof TileBarrier && event.action.equals(PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) && item instanceof ItemSpade) {
+        } else if (tile instanceof TileBarrier && event.action.equals(PlayerInteractEvent.Action.RIGHT_CLICK_BLOCK) && item instanceof ItemSoulFragment) {
             TileBarrier HxCTile = (TileBarrier) tile;
             HxCTile.modifier = (HxCTile.modifier + 1);
             if (!world.isRemote)
