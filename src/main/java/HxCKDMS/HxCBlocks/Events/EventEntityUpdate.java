@@ -11,6 +11,7 @@ import java.io.File;
 
 @SuppressWarnings("unused")
 public class EventEntityUpdate {
+    int SoulTimer = 12000;
     @SubscribeEvent
     public void LivingUpdateEvent(LivingEvent.LivingUpdateEvent event){
         if (event.entityLiving instanceof EntityPlayerMP){
@@ -19,13 +20,11 @@ public class EventEntityUpdate {
             File CustomPlayerData = new File(HxCCore.HxCCoreDir, "HxC-" + UUID + ".dat");
             NBTTagCompound nbt = NBTFileIO.getData(CustomPlayerData);
             float soul = nbt.getFloat("Soul");
-            int SoulTimer = nbt.getInteger("SoulTimer");
             if (soul < 1.0f) {
                 SoulTimer--;
-                NBTFileIO.setInteger(CustomPlayerData, "SoulTimer", SoulTimer);
                 if (SoulTimer <= 0){
                     NBTFileIO.setFloat(CustomPlayerData, "Soul", (soul+0.1f));
-                    NBTFileIO.setInteger(CustomPlayerData, "SoulTimer", 12000);
+                    SoulTimer = 12000;
                 }
             }
         }
