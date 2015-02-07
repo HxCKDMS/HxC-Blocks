@@ -7,13 +7,16 @@ import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
+import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
-import net.minecraftforge.common.util.ForgeDirection;
 
 @SuppressWarnings("all")
-public class TileVacuum extends TileEntity implements ISidedInventory {
+public class TileVacuum extends TileEntity implements ISidedInventory, IUpdatePlayerListBox {
     public int modifier;
     public int[] OtherPos = null;
     //Hostile, Neutral, Passive, Boss, Pets
@@ -65,8 +68,8 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
         }
     }
 
-    public void updateEntity(){
-        if(worldObj != null && !worldObj.isRemote && !powered) event.vacuum(new int[]{xCoord, yCoord, zCoord}, worldObj);
+    public void update(){
+        if(worldObj != null && !worldObj.isRemote && !powered) event.vacuum(pos, worldObj);
         exportItem(64);
         boolean nowPowered = isPowered();
         if (powered != nowPowered) {
@@ -75,10 +78,10 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
     }
 
     protected boolean exportItem(int maxItems){
-        ForgeDirection[] dirs = ForgeDirection.VALID_DIRECTIONS;
+        EnumFacing[] dirs = EnumFacing.values();
         TileEntity tile = null;
-        try { tile = worldObj.getTileEntity(OtherPos[0], OtherPos[1], OtherPos[2]); } catch (Exception ignore) {
-            for (ForgeDirection dir : dirs) {
+        try { tile = worldObj.getTileEntity(new BlockPos(OtherPos[0], OtherPos[1], OtherPos[2])); } catch (Exception ignore) {
+            for (EnumFacing dir : dirs) {
                 TileEntity neighbor = IOHelper.getNeighbor(this, dir);
                 if (neighbor instanceof TileEntityChest) {
                     tile = neighbor;
@@ -93,7 +96,7 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
                 ItemStack exportedStack = stack.copy();
                 if(exportedStack.stackSize > maxItems) exportedStack.stackSize = maxItems;
                 int count = exportedStack.stackSize;
-                ItemStack remainder = IOHelper.insert(tile, exportedStack, ForgeDirection.UP, false);
+                ItemStack remainder = IOHelper.insert(tile, exportedStack, EnumFacing.UP, false);
                 int exportedItems = count - (remainder == null ? 0 : remainder.stackSize);
                 stack.stackSize -= exportedItems;
                 if(stack.stackSize <= 0) setInventorySlotContents(i, null);
@@ -133,16 +136,6 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
     }
 
     @Override
-    public String getInventoryName() {
-        return null;
-    }
-
-    @Override
-    public boolean hasCustomInventoryName() {
-        return false;
-    }
-
-    @Override
     public int getInventoryStackLimit(){
         return 64;
     }
@@ -153,13 +146,28 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
     }
 
     @Override
-    public void openInventory() {
+    public void openInventory(EntityPlayer no) {
 
     }
 
     @Override
-    public void closeInventory() {
+    public void closeInventory(EntityPlayer no) {
 
+    }
+
+    @Override
+    public String getName() {
+        return null;
+    }
+
+    @Override
+    public boolean hasCustomName() {
+        return false;
+    }
+
+    @Override
+    public IChatComponent getDisplayName() {
+        return null;
     }
 
     @Override
@@ -168,30 +176,51 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
     }
 
     @Override
-    public int[] getAccessibleSlotsFromSide(int side) {
+    public int getField(int id) {
+        return 0;
+    }
+
+    @Override
+    public void setField(int id, int value) {
+
+    }
+
+    @Override
+    public int getFieldCount() {
+        return 0;
+    }
+
+    @Override
+    public void clear() {
+
+    }
+
+    @Override
+    public int[] getSlotsForFace(EnumFacing side) {
         return accessibleSlots;
     }
 
     @Override
-    public boolean canInsertItem(int slot, ItemStack stack, int side) {
+    public boolean canInsertItem(int slot, ItemStack stack, EnumFacing side) {
         return true;
     }
 
     @Override
-    public boolean canExtractItem(int slot, ItemStack stack, int side) {
+    public boolean canExtractItem(int slot, ItemStack stack, EnumFacing side) {
         return true;
     }
 
     public boolean isPowered() {
-        return isPoweringTo(worldObj, xCoord, yCoord + 1, zCoord, 0) ||
-                isPoweringTo(worldObj, xCoord, yCoord - 1, zCoord, 1) ||
-                isPoweringTo(worldObj, xCoord, yCoord, zCoord + 1, 2) ||
-                isPoweringTo(worldObj, xCoord, yCoord, zCoord - 1, 3) ||
-                isPoweringTo(worldObj, xCoord + 1, yCoord, zCoord, 4) ||
-                isPoweringTo(worldObj, xCoord - 1, yCoord, zCoord, 5);
+        return isPoweringTo(worldObj, pos.getX(), pos.getY() + 1, pos.getZ(), EnumFacing.UP) ||
+                isPoweringTo(worldObj, pos.getX(), pos.getY() - 1, pos.getZ(), EnumFacing.DOWN) ||
+                isPoweringTo(worldObj, pos.getX(), pos.getY(), pos.getZ() + 1, EnumFacing.SOUTH) ||
+                isPoweringTo(worldObj, pos.getX(), pos.getY(), pos.getZ() - 1, EnumFacing.NORTH) ||
+                isPoweringTo(worldObj, pos.getX() + 1, pos.getY(), pos.getZ(), EnumFacing.EAST) ||
+                isPoweringTo(worldObj, pos.getX() - 1, pos.getY(), pos.getZ(), EnumFacing.WEST);
     }
+
     protected boolean powered = false;
-    public static boolean isPoweringTo(World world, int x, int y, int z, int side) {
-        return world.getBlock(x, y, z).isProvidingWeakPower(world, x, y, z, side) > 0;
+    public static boolean isPoweringTo(World world, int x, int y, int z, EnumFacing side) {
+        return world.getBlockState(new BlockPos(x, y, z)).getBlock().isProvidingWeakPower(world, new BlockPos(x, y, z), world.getBlockState(new BlockPos(x, y, z)), side) > 0;
     }
 }

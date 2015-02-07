@@ -1,6 +1,5 @@
 package HxCKDMS.HxCBlocks.Items;
 
-import HxCKDMS.HxCBlocks.Reference.References;
 import HxCKDMS.HxCBlocks.Registry.CreativeTabHxCBlocks;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -16,20 +15,21 @@ public class ItemSoulFragment extends Item{
     public ItemSoulFragment(){
         setCreativeTab(CreativeTabHxCBlocks.tabHxCBlocks);
 		setUnlocalizedName("SoulFragment");
-		setTextureName(References.MOD_ID + ":SoulFragment");
 		setMaxStackSize(4);
 	}
 
     @Override
     public void onCreated(ItemStack stack, World world, EntityPlayer player) {
         data = getNBT(stack);
-        data.setString("Player", player.getDisplayName());
+        data.setString("Player", player.getName());
         stack.setTagCompound(data);
     }
 
     static NBTTagCompound getNBT(ItemStack stack) {
-        if (stack.stackTagCompound == null) stack.stackTagCompound = new NBTTagCompound();
-        return stack.stackTagCompound;
+        if (stack.getTagCompound() == null) {
+            stack.setTagCompound(new NBTTagCompound());
+        }
+        return stack.getTagCompound();
     }
 
     @Override

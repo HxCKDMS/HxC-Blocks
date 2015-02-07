@@ -6,18 +6,20 @@ import HxCKDMS.HxCBlocks.Registry.ModRegistry;
 import HxCKDMS.HxCBlocks.TileEntities.*;
 import HxCKDMS.HxCCore.Handlers.NBTFileIO;
 import HxCKDMS.HxCCore.HxCCore;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.item.*;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemMonsterPlacer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 import java.io.File;
 import java.util.EventListener;
@@ -30,8 +32,8 @@ public class EventBlockInteract implements EventListener {
     float randfloat = (randInt/10);
     @SubscribeEvent
     public void onPlayerInteract(PlayerInteractEvent event) {
-        Block block = event.world.getBlock(event.x, event.y, event.z);
-        TileEntity tile = event.world.getTileEntity(event.x, event.y, event.z);
+        Block block = event.world.getBlockState(event.pos).getBlock();
+        TileEntity tile = event.world.getTileEntity(event.pos);
         World world = event.world;
         EntityPlayer player = event.entityPlayer;
         String UUID = player.getUniqueID().toString();
@@ -51,7 +53,7 @@ public class EventBlockInteract implements EventListener {
             if (randfloat <= soul) {
                 ItemStack fragment = new ItemStack(ModRegistry.SoulFragment);
                 NBTTagCompound tag = new NBTTagCompound();
-                tag.setString("Player", player.getDisplayName());
+                tag.setString("Player", player.getName());
                 fragment.setTagCompound(tag);
                 float damagedSoul = soul - randfloat;
                 NBTFileIO.setFloat(CustomPlayerData, "Soul", damagedSoul);
@@ -176,7 +178,7 @@ public class EventBlockInteract implements EventListener {
             int[] pb = dat.getIntArray("PB");
             int mode = dat.getInteger("Mode");
             if (mode == 0) {
-                dat.setIntArray("PB", new int[]{event.x, event.y, event.z});
+                dat.setIntArray("PB", new int[]{event.pos.getX(), event.pos.getY(), event.pos.getZ()});
                 dat.setInteger("Mode", 1);
                 stack.setTagCompound(dat);
             }

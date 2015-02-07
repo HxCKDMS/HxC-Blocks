@@ -17,38 +17,36 @@ buildscript {
 
 apply plugin: 'forge'
 
-version = "1.7.10-First And Last"
+version = "1.8-1.0"
 group= "HxCKDMS.HxC-Blocks"
 archivesBaseName = "HxC-Blocks"
 
 minecraft {
-    version = "1.7.10-10.13.2.1230"
-    assetDir = "eclipse/assets"
+    version = "1.8-11.14.1.1306"
+    runDir = "eclipse"
+
+    mappings = "snapshot_nodoc_20141130"
 }
 
 dependencies {
-    runtime files('libs/HxCCore-1.7.10-1.8c-dev.jar')
+    runtime files('libs/HxCCore-1.8-1.0b-dev.jar')
 }
 
-processResources
-{
-    // this will ensure that this task is redone when the versions change.
-    inputs.property "version", project.version
-    inputs.property "mcversion", project.minecraft.version
-
-    // replace stuff in mcmod.info, nothing else
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
-                
-        // replace version and mcversion
-        expand 'version':project.version, 'mcversion':project.minecraft.version
-    }
-        
-    // copy everything else, thats not the mcmod.info
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
+def root = project.projectDir.parentFile
+processResources {
+	from (sourceSets.main.resources.srcDirs) {
+		include '*.info'
+		expand 'version':project.version, 'mcversion':project.minecraft.version
+	}
 }
+
 sourceSets {
-    main { output.resourcesDir = output.classesDir }
+	main {
+		java {
+			srcDir new File(root, "src")
+		}
+		resources {
+			srcDir new File(root, "resources")
+		}
+	}
 }

@@ -1,6 +1,5 @@
 package HxCKDMS.HxCBlocks.Items;
 
-import HxCKDMS.HxCBlocks.Reference.References;
 import HxCKDMS.HxCBlocks.Registry.CreativeTabHxCBlocks;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -16,11 +15,10 @@ public class ItemBinder extends Item{
     public ItemBinder(){
         setCreativeTab(CreativeTabHxCBlocks.tabHxCBlocks);
         setUnlocalizedName("Binder");
-        setTextureName(References.MOD_ID + ":Binder");
         setMaxStackSize(1);
         setMaxDamage(0);
-    }
 
+    }
     //TODO: make item automatically function when pulled out of the creative menu or spawned in.
     @Override
     public void onCreated(ItemStack stack, World world, EntityPlayer player) {
@@ -32,10 +30,10 @@ public class ItemBinder extends Item{
     }
 
     static NBTTagCompound getNBT(ItemStack stack) {
-        if (stack.stackTagCompound == null) {
-            stack.stackTagCompound = new NBTTagCompound();
+        if (stack.getTagCompound() == null) {
+            stack.setTagCompound(new NBTTagCompound());
         }
-        return stack.stackTagCompound;
+        return stack.getTagCompound();
     }
 
     @Override

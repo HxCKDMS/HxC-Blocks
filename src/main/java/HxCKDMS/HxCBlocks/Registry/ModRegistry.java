@@ -1,17 +1,17 @@
 package HxCKDMS.HxCBlocks.Registry;
 
 import HxCKDMS.HxCBlocks.Blocks.*;
-import HxCKDMS.HxCBlocks.Items.*;
-import HxCKDMS.HxCBlocks.TileEntities.*;
 import HxCKDMS.HxCBlocks.Events.EventBlockInteract;
 import HxCKDMS.HxCBlocks.Events.EventEntityUpdate;
-import cpw.mods.fml.common.registry.GameRegistry;
+import HxCKDMS.HxCBlocks.Items.*;
+import HxCKDMS.HxCBlocks.TileEntities.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ModRegistry {
     //blocks

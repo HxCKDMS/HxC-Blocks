@@ -2,10 +2,13 @@ package HxCKDMS.HxCBlocks.TileEntities;
 
 import HxCKDMS.HxCBlocks.Events.EventVacuumXP;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
-public class TileXPAbsorber extends TileEntity{
+public class TileXPAbsorber extends TileEntity implements IUpdatePlayerListBox {
     public int XP;
     public int modifier;
     public boolean AllowUpdate;
@@ -30,8 +33,8 @@ public class TileXPAbsorber extends TileEntity{
         this.BoundPlayer = par1.getString("BoundPlayer");
     }
 
-    public void updateEntity() {
-        if(worldObj != null && !worldObj.isRemote && AllowUpdate && !powered) event.vacuum(new int[]{xCoord, yCoord, zCoord}, worldObj);
+    public void update() {
+        if(worldObj != null && !worldObj.isRemote && AllowUpdate && !powered) event.vacuum(pos, worldObj);
         boolean nowPowered = isPowered();
         if (powered != nowPowered) {
             powered = nowPowered;
@@ -39,15 +42,16 @@ public class TileXPAbsorber extends TileEntity{
     }
 
     public boolean isPowered() {
-        return isPoweringTo(worldObj, xCoord, yCoord + 1, zCoord, 0) ||
-                isPoweringTo(worldObj, xCoord, yCoord - 1, zCoord, 1) ||
-                isPoweringTo(worldObj, xCoord, yCoord, zCoord + 1, 2) ||
-                isPoweringTo(worldObj, xCoord, yCoord, zCoord - 1, 3) ||
-                isPoweringTo(worldObj, xCoord + 1, yCoord, zCoord, 4) ||
-                isPoweringTo(worldObj, xCoord - 1, yCoord, zCoord, 5);
+        return isPoweringTo(worldObj, pos.getX(), pos.getY() + 1, pos.getZ(), EnumFacing.UP) ||
+                isPoweringTo(worldObj, pos.getX(), pos.getY() - 1, pos.getZ(), EnumFacing.DOWN) ||
+                isPoweringTo(worldObj, pos.getX(), pos.getY(), pos.getZ() + 1, EnumFacing.SOUTH) ||
+                isPoweringTo(worldObj, pos.getX(), pos.getY(), pos.getZ() - 1, EnumFacing.NORTH) ||
+                isPoweringTo(worldObj, pos.getX() + 1, pos.getY(), pos.getZ(), EnumFacing.EAST) ||
+                isPoweringTo(worldObj, pos.getX() - 1, pos.getY(), pos.getZ(), EnumFacing.WEST);
     }
+
     protected boolean powered = false;
-    public static boolean isPoweringTo(World world, int x, int y, int z, int side) {
-        return world.getBlock(x, y, z).isProvidingWeakPower(world, x, y, z, side) > 0;
+    public static boolean isPoweringTo(World world, int x, int y, int z, EnumFacing side) {
+        return world.getBlockState(new BlockPos(x, y, z)).getBlock().isProvidingWeakPower(world, new BlockPos(x, y, z), world.getBlockState(new BlockPos(x, y, z)), side) > 0;
     }
 }

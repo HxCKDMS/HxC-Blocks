@@ -1,14 +1,18 @@
 package HxCKDMS.HxCBlocks.TileEntities;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.gui.IUpdatePlayerListBox;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
 import java.util.List;
 @SuppressWarnings("unchecked")
-public class TileBarrier extends TileEntity{
+public class TileBarrier extends TileEntity implements IUpdatePlayerListBox {
     public int modifier;
 
     @Override
@@ -23,14 +27,21 @@ public class TileBarrier extends TileEntity{
         this.modifier = par1.getInteger("Mod");
     }
 
-    public void updateEntity() {
+    public void update() {
         if (worldObj != null && !worldObj.isRemote && !powered) {
-            List list  = worldObj.getEntitiesWithinAABB(EntityLiving.class, getAreaBoundingBox(xCoord, yCoord, zCoord, modifier));
+            int nx; int ny; int nz;
+            if (pos.getX() >= 0) nx = pos.getX() + 1;
+            else nx = pos.getX() - 1;
+            if (pos.getY() >= 0) ny = pos.getY() + 1;
+            else ny = pos.getY() - 1;
+            if (pos.getZ() >= 0) nz = pos.getZ() + 1;
+            else nz = pos.getZ() - 1;
+            List list  = worldObj.getEntitiesWithinAABB(Entity.class, getAreaBoundingBox(pos.getX(), pos.getY(), pos.getZ(), nx, ny, nz, modifier));
             for (EntityLiving entity : (List<EntityLiving>) list) {
-                if (entity.posX > xCoord) {entity.motionX += 0.1;}
-                if (entity.posX < xCoord) {entity.motionX -= 0.1;}
-                if (entity.posZ > zCoord) {entity.motionZ += 0.1;}
-                if (entity.posZ < zCoord) {entity.motionZ -= 0.1;}
+                if (entity.posX > pos.getX()) {entity.motionX += 0.15;}
+                if (entity.posX < pos.getX()) {entity.motionX -= 0.15;}
+                if (entity.posZ > pos.getZ()) {entity.motionZ += 0.15;}
+                if (entity.posZ < pos.getZ()) {entity.motionZ -= 0.15;}
             }
         }
         boolean nowPowered = isPowered();
@@ -38,20 +49,28 @@ public class TileBarrier extends TileEntity{
             powered = nowPowered;
         }
     }
-    protected AxisAlignedBB getAreaBoundingBox(float x, float y, float z, int mod) {
-        return AxisAlignedBB.getBoundingBox(x-0.5, y-0.5, z-0.5, x+0.5, y+1+mod, z+0.5);
+
+    protected AxisAlignedBB getAreaBoundingBox(int mx, int my, int mz, int Mx, int My, int Mz, int mod) {
+        if (mx > 0) mx += mod; else mx -= mod;
+        if (my > 0) my += mod; else my -= mod;
+        if (mz > 0) mz += mod; else mz -= mod;
+        if (Mx > 0) Mx += mod; else Mx -= mod;
+        if (My > 0) My += mod; else My -= mod;
+        if (Mz > 0) Mz += mod; else Mz -= mod;
+        return AxisAlignedBB.fromBounds(mx, my, mz, Mx, My, Mz);
     }
 
     public boolean isPowered() {
-        return isPoweringTo(worldObj, xCoord, yCoord + 1, zCoord, 0) ||
-                isPoweringTo(worldObj, xCoord, yCoord - 1, zCoord, 1) ||
-                isPoweringTo(worldObj, xCoord, yCoord, zCoord + 1, 2) ||
-                isPoweringTo(worldObj, xCoord, yCoord, zCoord - 1, 3) ||
-                isPoweringTo(worldObj, xCoord + 1, yCoord, zCoord, 4) ||
-                isPoweringTo(worldObj, xCoord - 1, yCoord, zCoord, 5);
+        return isPoweringTo(worldObj, pos.getX(), pos.getY() + 1, pos.getZ(), EnumFacing.UP) ||
+                isPoweringTo(worldObj, pos.getX(), pos.getY() - 1, pos.getZ(), EnumFacing.DOWN) ||
+                isPoweringTo(worldObj, pos.getX(), pos.getY(), pos.getZ() + 1, EnumFacing.SOUTH) ||
+                isPoweringTo(worldObj, pos.getX(), pos.getY(), pos.getZ() - 1, EnumFacing.NORTH) ||
+                isPoweringTo(worldObj, pos.getX() + 1, pos.getY(), pos.getZ(), EnumFacing.EAST) ||
+                isPoweringTo(worldObj, pos.getX() - 1, pos.getY(), pos.getZ(), EnumFacing.WEST);
     }
+
     protected boolean powered = false;
-    public static boolean isPoweringTo(World world, int x, int y, int z, int side) {
-        return world.getBlock(x, y, z).isProvidingWeakPower(world, x, y, z, side) > 0;
+    public static boolean isPoweringTo(World world, int x, int y, int z, EnumFacing side) {
+        return world.getBlockState(new BlockPos(x, y, z)).getBlock().isProvidingWeakPower(world, new BlockPos(x, y, z), world.getBlockState(new BlockPos(x, y, z)), side) > 0;
     }
 }
