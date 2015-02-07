@@ -27,10 +27,10 @@ public class TileBarrier extends TileEntity{
         if (worldObj != null && !worldObj.isRemote && !powered) {
             List list  = worldObj.getEntitiesWithinAABB(EntityLiving.class, getAreaBoundingBox(xCoord, yCoord, zCoord, modifier));
             for (EntityLiving entity : (List<EntityLiving>) list) {
-                if (entity.posX > xCoord) {entity.motionX += 0.1;}
-                if (entity.posX < xCoord) {entity.motionX -= 0.1;}
-                if (entity.posZ > zCoord) {entity.motionZ += 0.1;}
-                if (entity.posZ < zCoord) {entity.motionZ -= 0.1;}
+                if (entity.posX > xCoord) {entity.motionX += 0.15;}
+                if (entity.posX < xCoord) {entity.motionX -= 0.15;}
+                if (entity.posZ > zCoord) {entity.motionZ += 0.15;}
+                if (entity.posZ < zCoord) {entity.motionZ -= 0.15;}
             }
         }
         boolean nowPowered = isPowered();
@@ -39,7 +39,7 @@ public class TileBarrier extends TileEntity{
         }
     }
     protected AxisAlignedBB getAreaBoundingBox(float x, float y, float z, int mod) {
-        return AxisAlignedBB.getBoundingBox(x-0.5, y-0.5, z-0.5, x+0.5, y+1+mod, z+0.5);
+        return AxisAlignedBB.getBoundingBox(x, y, z, x+0.99, y+1+mod, z+0.99);
     }
 
     public boolean isPowered() {
