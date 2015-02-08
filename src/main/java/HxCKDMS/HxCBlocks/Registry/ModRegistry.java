@@ -1,6 +1,7 @@
 package HxCKDMS.HxCBlocks.Registry;
 
 import HxCKDMS.HxCBlocks.Blocks.*;
+import HxCKDMS.HxCBlocks.Configs.Config;
 import HxCKDMS.HxCBlocks.Events.EventBlockPlace;
 import HxCKDMS.HxCBlocks.Items.*;
 import HxCKDMS.HxCBlocks.TileEntities.*;
@@ -32,7 +33,6 @@ public class ModRegistry {
     public static ItemSlaughterCore SlaughterCore = new ItemSlaughterCore();
     public static ItemBinder Binder = new ItemBinder();
     public static ItemWitherCore WitherCore = new ItemWitherCore();
-    public static ItemGooStopper GooStopper = new ItemGooStopper();
 
     public static void preInit(){
         registerBlocks();
@@ -54,7 +54,7 @@ public class ModRegistry {
         GameRegistry.registerBlock(Vacuum, "Vacuum");
         GameRegistry.registerBlock(Barrier, "Barrier");
         GameRegistry.registerBlock(Accelerator, "Accelerator");
-        GameRegistry.registerBlock(GreyGoo, "GreyGoo");
+        if (Config.GreyGoo)GameRegistry.registerBlock(GreyGoo, "GreyGoo");
     }
 
     private static void registerItems() {
@@ -64,7 +64,6 @@ public class ModRegistry {
         GameRegistry.registerItem(SlaughterCore, "SlaughterCore");
         GameRegistry.registerItem(WitherCore, "WitherCore");
         GameRegistry.registerItem(Binder, "Binder");
-        GameRegistry.registerItem(GooStopper, "GooStopper");
     }
 
     private static void registerTileEntities() {
@@ -73,7 +72,7 @@ public class ModRegistry {
         GameRegistry.registerTileEntity(TileVacuum.class, "TileVacuum");
         GameRegistry.registerTileEntity(TileBarrier.class, "TileBarrier");
         GameRegistry.registerTileEntity(TileSpawnerAccelerator.class, "TileSpawnerAccelerator");
-        GameRegistry.registerTileEntity(TileGreyGoo.class, "TileGreyGoo");
+        if (Config.GreyGoo)GameRegistry.registerTileEntity(TileGreyGoo.class, "TileGreyGoo");
     }
 
     private static void registerCraftingRecipes() {
