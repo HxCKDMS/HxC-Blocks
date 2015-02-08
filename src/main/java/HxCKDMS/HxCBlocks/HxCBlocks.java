@@ -19,8 +19,8 @@ public class HxCBlocks {
     public static Config Config;
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event){
-        ModRegistry.preInit();
         Config = new Config(new Configuration(event.getSuggestedConfigurationFile()));
+        ModRegistry.preInit();
         LogHelper.info("Pre initialization has been completed.", References.MOD_NAME);
     }
 
