@@ -11,7 +11,7 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.common.config.Configuration;
 
 @SuppressWarnings("unused")
-@Mod(modid = References.MOD_ID, name = References.MOD_NAME, version = References.VERSION)
+@Mod(modid = References.MOD_ID, name = References.MOD_NAME, version = References.VERSION, dependencies = References.DEPENDENCIES)
 public class HxCBlocks {
     @Mod.Instance(References.MOD_ID)
     public static HxCBlocks HxCBlocks;
