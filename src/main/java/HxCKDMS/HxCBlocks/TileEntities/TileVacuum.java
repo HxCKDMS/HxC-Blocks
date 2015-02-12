@@ -12,15 +12,14 @@ import net.minecraft.tileentity.TileEntityChest;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
-@SuppressWarnings("all")
 public class TileVacuum extends TileEntity implements ISidedInventory {
     public int modifier;
-    public int[] OtherPos = null;
+    public int[] OtherPos;
 
     private ItemStack[] inventory = new ItemStack[getInvSize()];
     EventVacuumItems event = new EventVacuumItems();
 
-    protected int getInvSize() { return 50; }
+    protected int getInvSize() { return 51; }
 
     private static final int[] accessibleSlots = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
     11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
