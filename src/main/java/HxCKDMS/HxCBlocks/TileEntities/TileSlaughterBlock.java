@@ -7,6 +7,8 @@ import net.minecraft.world.World;
 
 public class TileSlaughterBlock extends TileEntity{
     public int modifier;
+    //Hostile, Neutral, Passive, Boss, Pets
+    public int[] Targets = new int[]{0,0,0,0,0};
 
     EventSlaughter event = new EventSlaughter();
 
@@ -14,12 +16,14 @@ public class TileSlaughterBlock extends TileEntity{
     public void writeToNBT(NBTTagCompound par1) {
         super.writeToNBT(par1);
         par1.setInteger("Mod", modifier);
+        par1.setIntArray("Targets", Targets);
     }
 
     @Override
     public void readFromNBT(NBTTagCompound par1) {
         super.readFromNBT(par1);
-        this.modifier = par1.getInteger("Mod");
+        modifier = par1.getInteger("Mod");
+        Targets = par1.getIntArray("Targets");
     }
 
     public void updateEntity(){

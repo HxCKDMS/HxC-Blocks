@@ -16,8 +16,6 @@ import net.minecraftforge.common.util.ForgeDirection;
 public class TileVacuum extends TileEntity implements ISidedInventory {
     public int modifier;
     public int[] OtherPos = null;
-    //Hostile, Neutral, Passive, Boss, Pets
-    public int[] Targets = new int[]{0,0,0,0,0};
 
     private ItemStack[] inventory = new ItemStack[getInvSize()];
     EventVacuumItems event = new EventVacuumItems();
@@ -33,7 +31,6 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
         super.writeToNBT(tag);
         tag.setInteger("Mod", modifier);
         if (OtherPos != null) tag.setIntArray("BoundBlockPos", OtherPos);
-        tag.setIntArray("Targets", Targets);
 
         NBTTagList List = new NBTTagList();
         for(int currentIndex = 0; currentIndex < inventory.length; ++currentIndex) {
@@ -52,7 +49,6 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
         super.readFromNBT(tag);
         modifier = tag.getInteger("Mod");
         OtherPos = tag.getIntArray("BoundBlockPos");
-        Targets = tag.getIntArray("Targets");
 
         NBTTagList tagList = tag.getTagList("Inventory", getInvSize());
         inventory = new ItemStack[inventory.length];

@@ -30,7 +30,7 @@ public class EventVacuumItems {
     }
 
     protected AxisAlignedBB getAreaBoundingBox(float x, float y, float z, int mod) {
-        return AxisAlignedBB.getBoundingBox(x - 1 + mod, y - 1 + mod, z - 1 + mod,
-                /** Indented because CDO :P **/    x + 0.5 + mod, y + 1 + mod, z +1 + mod);
+        return AxisAlignedBB.getBoundingBox(x - 1 - mod, y - 1 - mod, z - 1 - mod,
+        /** Indented because CDO :P **/    x + 1 + mod, y + 1 + mod, z + 1 + mod);
     }
 }
