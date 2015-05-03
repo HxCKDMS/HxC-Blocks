@@ -12,6 +12,8 @@ import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
 import org.apache.commons.lang3.StringUtils;
 
+import java.util.List;
+
 public class ItemHxCWrenchPlaceHolder extends Item {
     public static final String suffix = " - Fake Block";
 
@@ -26,7 +28,7 @@ public class ItemHxCWrenchPlaceHolder extends Item {
     public String getItemStackDisplayName(ItemStack stack) {
         String name;
         if(stack.hasTagCompound()) {
-            name = GameRegistry.findBlock(stack.stackTagCompound.getString("BlockOwner"), stack.stackTagCompound.getString("BlockUN")).getLocalizedName().replaceAll("tile.", "").replaceAll(".name", "");;
+            name = GameRegistry.findBlock(stack.stackTagCompound.getString("BlockOwner"), stack.stackTagCompound.getString("BlockUN")).getLocalizedName().replaceAll("tile.", "").replaceAll(".name", "");
         }else
             name = "HxC Wrench";
 
@@ -34,51 +36,59 @@ public class ItemHxCWrenchPlaceHolder extends Item {
     }
 
     @Override
-    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float bx, float by, float bz) {
+    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float deltaX, float deltaY, float deltaZ) {
         if(!world.isRemote){
-            if(world.canMineBlock(player, x, y, z)){
-                if(stack.hasTagCompound()){
-                    Block BlockToSpawn = GameRegistry.findBlock(stack.stackTagCompound.getString("BlockOwner"), stack.stackTagCompound.getString("BlockUN"));
+            if(stack.hasTagCompound()){
+                Block BlockToSpawn = GameRegistry.findBlock(stack.stackTagCompound.getString("BlockOwner"), stack.stackTagCompound.getString("BlockUN"));
 
-                    int[] placeCoords = getSideForPlacement(x, y, z, side);
+                int[] placeCoords = getCoordsForPlacement(x, y, z, side);
 
-                    if(placeCoords == null)
+                if(placeCoords == null) return false;
+
+                x = placeCoords[0];
+                y = placeCoords[1];
+                z = placeCoords[2];
+
+                if(world.canMineBlock(player, x, y, z) && y >= 0) {
+                    if(!new ItemStack(BlockToSpawn, 1, stack.stackTagCompound.getInteger("BlockMeta")).tryPlaceItemIntoWorld(player, world, x, y, z, side, deltaX, deltaY, deltaZ))
                         return false;
 
-                    x = placeCoords[0];
-                    y = placeCoords[1];
-                    z = placeCoords[2];
-
-                    world.setBlock(x, y, z, BlockToSpawn);
                     world.setBlockMetadataWithNotify(x, y, z, stack.stackTagCompound.getInteger("BlockMeta"), 0);
 
-                    if(stack.stackTagCompound.getBoolean("HasTileEntity")){
-                        TileEntity tileEntity = world.getTileEntity(x, y, z);
+                    TileEntity tileEntity = world.getTileEntity(x, y, z);
+                    NBTTagCompound tagCompound = stack.stackTagCompound.getCompoundTag("BlockNBT");
+                    tileEntity.readFromNBT(tagCompound);
+                    world.setTileEntity(x, y, z, tileEntity);
 
-                        NBTTagCompound tagCompound = stack.stackTagCompound.getCompoundTag("BlockNBT");
-
-                        tileEntity.readFromNBT(tagCompound);
-                        world.setTileEntity(x, y, z, tileEntity);
-                    }
                     if(player.inventory.getCurrentItem() == stack)
                         player.inventory.decrStackSize(player.inventory.currentItem, 1);
 
                     return true;
-                } else {
-                    player.addChatComponentMessage(new ChatComponentText("\u00A74You most likely spawned this item in if this is not the case \u00A74please contact any HxC author."));
-                    if(player.inventory.getCurrentItem() == stack)
-                        player.inventory.decrStackSize(player.inventory.currentItem, 1);
-                    return false;
                 }
-            }else{
-                return false;
+
+            } else {
+                player.addChatComponentMessage(new ChatComponentText("\u00A74You most likely spawned this item in if this is not the case \u00A74please contact any HxC author."));
+                if(player.inventory.getCurrentItem() == stack)
+                    player.inventory.decrStackSize(player.inventory.currentItem, 1);
             }
         }else{
             return true;
         }
+        return false;
     }
 
-    public static int[] getSideForPlacement(int x, int y, int z, int side) {
+    @Override
+    public void addInformation(ItemStack stack, EntityPlayer player, List tooltips, boolean flag) {
+        if(stack.hasTagCompound()){
+            tooltips.add("BlockMeta: " + stack.stackTagCompound.getInteger("BlockMeta"));
+            tooltips.add("BlockUN: " + stack.stackTagCompound.getString("BlockUN"));
+            tooltips.add("BlockOwner: " + stack.stackTagCompound.getString("BlockOwner"));
+        }else{
+            tooltips.add("\u00A74Where did you get this? \u00A7this broken :/");
+        }
+    }
+
+    private static int[] getCoordsForPlacement(int x, int y, int z, int side) {
         if(side == 0)
             return new int[]{x, y - 1, z};
         else if(side == 1)

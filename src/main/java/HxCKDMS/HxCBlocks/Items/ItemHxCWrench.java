@@ -15,6 +15,7 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class ItemHxCWrench extends Item {
     public static ArrayList<Block> HxCWrenchBL = new ArrayList<>();
@@ -34,25 +35,23 @@ public class ItemHxCWrench extends Item {
                 Block BlockToGrab = world.getBlock(x, y, z);
                 TileEntity TileEntityToGrab = world.getTileEntity(x, y, z);
 
-                if(BlockToGrab.getBlockHardness(world, x, y, z) == -1.0F) return false;
-                if(HxCWrenchBL.contains(BlockToGrab)) return false;
+                if(TileEntityToGrab != null){
+                    if(BlockToGrab.getBlockHardness(world, x, y, z) == -1.0F) return false;
+                    if(HxCWrenchBL.contains(BlockToGrab)) return false;
 
-                boolean hasTileEntity = TileEntityToGrab != null;
 
-                String BlockOwner = GameRegistry.findUniqueIdentifierFor(BlockToGrab).modId;
-                String BlockUN = GameRegistry.findUniqueIdentifierFor(BlockToGrab).name;
+                    String BlockOwner = GameRegistry.findUniqueIdentifierFor(BlockToGrab).modId;
+                    String BlockUN = GameRegistry.findUniqueIdentifierFor(BlockToGrab).name;
 
-                int BlockMeta = world.getBlockMetadata(x, y, z);
+                    int BlockMeta = world.getBlockMetadata(x, y, z);
 
-                ItemStack DroppedItem = new ItemStack(ModRegistry.HxCWrenchPlaceHolder);
-                DroppedItem.stackTagCompound = new NBTTagCompound();
+                    ItemStack DroppedItem = new ItemStack(ModRegistry.HxCWrenchPlaceHolder);
+                    DroppedItem.stackTagCompound = new NBTTagCompound();
 
-                DroppedItem.stackTagCompound.setString("BlockOwner", BlockOwner);
-                DroppedItem.stackTagCompound.setString("BlockUN", BlockUN);
-                DroppedItem.stackTagCompound.setInteger("BlockMeta", BlockMeta);
-                DroppedItem.stackTagCompound.setBoolean("HasTileEntity", hasTileEntity);
+                    DroppedItem.stackTagCompound.setString("BlockOwner", BlockOwner);
+                    DroppedItem.stackTagCompound.setString("BlockUN", BlockUN);
+                    DroppedItem.stackTagCompound.setInteger("BlockMeta", BlockMeta);
 
-                if (hasTileEntity) {
                     NBTTagCompound nbtToSave = new NBTTagCompound();
                     TileEntityToGrab.writeToNBT(nbtToSave);
 
@@ -62,19 +61,24 @@ public class ItemHxCWrench extends Item {
                     nbtToSave.removeTag("id");
 
                     DroppedItem.stackTagCompound.setTag("BlockNBT", nbtToSave);
+
+                    world.removeTileEntity(x, y, z);
+                    world.setBlock(x, y, z, Blocks.air);
+
+                    world.spawnEntityInWorld(new EntityItem(world, x, y, z, DroppedItem));
+
+                    return true;
                 }
-
-                world.removeTileEntity(x, y, z);
-                world.setBlock(x, y, z, Blocks.air);
-
-                world.spawnEntityInWorld(new EntityItem(world, x, y, z, DroppedItem));
-
-                return true;
-            }else{
-                return false;
             }
         }else{
             return true;
         }
+        return false;
+    }
+
+    @Override
+    public void addInformation(ItemStack stack, EntityPlayer player, List tooltips, boolean flag) {
+        tooltips.add("\u00a74This item is very unstable use at own risk.");
+        super.addInformation(stack, player, tooltips, flag);
     }
 }
