@@ -2,11 +2,11 @@ package HxCKDMS.HxCBlocks.Registry;
 
 import HxCKDMS.HxCBlocks.Blocks.*;
 import HxCKDMS.HxCBlocks.Configs.Config;
+import HxCKDMS.HxCBlocks.Events.EventBlockInteract;
 import HxCKDMS.HxCBlocks.Events.EventBlockPlace;
+import HxCKDMS.HxCBlocks.Events.EventEntityUpdate;
 import HxCKDMS.HxCBlocks.Items.*;
 import HxCKDMS.HxCBlocks.TileEntities.*;
-import HxCKDMS.HxCBlocks.Events.EventBlockInteract;
-import HxCKDMS.HxCBlocks.Events.EventEntityUpdate;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
@@ -33,6 +33,8 @@ public class ModRegistry {
     public static ItemSlaughterCore SlaughterCore = new ItemSlaughterCore();
     public static ItemBinder Binder = new ItemBinder();
     public static ItemWitherCore WitherCore = new ItemWitherCore();
+    public static ItemHxCWrench HxCWrench = new ItemHxCWrench();
+    public static ItemHxCWrenchPlaceHolder HxCWrenchPlaceHolder = new ItemHxCWrenchPlaceHolder();
 
     public static void preInit(){
         registerBlocks();
@@ -64,6 +66,8 @@ public class ModRegistry {
         GameRegistry.registerItem(SlaughterCore, "SlaughterCore");
         GameRegistry.registerItem(WitherCore, "WitherCore");
         GameRegistry.registerItem(Binder, "Binder");
+        GameRegistry.registerItem(HxCWrench, "HxCWrench");
+        GameRegistry.registerItem(HxCWrenchPlaceHolder, "HxCWrenchPlaceHolder");
     }
 
     private static void registerTileEntities() {
