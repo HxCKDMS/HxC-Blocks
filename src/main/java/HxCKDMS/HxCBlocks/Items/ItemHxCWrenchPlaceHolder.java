@@ -37,8 +37,8 @@ public class ItemHxCWrenchPlaceHolder extends Item {
 
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float deltaX, float deltaY, float deltaZ) {
-        try{
-            if(!world.isRemote){
+        if(!world.isRemote){
+            try{
                 if(stack.hasTagCompound()){
                     Block BlockToSpawn = GameRegistry.findBlock(stack.stackTagCompound.getString("BlockOwner"), stack.stackTagCompound.getString("BlockUN"));
 
@@ -79,11 +79,15 @@ public class ItemHxCWrenchPlaceHolder extends Item {
                     if(player.inventory.getCurrentItem() == stack)
                         player.inventory.decrStackSize(player.inventory.currentItem, 1);
                 }
-            }else{
+            }catch (Exception ignored){
+                if(player.inventory.getCurrentItem() == stack)
+                    player.inventory.decrStackSize(player.inventory.currentItem, 1);
+
                 return true;
             }
-        }catch (Exception ignored){}
-
+        }else{
+            return true;
+        }
         return false;
     }
 
