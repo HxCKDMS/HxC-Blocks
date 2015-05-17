@@ -6,7 +6,6 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
@@ -55,9 +54,12 @@ public class ItemHxCWrenchPlaceHolder extends Item {
 
                     world.setBlockMetadataWithNotify(x, y, z, stack.stackTagCompound.getInteger("BlockMeta"), 0);
 
-                    TileEntity tileEntity = world.getTileEntity(x, y, z);
-                    NBTTagCompound tagCompound = stack.stackTagCompound.getCompoundTag("BlockNBT");
-                    tileEntity.readFromNBT(tagCompound);
+                    TileEntity tileEntity = TileEntity.createAndLoadEntity(stack.stackTagCompound.getCompoundTag("BlockNBT"));
+
+                    tileEntity.xCoord = x;
+                    tileEntity.yCoord = y;
+                    tileEntity.zCoord = z;
+
                     world.setTileEntity(x, y, z, tileEntity);
 
                     if(player.inventory.getCurrentItem() == stack)

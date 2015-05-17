@@ -55,11 +55,6 @@ public class ItemHxCWrench extends Item {
                     NBTTagCompound nbtToSave = new NBTTagCompound();
                     TileEntityToGrab.writeToNBT(nbtToSave);
 
-                    nbtToSave.removeTag("x");
-                    nbtToSave.removeTag("y");
-                    nbtToSave.removeTag("z");
-                    nbtToSave.removeTag("id");
-
                     DroppedItem.stackTagCompound.setTag("BlockNBT", nbtToSave);
 
                     world.removeTileEntity(x, y, z);
