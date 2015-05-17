@@ -32,13 +32,15 @@ public class ItemRendererHxCWrenchPlaceHolder implements IItemRenderer {
             Minecraft mc = Minecraft.getMinecraft();
             //RenderManager.instance.itemRenderer.renderItem(mc.thePlayer, new ItemStack(BlockToBeRendered, 1, stack.stackTagCompound.getInteger("BlockMeta")), 0, type);
 
-            if(type == ItemRenderType.INVENTORY){
-                RenderHelper.enableGUIStandardItemLighting();
-                renderItem.renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, containedStack, 0, 0);
-            }else{
-                GL11.glTranslated(0.5, 0.5, 0.5);
-                GL11.glScalef(0.8f, 0.8f, 0.8f);
-                RenderManager.instance.itemRenderer.renderItem(mc.thePlayer, containedStack, 0, ItemRenderType.EQUIPPED);
+            if(containedStack.getItem() != null){
+                if(type == ItemRenderType.INVENTORY){
+                    RenderHelper.enableGUIStandardItemLighting();
+                    renderItem.renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, containedStack, 0, 0);
+                }else{
+                    GL11.glTranslated(0.5, 0.5, 0.5);
+                    GL11.glScalef(0.8f, 0.8f, 0.8f);
+                    RenderManager.instance.itemRenderer.renderItem(mc.thePlayer, containedStack, 0, ItemRenderType.EQUIPPED);
+                }
             }
         }
     }
