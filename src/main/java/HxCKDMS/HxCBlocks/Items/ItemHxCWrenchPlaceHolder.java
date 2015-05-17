@@ -98,7 +98,7 @@ public class ItemHxCWrenchPlaceHolder extends Item {
             tooltips.add("BlockUN: " + stack.stackTagCompound.getString("BlockUN"));
             tooltips.add("BlockOwner: " + stack.stackTagCompound.getString("BlockOwner"));
         }else{
-            tooltips.add("\u00A74Where did you get this? \u00A7this broken :/");
+            tooltips.add("\u00A74Where did you get this? This broken :/");
         }
     }
 
