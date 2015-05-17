@@ -35,35 +35,35 @@ public class ItemHxCWrench extends Item {
                 Block BlockToGrab = world.getBlock(x, y, z);
                 TileEntity TileEntityToGrab = world.getTileEntity(x, y, z);
 
+                if(BlockToGrab.getBlockHardness(world, x, y, z) == -1.0F) return false;
+                if(HxCWrenchBL.contains(BlockToGrab)) return false;
+
+                String BlockOwner = GameRegistry.findUniqueIdentifierFor(BlockToGrab).modId;
+                String BlockUN = GameRegistry.findUniqueIdentifierFor(BlockToGrab).name;
+
+                int BlockMeta = world.getBlockMetadata(x, y, z);
+
+                ItemStack DroppedItem = new ItemStack(ModRegistry.HxCWrenchPlaceHolder);
+
+                DroppedItem.stackTagCompound = new NBTTagCompound();
+                DroppedItem.stackTagCompound.setString("BlockOwner", BlockOwner);
+                DroppedItem.stackTagCompound.setString("BlockUN", BlockUN);
+                DroppedItem.stackTagCompound.setInteger("BlockMeta", BlockMeta);
+
                 if(TileEntityToGrab != null){
-                    if(BlockToGrab.getBlockHardness(world, x, y, z) == -1.0F) return false;
-                    if(HxCWrenchBL.contains(BlockToGrab)) return false;
-
-
-                    String BlockOwner = GameRegistry.findUniqueIdentifierFor(BlockToGrab).modId;
-                    String BlockUN = GameRegistry.findUniqueIdentifierFor(BlockToGrab).name;
-
-                    int BlockMeta = world.getBlockMetadata(x, y, z);
-
-                    ItemStack DroppedItem = new ItemStack(ModRegistry.HxCWrenchPlaceHolder);
-                    DroppedItem.stackTagCompound = new NBTTagCompound();
-
-                    DroppedItem.stackTagCompound.setString("BlockOwner", BlockOwner);
-                    DroppedItem.stackTagCompound.setString("BlockUN", BlockUN);
-                    DroppedItem.stackTagCompound.setInteger("BlockMeta", BlockMeta);
-
                     NBTTagCompound nbtToSave = new NBTTagCompound();
+
                     TileEntityToGrab.writeToNBT(nbtToSave);
 
                     DroppedItem.stackTagCompound.setTag("BlockNBT", nbtToSave);
 
                     world.removeTileEntity(x, y, z);
-                    world.setBlock(x, y, z, Blocks.air);
-
-                    world.spawnEntityInWorld(new EntityItem(world, x, y, z, DroppedItem));
-
-                    return true;
                 }
+
+                world.setBlock(x, y, z, Blocks.air, 0, 3);
+
+                world.spawnEntityInWorld(new EntityItem(world, x, y, z, DroppedItem));
+                return true;
             }
         }else{
             return true;

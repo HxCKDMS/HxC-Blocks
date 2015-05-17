@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.world.World;
@@ -36,46 +37,53 @@ public class ItemHxCWrenchPlaceHolder extends Item {
 
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float deltaX, float deltaY, float deltaZ) {
-        if(!world.isRemote){
-            if(stack.hasTagCompound()){
-                Block BlockToSpawn = GameRegistry.findBlock(stack.stackTagCompound.getString("BlockOwner"), stack.stackTagCompound.getString("BlockUN"));
+        try{
+            if(!world.isRemote){
+                if(stack.hasTagCompound()){
+                    Block BlockToSpawn = GameRegistry.findBlock(stack.stackTagCompound.getString("BlockOwner"), stack.stackTagCompound.getString("BlockUN"));
 
-                int[] placeCoords = getCoordsForPlacement(x, y, z, side);
+                    int[] placeCoords = getCoordsForPlacement(x, y, z, side);
 
-                if(placeCoords == null) return false;
+                    if(placeCoords == null) return false;
 
-                x = placeCoords[0];
-                y = placeCoords[1];
-                z = placeCoords[2];
+                    x = placeCoords[0];
+                    y = placeCoords[1];
+                    z = placeCoords[2];
 
-                if(world.canMineBlock(player, x, y, z) && y >= 0) {
-                    if(!new ItemStack(BlockToSpawn, 1, stack.stackTagCompound.getInteger("BlockMeta")).tryPlaceItemIntoWorld(player, world, x, y, z, side, deltaX, deltaY, deltaZ))
-                        return false;
+                    if(world.canMineBlock(player, x, y, z) && y >= 0) {
+                        if(!new ItemStack(BlockToSpawn, 1, stack.stackTagCompound.getInteger("BlockMeta")).tryPlaceItemIntoWorld(player, world, x, y, z, side, deltaX, deltaY, deltaZ))
+                            return false;
 
-                    world.setBlockMetadataWithNotify(x, y, z, stack.stackTagCompound.getInteger("BlockMeta"), 0);
+                        world.setBlockMetadataWithNotify(x, y, z, stack.stackTagCompound.getInteger("BlockMeta"), 0);
 
-                    TileEntity tileEntity = TileEntity.createAndLoadEntity(stack.stackTagCompound.getCompoundTag("BlockNBT"));
+                        NBTTagCompound tileCmp = stack.stackTagCompound.getCompoundTag("BlockNBT");
 
-                    tileEntity.xCoord = x;
-                    tileEntity.yCoord = y;
-                    tileEntity.zCoord = z;
+                        if(tileCmp != null && !tileCmp.hasNoTags()){
+                            TileEntity tileEntity = TileEntity.createAndLoadEntity(tileCmp);
 
-                    world.setTileEntity(x, y, z, tileEntity);
+                            tileEntity.xCoord = x;
+                            tileEntity.yCoord = y;
+                            tileEntity.zCoord = z;
 
+                            world.setTileEntity(x, y, z, tileEntity);
+                        }
+
+                        if(player.inventory.getCurrentItem() == stack)
+                            player.inventory.decrStackSize(player.inventory.currentItem, 1);
+
+                        return true;
+                    }
+
+                } else {
+                    player.addChatComponentMessage(new ChatComponentText("\u00A74You most likely spawned this item in if this is not the case \u00A74please contact any HxC author."));
                     if(player.inventory.getCurrentItem() == stack)
                         player.inventory.decrStackSize(player.inventory.currentItem, 1);
-
-                    return true;
                 }
-
-            } else {
-                player.addChatComponentMessage(new ChatComponentText("\u00A74You most likely spawned this item in if this is not the case \u00A74please contact any HxC author."));
-                if(player.inventory.getCurrentItem() == stack)
-                    player.inventory.decrStackSize(player.inventory.currentItem, 1);
+            }else{
+                return true;
             }
-        }else{
-            return true;
-        }
+        }catch (Exception ignored){}
+
         return false;
     }
 
