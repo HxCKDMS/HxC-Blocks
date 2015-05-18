@@ -1,5 +1,6 @@
 package HxCKDMS.HxCBlocks.Blocks;
 
+import HxCKDMS.HxCBlocks.HxCBlocks;
 import HxCKDMS.HxCBlocks.Reference.References;
 import HxCKDMS.HxCBlocks.Registry.CreativeTabHxCBlocks;
 import HxCKDMS.HxCBlocks.TileEntities.TileSlaughterBlock;
@@ -77,5 +78,15 @@ public class BlockSlaughterBlock extends BlockContainer {
             TileSlaughterBlock HxCTile = (TileSlaughterBlock)world.getTileEntity(x, y, z);
             HxCTile.modifier = 1;
         }
+    }
+
+    @Override
+    public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int metadata, float what, float these, float are) {
+        TileEntity tileEntity = world.getTileEntity(x, y, z);
+        if (tileEntity == null || player.isSneaking()) {
+            return false;
+        }
+        player.openGui(HxCBlocks.HxCBlocks, 0, world, x, y, z);
+        return true;
     }
 }
