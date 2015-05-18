@@ -30,8 +30,6 @@ public class ItemRendererHxCWrenchPlaceHolder implements IItemRenderer {
             ItemStack containedStack = new ItemStack(BlockToBeRendered, 1, stack.stackTagCompound.getInteger("BlockMeta"));
 
             Minecraft mc = Minecraft.getMinecraft();
-            //RenderManager.instance.itemRenderer.renderItem(mc.thePlayer, new ItemStack(BlockToBeRendered, 1, stack.stackTagCompound.getInteger("BlockMeta")), 0, type);
-
             if(containedStack.getItem() != null){
                 if(type == ItemRenderType.INVENTORY){
                     RenderHelper.enableGUIStandardItemLighting();

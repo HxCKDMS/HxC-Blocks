@@ -92,6 +92,7 @@ public class ItemHxCWrenchPlaceHolder extends Item {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void addInformation(ItemStack stack, EntityPlayer player, List tooltips, boolean flag) {
         if(stack.hasTagCompound()){
             tooltips.add("BlockMeta: " + stack.stackTagCompound.getInteger("BlockMeta"));

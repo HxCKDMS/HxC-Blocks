@@ -72,6 +72,7 @@ public class ItemHxCWrench extends Item {
     }
 
     @Override
+    @SuppressWarnings("unchecked")
     public void addInformation(ItemStack stack, EntityPlayer player, List tooltips, boolean flag) {
         tooltips.add("\u00a74This item is very unstable use at own risk.");
         super.addInformation(stack, player, tooltips, flag);
