@@ -14,16 +14,16 @@ public class EventVacuumXP {
     public void vacuum(int[] coords, World world) {
         TileEntity tile = world.getTileEntity(coords[0], coords[1], coords[2]);
         TileXPAbsorber HxCTile = (TileXPAbsorber)tile;
-        int modifier = HxCTile.modifier;
+        int modifier = HxCTile.inventory[0].stackSize;
         List list  = world.getEntitiesWithinAABB(EntityXPOrb.class, getAreaBoundingBox(coords[0], coords[1], coords[2], modifier));
         for (EntityXPOrb entity : (List<EntityXPOrb>) list) {
             if (!entity.isDead) {
-                HxCTile.XP = (entity.getXpValue()+HxCTile.XP);
+                HxCTile.XP += entity.getXpValue();
                 entity.setDead();
             }
         }
         if (HxCTile.XP > 1000){
-            String BoundPlayer = HxCTile.BoundPlayer;
+            String BoundPlayer = HxCTile.inventory[1].getTagCompound().getString("BoundPlayer");
             try {
                 EntityPlayer player = world.getPlayerEntityByName(BoundPlayer);
                 player.addExperience(HxCTile.XP);

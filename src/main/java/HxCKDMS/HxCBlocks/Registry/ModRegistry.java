@@ -76,7 +76,6 @@ public class ModRegistry {
         GameRegistry.registerTileEntity(TileVacuum.class, "TileVacuum");
         GameRegistry.registerTileEntity(TileBarrier.class, "TileBarrier");
         GameRegistry.registerTileEntity(TileSpawnerAccelerator.class, "TileSpawnerAccelerator");
-        if (Config.GreyGoo)GameRegistry.registerTileEntity(TileGreyGoo.class, "TileGreyGoo");
     }
 
     private static void registerCraftingRecipes() {
@@ -85,6 +84,7 @@ public class ModRegistry {
         GameRegistry.addRecipe(new ItemStack(SlaughterCore), "idi", "dsd", "idi", 'i', Items.iron_ingot, 'd', Items.diamond_sword, 's', Items.nether_star);
         GameRegistry.addRecipe(new ItemStack(VacuumCore), "ipi", "php", "ipi", 'i', Items.iron_ingot, 'h', Blocks.hopper, 'p', Items.ender_pearl);
         GameRegistry.addRecipe(new ItemStack(Binder), " i ", "isi", " i ", 'i', Items.iron_ingot, 's', Items.sign);
+        GameRegistry.addRecipe(new ItemStack(HxCWrench), "did", " s ", " i ", 'i', Items.iron_ingot, 'd', Items.diamond, 's', Items.nether_star);
         GameRegistry.addShapelessRecipe(new ItemStack(SoulFragment), SoulFragment);
         GameRegistry.addShapelessRecipe(new ItemStack(SoulBinder), SoulBinder);
         GameRegistry.addShapelessRecipe(new ItemStack(Binder), Binder);

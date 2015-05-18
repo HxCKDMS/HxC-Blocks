@@ -16,7 +16,7 @@ public class EventVacuumItems {
     public void vacuum(int[] coords, World world) {
         TileEntity tile = world.getTileEntity(coords[0], coords[1], coords[2]);
         TileVacuum HxCTile = (TileVacuum)tile;
-        int modifier = HxCTile.modifier;
+        int modifier = HxCTile.inventory[12].stackSize;
         List list  = world.getEntitiesWithinAABB(EntityItem.class, getAreaBoundingBox(coords[0], coords[1], coords[2], modifier));
         for (EntityItem entity : (List<EntityItem>) list) {
             if (!entity.isDead) {

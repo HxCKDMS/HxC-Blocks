@@ -13,23 +13,16 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 public class TileVacuum extends TileEntity implements ISidedInventory {
-    public int modifier;
-    public int[] OtherPos;
-
-    private ItemStack[] inventory = new ItemStack[getInvSize()];
+    public ItemStack[] inventory = new ItemStack[getInvSize()];
     EventVacuumItems event = new EventVacuumItems();
 
-    protected int getInvSize() { return 51; }
-
-    private static final int[] accessibleSlots = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-    11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30,
-    31, 32, 33, 34, 35, 36, 37, 38, 39, 40, 41, 42, 43, 44, 45, 46, 47, 48, 49, 50};
+    protected int getInvSize() { return 13; }
+    // slot 11 binder || slot 12 upgrades
+    private static final int[] accessibleSlots = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
     @Override
     public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
-        tag.setInteger("Mod", modifier);
-        if (OtherPos != null) tag.setIntArray("BoundBlockPos", OtherPos);
 
         NBTTagList List = new NBTTagList();
         for(int currentIndex = 0; currentIndex < inventory.length; ++currentIndex) {
@@ -46,8 +39,6 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
     @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
-        modifier = tag.getInteger("Mod");
-        OtherPos = tag.getIntArray("BoundBlockPos");
 
         NBTTagList tagList = tag.getTagList("Inventory", getInvSize());
         inventory = new ItemStack[inventory.length];
@@ -72,7 +63,12 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
     protected boolean exportItem(int maxItems){
         ForgeDirection[] dirs = ForgeDirection.VALID_DIRECTIONS;
         TileEntity tile = null;
-        try { tile = worldObj.getTileEntity(OtherPos[0], OtherPos[1], OtherPos[2]); } catch (Exception ignore) {
+        try {
+            int x = inventory[11].getTagCompound().getInteger("x");
+            int y = inventory[11].getTagCompound().getInteger("y");
+            int z = inventory[11].getTagCompound().getInteger("z");
+            tile = worldObj.getTileEntity(x, y, z);
+        } catch (Exception ignore) {
             for (ForgeDirection dir : dirs) {
                 TileEntity neighbor = IOHelper.getNeighbor(this, dir);
                 if (neighbor instanceof TileEntityChest) {
@@ -82,18 +78,18 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
             }
         }
 
-        for(int i = 4; i >= 0; i--) {
+        for (int i = 4; i >= 0; i--) {
             ItemStack stack = inventory[i];
-            if(stack != null && tile != null) {
+            if (stack != null && tile != null) {
                 ItemStack exportedStack = stack.copy();
-                if(exportedStack.stackSize > maxItems) exportedStack.stackSize = maxItems;
+                if (exportedStack.stackSize > maxItems) exportedStack.stackSize = maxItems;
                 int count = exportedStack.stackSize;
                 ItemStack remainder = IOHelper.insert(tile, exportedStack, ForgeDirection.UP, false);
                 int exportedItems = count - (remainder == null ? 0 : remainder.stackSize);
                 stack.stackSize -= exportedItems;
-                if(stack.stackSize <= 0) setInventorySlotContents(i, null);
+                if (stack.stackSize <= 0) setInventorySlotContents(i, null);
                 maxItems -= exportedItems;
-                if(maxItems <= 0) return true;
+                if (maxItems <= 0) return true;
             }
         }
         return false;

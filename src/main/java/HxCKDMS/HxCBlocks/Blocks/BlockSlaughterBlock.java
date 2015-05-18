@@ -1,6 +1,6 @@
 package HxCKDMS.HxCBlocks.Blocks;
 
-import HxCKDMS.HxCBlocks.HxCBlocks;
+import HxCKDMS.HxCBlocks.Items.ItemSlaughterCore;
 import HxCKDMS.HxCBlocks.Reference.References;
 import HxCKDMS.HxCBlocks.Registry.CreativeTabHxCBlocks;
 import HxCKDMS.HxCBlocks.TileEntities.TileSlaughterBlock;
@@ -10,7 +10,9 @@ import net.minecraft.block.material.Material;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
@@ -86,7 +88,17 @@ public class BlockSlaughterBlock extends BlockContainer {
         if (tileEntity == null || player.isSneaking()) {
             return false;
         }
-        player.openGui(HxCBlocks.HxCBlocks, 0, world, x, y, z);
+        TileSlaughterBlock HxCTile = (TileSlaughterBlock)tileEntity;
+        ItemStack stack = player.getHeldItem();
+        Item item = stack.getItem();
+        if (item instanceof ItemSlaughterCore && HxCTile.modifier <= 31) {
+            HxCTile.modifier = (HxCTile.modifier + 1);
+            if (!player.capabilities.isCreativeMode) player.inventory.decrStackSize(player.inventory.currentItem, 1);
+        }
+        if (item instanceof ItemSword) {
+            System.out.println(item);
+        }
+//        player.openGui(HxCBlocks.HxCBlocks, 0, world, x, y, z);
         return true;
     }
 }

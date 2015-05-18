@@ -13,7 +13,9 @@
 hs_err_pid*
 
 .settings
+.gitignore
 eclipse
 HxC-Blocks.iml
 HxC-Blocks.iws
 HxC-Blocks.ipr
+src/main/java/cofh/api
