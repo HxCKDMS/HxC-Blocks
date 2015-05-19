@@ -42,7 +42,7 @@ public class BlockSpawnerAccelerator extends BlockContainer {
             TileSpawnerAccelerator HxCTile = (TileSpawnerAccelerator) tileEntity;
             ItemMonsterPlacer egg = (ItemMonsterPlacer) item;
             int d = egg.getDamage(stack);
-            HxCTile.Mob = egg.getItemStackDisplayName(new ItemStack(egg, 1, d)).replaceFirst("Spawn ", "").trim();
+            HxCTile.Mob = egg.getItemStackDisplayName(new ItemStack(egg, 1, d)).replaceFirst("Spawn ", "").trim().replaceAll(" ", "");
         }
         return false;
     }

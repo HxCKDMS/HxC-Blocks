@@ -74,6 +74,7 @@ public class ModRegistry {
         GameRegistry.registerTileEntity(TileVacuum.class, "TileVacuum");
         GameRegistry.registerTileEntity(TileBarrier.class, "TileBarrier");
         GameRegistry.registerTileEntity(TileSpawnerAccelerator.class, "TileSpawnerAccelerator");
+        GameRegistry.registerTileEntity(TileGreyGoo.class, "TileGreyGoo");
     }
 
     private static void registerCraftingRecipes() {
