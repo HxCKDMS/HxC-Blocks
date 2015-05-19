@@ -14,9 +14,10 @@ import java.util.List;
 @SuppressWarnings("unchecked")
 public class EventVacuumItems {
     public void vacuum(int[] coords, World world) {
+        int modifier = 0;
         TileEntity tile = world.getTileEntity(coords[0], coords[1], coords[2]);
         TileVacuum HxCTile = (TileVacuum)tile;
-        int modifier = HxCTile.inventory[12].stackSize;
+        if (HxCTile.inventory[12] != null) modifier = HxCTile.inventory[12].stackSize;
         List list  = world.getEntitiesWithinAABB(EntityItem.class, getAreaBoundingBox(coords[0], coords[1], coords[2], modifier));
         for (EntityItem entity : (List<EntityItem>) list) {
             if (!entity.isDead) {

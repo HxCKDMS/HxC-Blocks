@@ -2,7 +2,6 @@ package HxCKDMS.HxCBlocks.Registry;
 
 import HxCKDMS.HxCBlocks.Blocks.*;
 import HxCKDMS.HxCBlocks.Configs.Config;
-import HxCKDMS.HxCBlocks.Events.EventBlockInteract;
 import HxCKDMS.HxCBlocks.Events.EventBlockPlace;
 import HxCKDMS.HxCBlocks.Events.EventEntityUpdate;
 import HxCKDMS.HxCBlocks.Items.*;
@@ -44,7 +43,6 @@ public class ModRegistry {
     }
 
     public static void init(){
-        MinecraftForge.EVENT_BUS.register(new EventBlockInteract());
         MinecraftForge.EVENT_BUS.register(new EventEntityUpdate());
         MinecraftForge.EVENT_BUS.register(new EventBlockPlace());
     }

@@ -1,5 +1,6 @@
 package HxCKDMS.HxCBlocks.Blocks;
 
+import HxCKDMS.HxCBlocks.Configs.Config;
 import HxCKDMS.HxCBlocks.Items.ItemBinder;
 import HxCKDMS.HxCBlocks.Items.ItemVacuumCore;
 import HxCKDMS.HxCBlocks.Reference.References;
@@ -48,13 +49,13 @@ public class BlockVacuum extends BlockContainer {
         Item item = stack.getItem();
         TileVacuum HxCTile = (TileVacuum)tileEntity;
 
-        if (item instanceof ItemVacuumCore && HxCTile.inventory[52].stackSize <= HxCTile.inventory[52].getMaxStackSize()) {
-            int items = HxCTile.inventory[52].stackSize;
-            HxCTile.inventory[52] = new ItemStack(ModRegistry.VacuumCore, items+1);
+        if (item instanceof ItemVacuumCore && HxCTile.inventory[12] == null || (HxCTile.inventory[12] != null && HxCTile.inventory[12].stackSize <= Config.MaxRange)) {
+            if (HxCTile.inventory[12] == null) HxCTile.inventory[12] = new ItemStack(ModRegistry.VacuumCore, 1);
+            else HxCTile.inventory[12] = new ItemStack(ModRegistry.VacuumCore,  HxCTile.inventory[12].stackSize + 1);
             if (!player.capabilities.isCreativeMode) player.inventory.decrStackSize(player.inventory.currentItem, 1);
         }
-        if (item instanceof ItemBinder && HxCTile.inventory[51].stackSize < 1) {
-            HxCTile.inventory[51] = stack;
+        if (item instanceof ItemBinder && HxCTile.inventory[11] == null) {
+            HxCTile.inventory[11] = stack;
             if (!player.capabilities.isCreativeMode) player.inventory.decrStackSize(player.inventory.currentItem, 1);
         }
         return true;

@@ -2,10 +2,13 @@ package HxCKDMS.HxCBlocks.Items;
 
 import HxCKDMS.HxCBlocks.Reference.References;
 import HxCKDMS.HxCBlocks.Registry.CreativeTabHxCBlocks;
+import HxCKDMS.HxCBlocks.TileEntities.TileVacuum;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.World;
 
 import java.util.List;
 
@@ -17,6 +20,18 @@ public class ItemBinder extends Item{
         setUnlocalizedName("Binder");
         setTextureName(References.MOD_ID + ":Binder");
         setMaxStackSize(1);
+    }
+
+    @Override
+    public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float bx, float by, float bz) {
+        if (world.getTileEntity(x, y, z) instanceof IInventory && !(world.getTileEntity(x, y, z) instanceof TileVacuum)) {
+            NBTTagCompound dat = new NBTTagCompound();
+            dat.setInteger("x", x);
+            dat.setInteger("y", y);
+            dat.setInteger("z", z);
+            stack.setTagCompound(dat);
+        }
+        return true;
     }
 
     @Override
