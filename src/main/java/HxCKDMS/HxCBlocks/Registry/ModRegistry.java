@@ -23,6 +23,7 @@ public class ModRegistry {
     public static BlockBarrier Barrier = new BlockBarrier(Material.iron);
     public static BlockSpawnerAccelerator Accelerator = new BlockSpawnerAccelerator(Material.iron);
     public static BlockGreyGoo GreyGoo = new BlockGreyGoo(Material.iron);
+    public static BlockLeBomb LeBomb = new BlockLeBomb(Material.iron);
     //tab
     public static CreativeTabs HxCBlocks = CreativeTabHxCBlocks.tabHxCBlocks;
     //items
@@ -55,6 +56,7 @@ public class ModRegistry {
         GameRegistry.registerBlock(Barrier, "Barrier");
         GameRegistry.registerBlock(Accelerator, "Accelerator");
         if (Config.GreyGoo)GameRegistry.registerBlock(GreyGoo, "GreyGoo");
+        if (Config.LeBomb)GameRegistry.registerBlock(LeBomb, "LeBomb");
     }
 
     private static void registerItems() {
@@ -75,6 +77,7 @@ public class ModRegistry {
         GameRegistry.registerTileEntity(TileBarrier.class, "TileBarrier");
         GameRegistry.registerTileEntity(TileSpawnerAccelerator.class, "TileSpawnerAccelerator");
         GameRegistry.registerTileEntity(TileGreyGoo.class, "TileGreyGoo");
+        GameRegistry.registerTileEntity(TileLeBomb.class, "TileLeBomb");
     }
 
     private static void registerCraftingRecipes() {
