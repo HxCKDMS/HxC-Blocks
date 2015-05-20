@@ -16,13 +16,13 @@ public class Config
         config.load();
 
         GreyGoo = config.getBoolean("EnableGreyGoo", "Features", false, "enable to allow using grey goo. disable to remove it");
-        LeBomb = config.getBoolean("EnableLeBomb", "Features", false, "I wounldn't enable if I were you.");
+        LeBomb = config.getBoolean("EnableLeBomb", "Features", false, "I wouldn't enable if I were you.");
         SafetyChecks = config.getBoolean("EnableSafetyChecks", "Features", true, "enable safety checks for placing grey goo");
 
         MaxRange = config.getInt("MaxRange", "Features", 32, 1, 64, "max range of blocks");
         MaxLeBombRange = config.getInt("MaxBombRange", "Features", 256, 4, 8192, "max range of BOOM");
-        LeBombDelay = config.getInt("LeBombDelay", "Features", 256, 4, 16348, "LeBombDelay");
-        LeBombAccuracy = config.getFloat("LeBombDelay", "Features", 0.05f, 0.01f, 1, "Lower = Better Sphere");
+        LeBombDelay = config.getInt("LeBombDelay", "Features", 160, 4, 16348, "LeBombDelay");
+        LeBombAccuracy = config.getFloat("LeBombAccuracy", "Features", 0.05f, 0.01f, 1, "Lower = Better Sphere");
         if(config.hasChanged())
         {
             config.save();

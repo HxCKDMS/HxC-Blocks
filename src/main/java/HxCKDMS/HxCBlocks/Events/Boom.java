@@ -1,30 +1,21 @@
 package HxCKDMS.HxCBlocks.Events;
 
 import HxCKDMS.HxCBlocks.Configs.Config;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.EntityLiving;
-import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 public class Boom {
-
-    private Random explosionRNG = new Random();
     private World worldObj;
     public int explosionX;
     public int explosionY;
     public int explosionZ;
     public int explosionSize;
-
-    public List<ChunkPosition> affectedBlockPositions;
 
     public Boom(World world, int x, int y, int z, int size) {
         worldObj = world;
@@ -38,8 +29,8 @@ public class Boom {
     public void doExplosion() {
         @SuppressWarnings("unchecked")
         List<EntityLiving> list = worldObj.getEntitiesWithinAABB(EntityLiving.class, getAreaBoundingBox(explosionX, explosionY, explosionZ, explosionSize));
-        for(int[] coordinate : getSphereCoordinates(explosionX, explosionY, explosionZ, 10, true, Config.LeBombDelay))
-            worldObj.setBlock(coordinate[0], coordinate[1], coordinate[2], Blocks.bedrock);
+        for(int[] coordinate : getSphereCoordinates(explosionX, explosionY, explosionZ, explosionSize, true, Config.LeBombDelay))
+            worldObj.setBlockToAir(coordinate[0], coordinate[1], coordinate[2]);
 
         for (EntityLiving ent : list) {
             double distance = ent.getDistance(explosionX, explosionY, explosionZ) / explosionSize;
@@ -56,16 +47,6 @@ public class Boom {
                     ent.motionZ += (dz / dsq * reduction);
                 }
             }
-        }
-
-        for (ChunkPosition chunkposition : affectedBlockPositions) {
-            int pX = chunkposition.chunkPosX;
-            int pY = chunkposition.chunkPosY;
-            int pZ = chunkposition.chunkPosZ;
-
-            Block block = this.worldObj.getBlock(pX, pY, pZ);
-            if (block.getMaterial() != Material.air) worldObj.setBlockToAir(pX, pY, pZ);
-            if (block.getMaterial() == Material.air && this.explosionRNG.nextInt(3) == 0) worldObj.setBlock(pX, pY, pZ, Blocks.fire);
         }
     }
 
