@@ -20,6 +20,22 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
     // slot 11 binder || slot 12 upgrades
     private static final int[] accessibleSlots = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
 
+
+    @Override
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
+
+        NBTTagList tagList = tag.getTagList("Inventory", 10);
+        inventory = new ItemStack[inventory.length];
+        for(int i = 0; i < tagList.tagCount(); ++i) {
+            NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
+            byte slot = tagCompound.getByte("Slot");
+            if(slot >= 0 && slot <= inventory.length) {
+                inventory[slot] = ItemStack.loadItemStackFromNBT(tagCompound);
+            }
+        }
+    }
+
     @Override
     public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
@@ -31,22 +47,7 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
                 tagCompound.setByte("Slot", (byte)currentIndex);
                 inventory[currentIndex].writeToNBT(tagCompound);
                 List.appendTag(tagCompound);
-            }
-        }
-        tag.setTag("Inventory", List);
-    }
-
-    @Override
-    public void readFromNBT(NBTTagCompound tag) {
-        super.readFromNBT(tag);
-
-        NBTTagList tagList = tag.getTagList("Inventory", getInvSize());
-        inventory = new ItemStack[inventory.length];
-        for(int i = 0; i < tagList.tagCount(); ++i) {
-            NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
-            byte slot = tagCompound.getByte("Slot");
-            if(slot >= 0 && slot < inventory.length) {
-                inventory[slot] = ItemStack.loadItemStackFromNBT(tagCompound);
+                tag.setTag("Inventory", List);
             }
         }
     }
