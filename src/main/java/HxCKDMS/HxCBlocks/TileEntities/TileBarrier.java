@@ -24,8 +24,8 @@ public class TileBarrier extends TileEntity{
                 else
                     newMotionZ = -entity.motionZ + 0.08;
 
-                System.out.println("newMotionZ = " + newMotionZ);
-                System.out.println("newMotionX = " + newMotionX);
+                /*System.out.println("newMotionZ = " + newMotionZ);
+                System.out.println("newMotionX = " + newMotionX);*/
 
                 /*double newMotionX = -entity.motionX + (-entity.motionX < 0 ? -0.1 : 0.1);
                    double newMotionZ = -entity.motionZ + (-entity.motionZ < 0 ? -0.1 : 0.1);*/

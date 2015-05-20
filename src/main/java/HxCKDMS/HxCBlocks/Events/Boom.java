@@ -54,7 +54,11 @@ public class Boom {
         List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this.exploder, AxisAlignedBB.getBoundingBox((double) i, (double) k, (double) l, (double) j, (double) i2, (double) j2));
         Vec3 vec3 = Vec3.createVectorHelper(this.explosionX, this.explosionY, this.explosionZ);
 
-        System.out.println(makeSphere(vec3, explosionX, explosionY, explosionZ));
+        for(int[] coordinate : getSphereCoordinates(explosionX, explosionY, explosionZ, 10))
+            worldObj.setBlock(coordinate[0], coordinate[1], coordinate[2], Blocks.bedrock);
+
+
+
 
         for (Object aList : list) {
             Entity entity = (Entity) aList;
@@ -179,5 +183,42 @@ public class Boom {
 
     private static double lengthSq(double x, double y, double z) {
         return (x * x) + (y * y) + (z * z);
+    }
+
+    private static ArrayList<int[]> getCircleCoordinates(int x, int y, int z, int radius){
+        ArrayList<int[]> coordinates = new ArrayList<>();
+
+        for(float xr = -radius; xr <= radius; xr += 0.01){
+            float zrSquared =  (float)Math.pow(radius, 2) - (float)Math.pow(xr, 2);
+            if(zrSquared < 0) continue;
+            int zl = Math.round((float) Math.sqrt(zrSquared));
+
+            coordinates.add(new int[]{x + Math.round(xr), y, z + zl});
+            coordinates.add(new int[]{x + Math.round(xr), y, z - zl});
+        }
+        return coordinates;
+    }
+
+    private static ArrayList<int[]> getSphereCoordinates(int x, int y, int z, int radius){
+        ArrayList<int[]> coordinates = new ArrayList<>();
+
+            for(float xr = -radius; xr <= radius; xr += 0.01){
+                float zrSquared = (float) Math.pow(radius, 2) - (float) Math.pow(xr, 2);
+                if (zrSquared < 0) continue;
+                int zl = Math.round((float) Math.sqrt(zrSquared));
+
+                coordinates.add(new int[]{x + Math.round(xr), y, z + zl});
+                coordinates.add(new int[]{x + Math.round(xr), y, z + zl});
+
+                for(float zr = -radius; zr <= radius; zr += 0.01){
+                    float yrSquared = (float) Math.pow(radius, 2) - ((float) Math.pow(xr, 2) + (float) Math.pow(zr, 2));
+                    if (yrSquared < 0) continue;
+                    int yl = Math.round((float) Math.sqrt(yrSquared));
+
+                    coordinates.add(new int[]{x + Math.round(xr), y + yl, z + Math.round(zr)});
+                    coordinates.add(new int[]{x + Math.round(xr), y - yl, z + Math.round(zr)});
+                }
+            }
+        return coordinates;
     }
 }
