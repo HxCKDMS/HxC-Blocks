@@ -3,18 +3,18 @@ package HxCKDMS.HxCBlocks.Events;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentProtection;
-import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
-import net.minecraft.util.Vec3;
 import net.minecraft.world.ChunkPosition;
 import net.minecraft.world.World;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
-@SuppressWarnings("unchecked")
+@SuppressWarnings("all")
 public class Boom {
 
     private Random explosionRNG = new Random();
@@ -22,12 +22,9 @@ public class Boom {
     public int explosionX;
     public int explosionY;
     public int explosionZ;
-    public Entity exploder;
     public int explosionSize;
-    /**
-     * A list of ChunkPositions of blocks affected by this explosion
-     */
-    public List affectedBlockPositions = new ArrayList();
+
+    public List<ChunkPosition> affectedBlockPositions;
 
     public Boom(World world, int x, int y, int z, int size) {
         worldObj = world;
@@ -39,150 +36,36 @@ public class Boom {
     }
 
     public void doExplosion() {
-        int f = this.explosionSize;
-        HashSet hashset = new HashSet();
-        int i, j, k;
-        double d5, d6, d7;
-        affectedBlockPositions.addAll(hashset);
-        this.explosionSize *= 2.0F;
-        i = MathHelper.floor_double(this.explosionX - (double) this.explosionSize - 1.0D);
-        j = MathHelper.floor_double(this.explosionX + (double) this.explosionSize + 1.0D);
-        k = MathHelper.floor_double(this.explosionY - (double) this.explosionSize - 1.0D);
-        int i2 = MathHelper.floor_double(this.explosionY + (double) this.explosionSize + 1.0D);
-        int l = MathHelper.floor_double(this.explosionZ - (double) this.explosionSize - 1.0D);
-        int j2 = MathHelper.floor_double(this.explosionZ + (double) this.explosionSize + 1.0D);
-        List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this.exploder, AxisAlignedBB.getBoundingBox((double) i, (double) k, (double) l, (double) j, (double) i2, (double) j2));
-        Vec3 vec3 = Vec3.createVectorHelper(this.explosionX, this.explosionY, this.explosionZ);
-
+        List<EntityLiving> list = worldObj.getEntitiesWithinAABB(EntityLiving.class, getAreaBoundingBox(explosionX, explosionY, explosionZ, explosionSize));
         for(int[] coordinate : getSphereCoordinates(explosionX, explosionY, explosionZ, 10))
             worldObj.setBlock(coordinate[0], coordinate[1], coordinate[2], Blocks.bedrock);
 
+        for (EntityLiving ent : list) {
+            double distance = ent.getDistance(explosionX, explosionY, explosionZ) / explosionSize;
 
-
-
-        for (Object aList : list) {
-            Entity entity = (Entity) aList;
-            double d4 = entity.getDistance(this.explosionX, this.explosionY, this.explosionZ) / (double) this.explosionSize;
-
-            if (d4 <= 1.0D) {
-                d5 = entity.posX - this.explosionX;
-                d6 = entity.posY + (double) entity.getEyeHeight() - this.explosionY;
-                d7 = entity.posZ - this.explosionZ;
-                double d9 = (double) MathHelper.sqrt_double(d5 * d5 + d6 * d6 + d7 * d7);
-
-                if (d9 != 0.0D) {
-                    d5 /= d9;
-                    d6 /= d9;
-                    d7 /= d9;
-                    double d10 = (double) this.worldObj.getBlockDensity(vec3, entity.boundingBox);
-                    double d11 = (1.0D - d4) * d10;
-                    entity.attackEntityFrom(new DamageSource("BOOM"), (float) ((int) ((d11 * d11 + d11) / 2.0D * 8.0D * (double) this.explosionSize + 1.0D)));
-                    double d8 = EnchantmentProtection.func_92092_a(entity, d11);
-                    entity.motionX += d5 * d8;
-                    entity.motionY += d6 * d8;
-                    entity.motionZ += d7 * d8;
+            if (distance <= 1.0D) {
+                double dx = ent.posX - explosionX;
+                double dy = ent.posY + (ent.getEyeHeight() - explosionY);
+                double dz = ent.posZ - explosionZ;
+                double dsq = MathHelper.sqrt_double(dx * dx + dy * dy + dz * dz);
+                if (dsq != 0.0D) {
+                    double reduction = EnchantmentProtection.func_92092_a(ent, 2);
+                    ent.motionX += (dx / dsq * reduction);
+                    ent.motionY += (dy / dsq * reduction);
+                    ent.motionZ += (dz / dsq * reduction);
                 }
             }
         }
 
-        this.explosionSize = f;
+        for (ChunkPosition chunkposition : affectedBlockPositions) {
+            int pX = chunkposition.chunkPosX;
+            int pY = chunkposition.chunkPosY;
+            int pZ = chunkposition.chunkPosZ;
 
-        worldObj.playSound(explosionX, explosionY, explosionZ, "mob.wither.spawn", 1, 0.5f, true);
-        Iterator iterator;
-        ChunkPosition chunkposition;
-        int ii;
-        int jj;
-        int kk;
-        Block block;
-        iterator = this.affectedBlockPositions.iterator();
-
-        while (iterator.hasNext()) {
-            chunkposition = (ChunkPosition) iterator.next();
-            ii = chunkposition.chunkPosX;
-            jj = chunkposition.chunkPosY;
-            kk = chunkposition.chunkPosZ;
-            block = this.worldObj.getBlock(ii, jj, kk);
-            Block block1 = this.worldObj.getBlock(ii, jj - 1, kk);
-
-            if (block.getMaterial() != Material.air) {
-                worldObj.setBlockToAir(ii, jj, kk);
-            }
-
-            if (block.getMaterial() == Material.air && block1.func_149730_j() && this.explosionRNG.nextInt(3) == 0) {
-                this.worldObj.setBlock(ii, jj, kk, Blocks.fire);
-            }
+            Block block = this.worldObj.getBlock(pX, pY, pZ);
+            if (block.getMaterial() != Material.air) worldObj.setBlockToAir(pX, pY, pZ);
+            if (block.getMaterial() == Material.air && this.explosionRNG.nextInt(3) == 0) worldObj.setBlock(pX, pY, pZ, Blocks.fire);
         }
-    }
-    public int makeSphere(Vec3 pos, double radiusX, double radiusY, double radiusZ) {
-        int affected = 0;
-
-        radiusX += 0.5;
-        radiusY += 0.5;
-        radiusZ += 0.5;
-
-        final double invRadiusX = 1 / radiusX;
-        final double invRadiusY = 1 / radiusY;
-        final double invRadiusZ = 1 / radiusZ;
-
-        final int ceilRadiusX = (int) Math.ceil(radiusX);
-        final int ceilRadiusY = (int) Math.ceil(radiusY);
-        final int ceilRadiusZ = (int) Math.ceil(radiusZ);
-
-        double nextXn = 0;
-        forX: for (int x = 0; x <= ceilRadiusX; ++x) {
-            final double xn = nextXn;
-            nextXn = (x + 1) * invRadiusX;
-            double nextYn = 0;
-            forY: for (int y = 0; y <= ceilRadiusY; ++y) {
-                final double yn = nextYn;
-                nextYn = (y + 1) * invRadiusY;
-                double nextZn = 0;
-                forZ: for (int z = 0; z <= ceilRadiusZ; ++z) {
-                    final double zn = nextZn;
-                    nextZn = (z + 1) * invRadiusZ;
-
-                    double distanceSq = lengthSq(xn, yn, zn);
-                    if (distanceSq > 1) {
-                        if (z == 0) {
-                            if (y == 0) {
-                                break forX;
-                            }
-                            break forY;
-                        }
-                        break forZ;
-                    }
-                    if (worldObj.setBlockToAir(x, y, z)) {
-                        ++affected;
-                    }
-                    if (worldObj.setBlockToAir(-x, y, z)) {
-                        ++affected;
-                    }
-                    if (worldObj.setBlockToAir(x, -y, z)) {
-                        ++affected;
-                    }
-                    if (worldObj.setBlockToAir(x, y, -z)) {
-                        ++affected;
-                    }
-                    if (worldObj.setBlockToAir(-x, -y, z)) {
-                        ++affected;
-                    }
-                    if (worldObj.setBlockToAir(x, -y, -z)) {
-                        ++affected;
-                    }
-                    if (worldObj.setBlockToAir(-x, y, -z)) {
-                        ++affected;
-                    }
-                    if (worldObj.setBlockToAir(-x, -y, -z)) {
-                        ++affected;
-                    }
-                }
-            }
-        }
-        return affected;
-    }
-
-    private static double lengthSq(double x, double y, double z) {
-        return (x * x) + (y * y) + (z * z);
     }
 
     private static ArrayList<int[]> getCircleCoordinates(int x, int y, int z, int radius){
@@ -220,5 +103,10 @@ public class Boom {
                 }
             }
         return coordinates;
+    }
+
+    protected AxisAlignedBB getAreaBoundingBox(int x, int y, int z, int mod) {
+        return AxisAlignedBB.getBoundingBox(x - mod, y - mod, z - mod,
+        /** Indented because CDO :P **/     x + mod, y + mod, z + mod);
     }
 }

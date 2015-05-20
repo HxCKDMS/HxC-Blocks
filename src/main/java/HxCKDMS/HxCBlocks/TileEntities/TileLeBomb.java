@@ -1,5 +1,6 @@
 package HxCKDMS.HxCBlocks.TileEntities;
 
+import HxCKDMS.HxCBlocks.Configs.Config;
 import HxCKDMS.HxCBlocks.Events.Boom;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -7,7 +8,7 @@ import net.minecraft.world.World;
 import java.util.Random;
 
 public class TileLeBomb extends TileEntity {
-    int delay = 300;
+    int delay = Config.LeBombDelay;
     Random rand = new Random();
     Boom boom;
     @Override
@@ -15,7 +16,8 @@ public class TileLeBomb extends TileEntity {
         if (isPowered()) {
             if (delay == 0) {
                 worldObj.setBlockToAir(xCoord, yCoord, zCoord);
-                boom = new Boom(worldObj, xCoord, yCoord, zCoord, 64);
+                boom = new Boom(worldObj, xCoord, yCoord, zCoord, rand.nextInt(Config.MaxLeBombRange));
+                worldObj.playSound(xCoord, yCoord, zCoord, "mob.wither.spawn", 1, 0.5f, true);
             } else delay--;
         }
         boolean nowPowered = isPowered();
