@@ -10,14 +10,17 @@ import java.util.Random;
 public class TileLeBomb extends TileEntity {
     int delay = Config.LeBombDelay;
     Random rand = new Random();
+    int range = rand.nextInt(Config.MaxLeBombRange);
     Boom boom;
     @Override
     public void updateEntity() {
         if (isPowered()) {
             if (delay == 0) {
-                worldObj.setBlockToAir(xCoord, yCoord, zCoord);
-                boom = new Boom(worldObj, xCoord, yCoord, zCoord, rand.nextInt(Config.MaxLeBombRange));
-                worldObj.playSound(xCoord, yCoord, zCoord, "mob.wither.spawn", 1, 0.5f, true);
+                if (!worldObj.isRemote) {
+                    worldObj.setBlockToAir(xCoord, yCoord, zCoord);
+                    boom = new Boom(worldObj, xCoord, yCoord, zCoord, range);
+                }
+                if (worldObj.isRemote) worldObj.playSound(xCoord, yCoord, zCoord, "mob.wither.spawn", 1, 0.5f, true);
             } else delay--;
         }
         boolean nowPowered = isPowered();

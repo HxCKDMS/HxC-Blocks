@@ -20,7 +20,7 @@ public class Config
         SafetyChecks = config.getBoolean("EnableSafetyChecks", "Features", true, "enable safety checks for placing grey goo");
 
         MaxRange = config.getInt("MaxRange", "Features", 32, 1, 64, "max range of blocks");
-        MaxLeBombRange = config.getInt("MaxBombRange", "Features", 256, 4, 8192, "max range of BOOM");
+        MaxLeBombRange = config.getInt("MaxBombRange", "Features", 64, 4, 8192, "max range of BOOM");
         LeBombDelay = config.getInt("LeBombDelay", "Features", 160, 4, 16348, "LeBombDelay");
         LeBombAccuracy = config.getFloat("LeBombAccuracy", "Features", 0.05f, 0.01f, 1, "Lower = Better Sphere");
         if(config.hasChanged())
