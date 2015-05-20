@@ -74,7 +74,7 @@ public class Boom {
                 }
             }
         endTime = System.nanoTime();
-        System.out.println("LeBomb Took " + (endTime-beginTime) + " to go off!");
+        System.out.println("LeBomb Took " + ((endTime-beginTime) / 1000000000) + " seconds to go off!");
     }
 
     protected AxisAlignedBB getAreaBoundingBox(int x, int y, int z, int mod) {
