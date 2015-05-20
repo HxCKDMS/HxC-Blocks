@@ -1,5 +1,6 @@
 package HxCKDMS.HxCBlocks.Events;
 
+import HxCKDMS.HxCBlocks.Configs.Config;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentProtection;
@@ -14,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-@SuppressWarnings("all")
 public class Boom {
 
     private Random explosionRNG = new Random();
@@ -36,8 +36,9 @@ public class Boom {
     }
 
     public void doExplosion() {
+        @SuppressWarnings("unchecked")
         List<EntityLiving> list = worldObj.getEntitiesWithinAABB(EntityLiving.class, getAreaBoundingBox(explosionX, explosionY, explosionZ, explosionSize));
-        for(int[] coordinate : getSphereCoordinates(explosionX, explosionY, explosionZ, 10))
+        for(int[] coordinate : getSphereCoordinates(explosionX, explosionY, explosionZ, 10, true, Config.LeBombDelay))
             worldObj.setBlock(coordinate[0], coordinate[1], coordinate[2], Blocks.bedrock);
 
         for (EntityLiving ent : list) {
@@ -68,24 +69,28 @@ public class Boom {
         }
     }
 
-    private static ArrayList<int[]> getCircleCoordinates(int x, int y, int z, int radius){
+    private static ArrayList<int[]> getCircleCoordinates(int x, int y, int z, int radius, boolean hollow, double checkCounter){
         ArrayList<int[]> coordinates = new ArrayList<>();
 
-        for(float xr = -radius; xr <= radius; xr += 0.01){
+        for(float xr = -radius; xr <= radius; xr += checkCounter){
             float zrSquared =  (float)Math.pow(radius, 2) - (float)Math.pow(xr, 2);
             if(zrSquared < 0) continue;
             int zl = Math.round((float) Math.sqrt(zrSquared));
 
             coordinates.add(new int[]{x + Math.round(xr), y, z + zl});
             coordinates.add(new int[]{x + Math.round(xr), y, z - zl});
+
+            if(hollow)
+                for(int zf = y - zl; zf <= y + zl; zf++)
+                    coordinates.add(new int[]{x + Math.round(xr), y, zf});
         }
         return coordinates;
     }
 
-    private static ArrayList<int[]> getSphereCoordinates(int x, int y, int z, int radius){
+    private static ArrayList<int[]> getSphereCoordinates(int x, int y, int z, int radius, boolean hollow, double checkCounter){
         ArrayList<int[]> coordinates = new ArrayList<>();
 
-            for(float xr = -radius; xr <= radius; xr += 0.01){
+            for(float xr = -radius; xr <= radius; xr += checkCounter){
                 float zrSquared = (float) Math.pow(radius, 2) - (float) Math.pow(xr, 2);
                 if (zrSquared < 0) continue;
                 int zl = Math.round((float) Math.sqrt(zrSquared));
@@ -93,13 +98,23 @@ public class Boom {
                 coordinates.add(new int[]{x + Math.round(xr), y, z + zl});
                 coordinates.add(new int[]{x + Math.round(xr), y, z + zl});
 
-                for(float zr = -radius; zr <= radius; zr += 0.01){
+                if(hollow)
+                    for(int zf = y - zl; zf <= y + zl; zf++)
+                        coordinates.add(new int[]{x + Math.round(xr), y, zf});
+
+
+                for(float zr = -radius; zr <= radius; zr += checkCounter){
                     float yrSquared = (float) Math.pow(radius, 2) - ((float) Math.pow(xr, 2) + (float) Math.pow(zr, 2));
                     if (yrSquared < 0) continue;
                     int yl = Math.round((float) Math.sqrt(yrSquared));
 
                     coordinates.add(new int[]{x + Math.round(xr), y + yl, z + Math.round(zr)});
                     coordinates.add(new int[]{x + Math.round(xr), y - yl, z + Math.round(zr)});
+
+                    if(hollow)
+                        for(int yf = y - yl; yf <= y + yl; yf++)
+                            coordinates.add(new int[]{x + Math.round(xr), yf, z + Math.round(zr)});
+
                 }
             }
         return coordinates;
