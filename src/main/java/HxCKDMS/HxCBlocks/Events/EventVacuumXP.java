@@ -14,7 +14,7 @@ public class EventVacuumXP {
     public void vacuum(int[] coords, World world) {
         TileEntity tile = world.getTileEntity(coords[0], coords[1], coords[2]);
         TileXPAbsorber HxCTile = (TileXPAbsorber)tile;
-        int modifier = HxCTile.inventory[0].stackSize;
+        int modifier = HxCTile.Range + 1;
         List list  = world.getEntitiesWithinAABB(EntityXPOrb.class, getAreaBoundingBox(coords[0], coords[1], coords[2], modifier));
         for (EntityXPOrb entity : (List<EntityXPOrb>) list) {
             if (!entity.isDead) {
@@ -23,8 +23,9 @@ public class EventVacuumXP {
             }
         }
         if (HxCTile.XP > 1000){
-            String BoundPlayer = HxCTile.inventory[1].getTagCompound().getString("BoundPlayer");
+            String BoundPlayer = HxCTile.Item.getTagCompound().getString("Player");
             try {
+                System.out.println(BoundPlayer);
                 EntityPlayer player = world.getPlayerEntityByName(BoundPlayer);
                 player.addExperience(HxCTile.XP);
                 HxCTile.XP = 0;
@@ -33,7 +34,7 @@ public class EventVacuumXP {
     }
 
     protected AxisAlignedBB getAreaBoundingBox(float x, float y, float z, int mod) {
-        return AxisAlignedBB.getBoundingBox(x - 1 - mod, y - 1 - mod, z - 1 - mod,
-        /** Indented because CDO :P **/    x + 1 + mod, y + 1 + mod, z +1 + mod);
+        return AxisAlignedBB.getBoundingBox(x - mod, y - mod, z - mod,
+        /** Indented because CDO :P **/     x + mod, y + mod, z + mod);
     }
 }

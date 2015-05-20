@@ -1,9 +1,12 @@
 package HxCKDMS.HxCBlocks.Events;
 
+import HxCKDMS.HxCBlocks.Items.ItemSoulBinder;
+import HxCKDMS.HxCBlocks.Items.ItemSoulFragment;
 import HxCKDMS.HxCCore.Handlers.NBTFileIO;
 import HxCKDMS.HxCCore.HxCCore;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.player.EntityPlayerMP;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
@@ -30,6 +33,14 @@ public class EventEntityUpdate {
                 }
                 if (SoulTimer == 5000) {
                     player.addPotionEffect(new PotionEffect(Potion.wither.getId(), 10, 1, false));
+                }
+            }
+            for (ItemStack stack : player.inventory.mainInventory) {
+                if (stack != null) {
+                    NBTTagCompound compound = new NBTTagCompound();
+                    compound.setString("Player", player.getDisplayName());
+                    if ((stack.getItem() instanceof ItemSoulBinder || stack.getItem() instanceof ItemSoulFragment) && stack.getTagCompound() == null)
+                        stack.setTagCompound(compound);
                 }
             }
         }

@@ -8,28 +8,24 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 public class TileXPAbsorber extends TileEntity{
-    public ItemStack[] inventory = new ItemStack[getInvSize()];
+    public ItemStack Item;
     public int XP;
     public int Range;
     EventVacuumXP event = new EventVacuumXP();
 
-    protected int getInvSize() { return 1; }
-
     @Override
     public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
-        tag.setInteger("XP", XP);
-        tag.setInteger("Range", Range);
+        if (XP != 0) tag.setInteger("XP", XP);
+        if (Range != 0) tag.setInteger("Range", Range);
         NBTTagList List = new NBTTagList();
-        for(int currentIndex = 0; currentIndex < getInvSize(); ++currentIndex) {
-            if(inventory[currentIndex] != null) {
-                NBTTagCompound tagCompound = new NBTTagCompound();
-                tagCompound.setByte("Slot", (byte)currentIndex);
-                inventory[currentIndex].writeToNBT(tagCompound);
-                List.appendTag(tagCompound);
-            }
+        if(Item != null) {
+            NBTTagCompound tagCompound = new NBTTagCompound();
+            tagCompound.setByte("Item", (byte)0);
+            Item.writeToNBT(tagCompound);
+            List.appendTag(tagCompound);
+            tag.setTag("Item", List);
         }
-        tag.setTag("Inventory", List);
     }
 
     @Override
@@ -37,19 +33,13 @@ public class TileXPAbsorber extends TileEntity{
         super.readFromNBT(tag);
         XP = tag.getInteger("XP");
         Range = tag.getInteger("Range");
-        NBTTagList tagList = tag.getTagList("Inventory", getInvSize());
-        inventory = new ItemStack[getInvSize()];
-        for(int i = 0; i < tagList.tagCount(); ++i) {
-            NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
-            byte slot = tagCompound.getByte("Slot");
-            if(slot >= 0 && slot < inventory.length) {
-                inventory[slot] = ItemStack.loadItemStackFromNBT(tagCompound);
-            }
-        }
+        NBTTagList tagList = tag.getTagList("Item", 0);
+        NBTTagCompound tagCompound = tagList.getCompoundTagAt(0);
+        Item = ItemStack.loadItemStackFromNBT(tagCompound);
     }
 
     public void updateEntity() {
-        if(worldObj != null && !worldObj.isRemote && !powered && inventory[0] != null && inventory[0].getTagCompound().getString("BoundPlayer") != null) event.vacuum(new int[]{xCoord, yCoord, zCoord}, worldObj);
+        if(worldObj != null && !worldObj.isRemote && !powered && Item != null && !Item.getTagCompound().getString("Player").isEmpty()) event.vacuum(new int[]{xCoord, yCoord, zCoord}, worldObj);
         boolean nowPowered = isPowered();
         if (powered != nowPowered) {
             powered = nowPowered;

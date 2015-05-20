@@ -48,7 +48,7 @@ public class BlockXPAbsorber extends BlockContainer {
         ItemStack stack = player.getHeldItem();
         Item item = stack.getItem();
         if (item instanceof ItemSoulBinder) {
-            HxCTile.inventory[0] = stack;
+            HxCTile.Item = stack;
             if (!player.capabilities.isCreativeMode) player.inventory.decrStackSize(player.inventory.currentItem, 1);
         } else if (item instanceof ItemSoulFragment && HxCTile.Range < Config.MaxRange) {
             HxCTile.Range++;

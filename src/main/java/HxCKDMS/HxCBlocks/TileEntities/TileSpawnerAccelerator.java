@@ -5,14 +5,14 @@ import net.minecraft.tileentity.TileEntityMobSpawner;
 import net.minecraft.world.World;
 
 public class TileSpawnerAccelerator extends TileEntity {
-    public String Mob = null;
+    public String Mob;
     public void updateEntity() {
         if (worldObj != null && !worldObj.isRemote) {
             TileEntity tile  = worldObj.getTileEntity(xCoord, yCoord + 1, zCoord);
             if (tile instanceof TileEntityMobSpawner && powered) {
                 TileEntityMobSpawner spawner = (TileEntityMobSpawner)tile;
                 spawner.func_145881_a().spawnDelay = 0;
-                if (Mob != null)rename(spawner);
+                if (!Mob.isEmpty()){rename(spawner);Mob = "";}
                 worldObj.markBlockForUpdate(xCoord, yCoord+1, zCoord);
             }
 
