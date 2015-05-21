@@ -1,8 +1,10 @@
 package HxCKDMS.HxCBlocks.Events;
 
 import HxCKDMS.HxCBlocks.Configs.Config;
+import HxCKDMS.HxCCore.Utils.WorldHelper;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -27,8 +29,13 @@ public class Boom {
 
     @SuppressWarnings("unchecked")
     public void doExplosion() {
-        removeBlocks(worldObj, explosionX, explosionY, explosionZ, explosionSize);
-        List<EntityLiving> list = worldObj.getEntitiesWithinAABB(EntityLiving.class, getAreaBoundingBox(explosionX, explosionY, explosionZ, explosionSize));
+        System.out.println("The Radius of LeBomb at x:" + explosionX + " y:" + explosionY + " z:" + explosionZ + " is : " + explosionSize);
+
+        long beginTime = System.nanoTime();
+        WorldHelper.drawSphere(worldObj, explosionX, explosionY, explosionZ, Blocks.air, explosionSize, false, Config.LeBombAccuracy);
+        System.out.println("LeBomb Took " + ((System.nanoTime()-beginTime) / 1000000000) + " seconds to go off!");
+
+        List<EntityLiving> list = worldObj.getEntitiesWithinAABB(EntityLiving.class, getAreaBoundingBox(explosionX, explosionY, explosionZ, 16));
         for (EntityLiving ent : list) {
             double distance = ent.getDistance(explosionX, explosionY, explosionZ) / explosionSize;
 
@@ -45,36 +52,6 @@ public class Boom {
                 }
             }
         }
-    }
-    private static void removeBlocks(World world, int x, int y, int z, int radius){
-        System.out.println("The Radius of LeBomb at x:" + x + " y:" + y + " z:" + z + " is : " + radius);
-        long beginTime = System.nanoTime();
-        long endTime;
-            for(float xr = -radius; xr <= radius; xr += Config.LeBombAccuracy){
-                float zrSquared = (float) Math.pow(radius, 2) - (float) Math.pow(xr, 2);
-                if (zrSquared < 0) continue;
-                int zl = Math.round((float) Math.sqrt(zrSquared));
-
-                world.setBlockToAir(x + Math.round(xr), y, z + zl);
-                world.setBlockToAir(x + Math.round(xr), y, z - zl);
-
-                    for(int zf = y - zl; zf <= y + zl; zf++)
-                        world.setBlockToAir(x + Math.round(xr), y, zf);
-
-                for(float zr = -radius; zr <= radius; zr += Config.LeBombAccuracy){
-                    float yrSquared = (float) Math.pow(radius, 2) - ((float) Math.pow(xr, 2) + (float) Math.pow(zr, 2));
-                    if (yrSquared < 0) continue;
-                    int yl = Math.round((float) Math.sqrt(yrSquared));
-
-                    world.setBlockToAir(x + Math.round(xr), y + yl, z + Math.round(zr));
-                    world.setBlockToAir(x + Math.round(xr), y - yl, z + Math.round(zr));
-
-                        for(int yf = y - yl; yf <= y + yl; yf++)
-                            world.setBlockToAir(x + Math.round(xr), yf, z + Math.round(zr));
-                }
-            }
-        endTime = System.nanoTime();
-        System.out.println("LeBomb Took " + ((endTime-beginTime) / 1000000000) + " seconds to go off!");
     }
 
     protected AxisAlignedBB getAreaBoundingBox(int x, int y, int z, int mod) {
