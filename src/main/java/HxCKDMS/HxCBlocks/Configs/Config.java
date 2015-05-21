@@ -11,6 +11,7 @@ public class Config
     public static int MaxLeBombRange;
     public static int LeBombDelay;
     public static double LeBombAccuracy;
+    public static String[] Validweapons;
     public Config(Configuration config)
     {
         config.load();
@@ -23,6 +24,8 @@ public class Config
         MaxLeBombRange = config.getInt("MaxBombRange", "Features", 64, 4, 8192, "max range of BOOM");
         LeBombDelay = config.getInt("LeBombDelay", "Features", 160, 4, 16348, "LeBombDelay");
         LeBombAccuracy = config.getFloat("LeBombAccuracy", "Features", 0.05f, 0.01f, 1, "Lower = Better Sphere");
+
+        Validweapons = config.getStringList("ValidWeapons", "Features", new String[]{"draconicDistructionStaff"}, "Valid Weapons for SlaughterBlock");
         if(config.hasChanged())
         {
             config.save();

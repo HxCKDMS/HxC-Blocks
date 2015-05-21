@@ -16,6 +16,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class BlockSlaughterBlock extends BlockContainer {
 
 	public BlockSlaughterBlock(Material material) {
@@ -57,7 +60,8 @@ public class BlockSlaughterBlock extends BlockContainer {
                 else if (HxCTile.inventory[1] == null)
                     HxCTile.inventory[1] = new ItemStack(item);
             }
-            if (item instanceof ItemSword) {
+            List<String> weaplist = Arrays.asList(Config.Validweapons);
+            if (item instanceof ItemSword || weaplist.contains(item.getUnlocalizedName())) {
                 if (HxCTile.inventory[0] != null && !world.isRemote)
                     world.spawnEntityInWorld(new EntityItem(world, x, y + 1, z, HxCTile.inventory[0]));
 

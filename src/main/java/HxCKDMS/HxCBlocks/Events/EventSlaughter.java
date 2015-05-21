@@ -23,7 +23,6 @@ public class EventSlaughter {
                 HxCFakePlayer pla = new HxCFakePlayer(HxCCore.server.worldServerForDimension(world.provider.dimensionId));
                 pla.setItemInHand(HxCTile.inventory[0]);
                 pla.attackTargetEntityWithCurrentItem(entity);
-                System.out.println(pla.getCurrentEquippedItem());
             }
         }
     }
