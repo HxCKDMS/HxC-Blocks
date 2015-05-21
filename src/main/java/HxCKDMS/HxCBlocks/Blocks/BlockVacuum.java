@@ -26,7 +26,6 @@ public class BlockVacuum extends BlockContainer {
         setStepSound(soundTypeMetal);
         setHardness(1.0F);
         setResistance(1600.0F);
-        setLightLevel(1);
     }
 
     @Override

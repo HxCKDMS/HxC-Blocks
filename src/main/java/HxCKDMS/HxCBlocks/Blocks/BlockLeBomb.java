@@ -17,7 +17,6 @@ public class BlockLeBomb extends BlockContainer {
         setBlockTextureName(References.MOD_ID + ":LeBomb");
 		setHardness(1.0F);
 		setResistance(1600.0F);
-        setLightLevel(1);
 	}
 
 	@Override

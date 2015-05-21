@@ -1,29 +1,47 @@
 package HxCKDMS.HxCBlocks.TileEntities;
 
 import HxCKDMS.HxCBlocks.Events.EventSlaughter;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 public class TileSlaughterBlock extends TileEntity{
-    public int modifier;
-    //Hostile, Neutral, Passive, Boss, Pets
-    public int[] Targets = new int[]{0,0,0,0,0};
-
+    public ItemStack[] inventory = new ItemStack[getInvSize()];
     EventSlaughter event = new EventSlaughter();
 
+    protected int getInvSize() { return 2; }
+
     @Override
-    public void writeToNBT(NBTTagCompound par1) {
-        super.writeToNBT(par1);
-        par1.setInteger("Mod", modifier);
-        par1.setIntArray("Targets", Targets);
+    public void readFromNBT(NBTTagCompound tag) {
+        super.readFromNBT(tag);
+
+        NBTTagList tagList = tag.getTagList("Inventory", 10);
+        inventory = new ItemStack[inventory.length];
+        for(int i = 0; i < tagList.tagCount(); ++i) {
+            NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
+            byte slot = tagCompound.getByte("Slot");
+            if(slot >= 0 && slot <= inventory.length) {
+                inventory[slot] = ItemStack.loadItemStackFromNBT(tagCompound);
+            }
+        }
     }
 
     @Override
-    public void readFromNBT(NBTTagCompound par1) {
-        super.readFromNBT(par1);
-        modifier = par1.getInteger("Mod");
-        Targets = par1.getIntArray("Targets");
+    public void writeToNBT(NBTTagCompound tag) {
+        super.writeToNBT(tag);
+
+        NBTTagList List = new NBTTagList();
+        for(int currentIndex = 0; currentIndex < inventory.length; ++currentIndex) {
+            if(inventory[currentIndex] != null) {
+                NBTTagCompound tagCompound = new NBTTagCompound();
+                tagCompound.setByte("Slot", (byte)currentIndex);
+                inventory[currentIndex].writeToNBT(tagCompound);
+                List.appendTag(tagCompound);
+                tag.setTag("Inventory", List);
+            }
+        }
     }
 
     public void updateEntity(){

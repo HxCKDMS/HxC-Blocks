@@ -17,7 +17,6 @@ public class BlockGreyGoo extends BlockContainer {
         setBlockTextureName(References.MOD_ID + ":GreyGoo");
 		setHardness(1.0F);
 		setResistance(1600.0F);
-        setLightLevel(1);
 	}
 
 	@Override
