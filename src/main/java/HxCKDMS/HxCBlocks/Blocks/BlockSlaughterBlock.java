@@ -58,7 +58,7 @@ public class BlockSlaughterBlock extends BlockContainer {
                     HxCTile.inventory[1] = new ItemStack(item);
             }
             if (item instanceof ItemSword) {
-                if (HxCTile.inventory[0] != null)
+                if (HxCTile.inventory[0] != null && !world.isRemote)
                     world.spawnEntityInWorld(new EntityItem(world, x, y + 1, z, HxCTile.inventory[0]));
 
                 HxCTile.inventory[0] = stack;

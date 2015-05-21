@@ -1,10 +1,10 @@
 package HxCKDMS.HxCBlocks.Events;
 
 import HxCKDMS.HxCBlocks.TileEntities.TileXPAbsorber;
+import HxCKDMS.HxCCore.Utils.AABBUtils;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.world.World;
 
 import java.util.List;
@@ -15,7 +15,7 @@ public class EventVacuumXP {
         TileEntity tile = world.getTileEntity(coords[0], coords[1], coords[2]);
         TileXPAbsorber HxCTile = (TileXPAbsorber)tile;
         int modifier = HxCTile.Range + 1;
-        List list  = world.getEntitiesWithinAABB(EntityXPOrb.class, getAreaBoundingBox(coords[0], coords[1], coords[2], modifier));
+        List list  = world.getEntitiesWithinAABB(EntityXPOrb.class, AABBUtils.getAreaBoundingBox(coords[0], coords[1], coords[2], modifier));
         for (EntityXPOrb entity : (List<EntityXPOrb>) list) {
             if (!entity.isDead) {
                 HxCTile.XP += entity.getXpValue();
@@ -31,10 +31,5 @@ public class EventVacuumXP {
                 HxCTile.XP = 0;
             } catch (Exception ignored){}
         }
-    }
-
-    protected AxisAlignedBB getAreaBoundingBox(float x, float y, float z, int mod) {
-        return AxisAlignedBB.getBoundingBox(x - mod, y - mod, z - mod,
-        /** Indented because CDO :P **/     x + mod, y + mod, z + mod);
     }
 }
