@@ -3,6 +3,7 @@ package HxCKDMS.HxCBlocks.Events;
 import HxCKDMS.HxCBlocks.Configs.Config;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.EntityLiving;
+import net.minecraft.init.Blocks;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
@@ -28,7 +29,7 @@ public class Boom {
     @SuppressWarnings("unchecked")
     public void doExplosion() {
         removeBlocks(worldObj, explosionX, explosionY, explosionZ, explosionSize);
-        List<EntityLiving> list = worldObj.getEntitiesWithinAABB(EntityLiving.class, getAreaBoundingBox(explosionX, explosionY, explosionZ, explosionSize));
+        List<EntityLiving> list = worldObj.getEntitiesWithinAABB(EntityLiving.class, getAreaBoundingBox(explosionX, explosionY, explosionZ, 16));
         for (EntityLiving ent : list) {
             double distance = ent.getDistance(explosionX, explosionY, explosionZ) / explosionSize;
 
@@ -51,26 +52,16 @@ public class Boom {
         long beginTime = System.nanoTime();
         long endTime;
             for(float xr = -radius; xr <= radius; xr += Config.LeBombAccuracy){
-                float zrSquared = (float) Math.pow(radius, 2) - (float) Math.pow(xr, 2);
-                if (zrSquared < 0) continue;
-                int zl = Math.round((float) Math.sqrt(zrSquared));
-
-                world.setBlockToAir(x + Math.round(xr), y, z + zl);
-                world.setBlockToAir(x + Math.round(xr), y, z - zl);
-
-                    for(int zf = y - zl; zf <= y + zl; zf++)
-                        world.setBlockToAir(x + Math.round(xr), y, zf);
-
                 for(float zr = -radius; zr <= radius; zr += Config.LeBombAccuracy){
                     float yrSquared = (float) Math.pow(radius, 2) - ((float) Math.pow(xr, 2) + (float) Math.pow(zr, 2));
                     if (yrSquared < 0) continue;
                     int yl = Math.round((float) Math.sqrt(yrSquared));
 
-                    world.setBlockToAir(x + Math.round(xr), y + yl, z + Math.round(zr));
-                    world.setBlockToAir(x + Math.round(xr), y - yl, z + Math.round(zr));
+                    world.setBlock(x + Math.round(xr), y + yl, z + Math.round(zr), Blocks.glass);
+                    world.setBlock(x + Math.round(xr), y - yl, z + Math.round(zr), Blocks.glass);
 
                         for(int yf = y - yl; yf <= y + yl; yf++)
-                            world.setBlockToAir(x + Math.round(xr), yf, z + Math.round(zr));
+                            world.setBlock(x + Math.round(xr), yf, z + Math.round(zr), Blocks.glass);
                 }
             }
         endTime = System.nanoTime();
