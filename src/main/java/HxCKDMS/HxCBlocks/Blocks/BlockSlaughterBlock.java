@@ -59,6 +59,7 @@ public class BlockSlaughterBlock extends BlockContainer {
                     HxCTile.inventory[1].stackSize++;
                 else if (HxCTile.inventory[1] == null)
                     HxCTile.inventory[1] = new ItemStack(item);
+                if (!player.capabilities.isCreativeMode) player.inventory.decrStackSize(player.inventory.currentItem, 1);
             }
             List<String> weaplist = Arrays.asList(Config.Validweapons);
             if (item instanceof ItemSword || weaplist.contains(item.getUnlocalizedName())) {
@@ -66,8 +67,8 @@ public class BlockSlaughterBlock extends BlockContainer {
                     world.spawnEntityInWorld(new EntityItem(world, x, y + 1, z, HxCTile.inventory[0]));
 
                 HxCTile.inventory[0] = stack;
+                if (!player.capabilities.isCreativeMode) player.inventory.decrStackSize(player.inventory.currentItem, 1);
             }
-            if (!player.capabilities.isCreativeMode) player.inventory.decrStackSize(player.inventory.currentItem, 1);
         }
 //        player.openGui(HxCBlocks.HxCBlocks, 0, world, x, y, z);
         return true;
