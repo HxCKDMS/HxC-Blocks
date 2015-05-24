@@ -15,7 +15,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class ItemHxCWrench extends Item {
     public static ArrayList<Block> HxCWrenchBL = new ArrayList<>();
@@ -69,12 +68,5 @@ public class ItemHxCWrench extends Item {
             return true;
         }
         return false;
-    }
-
-    @Override
-    @SuppressWarnings("unchecked")
-    public void addInformation(ItemStack stack, EntityPlayer player, List tooltips, boolean flag) {
-        tooltips.add("\u00a74This item is very unstable use at own risk.");
-        super.addInformation(stack, player, tooltips, flag);
     }
 }

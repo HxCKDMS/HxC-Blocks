@@ -92,5 +92,6 @@ public class ModRegistry {
         GameRegistry.addRecipe(new ItemStack(SlaughterBlock), "o o", "sps", "o o", 's', Items.diamond_sword, 'p', Blocks.piston, 'o', Blocks.obsidian);
         GameRegistry.addRecipe(new ItemStack(Vacuum), "oho", "eve", "oho", 'h', Blocks.hopper, 'v', VacuumCore, 'o', Blocks.obsidian, 'e', Items.ender_eye);
         GameRegistry.addRecipe(new ItemStack(Barrier), "oeo", "bbb", "opo", 'b', Blocks.iron_bars, 'o', Blocks.obsidian, 'e', Items.ender_eye, 'p', Items.ender_pearl);
+        GameRegistry.addRecipe(new ItemStack(HxCWrench), "i i", " g ", " i ", 'i', Items.iron_ingot, 'g', Items.gold_ingot);
     }
 }
