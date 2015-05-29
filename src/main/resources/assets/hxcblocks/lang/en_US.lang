@@ -6,6 +6,7 @@ tile.TileSpawnerAccelerator.name=Spawner Accelerator
 tile.TileParticleDestroyer.name=Particle Destroyer
 tile.Barrier.name=Barrier
 tile.GreyGoo.name=Grey Goo
+tile.LeBomb.name=HxC Bomb
 item.SoulFragment.name=Soul Fragment
 item.SoulBinder.name=Soul Binder
 item.WitherCore.name=Wither Core
