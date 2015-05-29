@@ -1,6 +1,5 @@
 package HxCKDMS.HxCBlocks.Items;
 
-import HxCKDMS.HxCBlocks.Registry.CreativeTabHxCBlocks;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.player.EntityPlayer;
@@ -18,7 +17,7 @@ public class ItemHxCWrenchPlaceHolder extends Item {
     public static final String suffix = " - Fake Block";
 
     public ItemHxCWrenchPlaceHolder() {
-        setCreativeTab(CreativeTabHxCBlocks.tabHxCBlocks);
+        setCreativeTab(null);
         setUnlocalizedName("HxCWrenchPlaceHolder");
         setMaxStackSize(1);
         setMaxDamage(0);
