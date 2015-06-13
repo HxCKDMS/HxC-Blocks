@@ -1,7 +1,7 @@
 package HxCKDMS.HxCBlocks.Events;
 
 import HxCKDMS.HxCBlocks.Configs.Config;
-import HxCKDMS.HxCCore.Utils.WorldHelper;
+import HxCKDMS.HxCCore.api.Utils.WorldHelper;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.init.Blocks;

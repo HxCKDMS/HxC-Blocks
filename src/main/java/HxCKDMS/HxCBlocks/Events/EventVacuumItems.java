@@ -1,8 +1,8 @@
 package HxCKDMS.HxCBlocks.Events;
 
 import HxCKDMS.HxCBlocks.TileEntities.TileVacuum;
-import HxCKDMS.HxCCore.Utils.AABBUtils;
-import HxCKDMS.HxCCore.Utils.IOHelper;
+import HxCKDMS.HxCCore.api.Utils.AABBUtils;
+import HxCKDMS.HxCCore.api.Utils.IOHelper;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;

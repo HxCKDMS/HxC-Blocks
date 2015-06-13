@@ -20,34 +20,25 @@ apply plugin: 'forge'
 sourceCompatibility = JavaVersion.VERSION_1_7
 targetCompatibility = JavaVersion.VERSION_1_7
 
-version = "1.7.10-1.4a"
+version = "1.7.10-1.5.0"
 group= "HxCKDMS.HxC-Blocks"
 archivesBaseName = "HxC-Blocks"
 
 minecraft {
-    version = "1.7.10-10.13.2.1291"
+    version = "1.7.10-10.13.4.1448-1.7.10"
     assetDir = "eclipse/assets"
-}
-
-dependencies {
-    runtime files('libs/HxCCore-1.7.10-1.4-dev.jar')
 }
 
 processResources
 {
-    // this will ensure that this task is redone when the versions change.
     inputs.property "version", project.version
     inputs.property "mcversion", project.minecraft.version
 
-    // replace stuff in mcmod.info, nothing else
     from(sourceSets.main.resources.srcDirs) {
         include 'mcmod.info'
-                
-        // replace version and mcversion
         expand 'version':project.version, 'mcversion':project.minecraft.version
     }
         
-    // copy everything else, thats not the mcmod.info
     from(sourceSets.main.resources.srcDirs) {
         exclude 'mcmod.info'
     }

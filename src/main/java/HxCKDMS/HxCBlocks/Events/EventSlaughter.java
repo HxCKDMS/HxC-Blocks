@@ -3,7 +3,7 @@ package HxCKDMS.HxCBlocks.Events;
 import HxCKDMS.HxCBlocks.TileEntities.TileSlaughterBlock;
 import HxCKDMS.HxCCore.Entity.HxCFakePlayer;
 import HxCKDMS.HxCCore.HxCCore;
-import HxCKDMS.HxCCore.Utils.AABBUtils;
+import HxCKDMS.HxCCore.api.Utils.AABBUtils;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;

@@ -1,7 +1,7 @@
 package HxCKDMS.HxCBlocks.TileEntities;
 
 import HxCKDMS.HxCBlocks.Events.EventVacuumItems;
-import HxCKDMS.HxCCore.Utils.IOHelper;
+import HxCKDMS.HxCCore.api.Utils.IOHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;

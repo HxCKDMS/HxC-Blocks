@@ -1,7 +1,7 @@
 package HxCKDMS.HxCBlocks.Events;
 
 import HxCKDMS.HxCBlocks.TileEntities.TileXPAbsorber;
-import HxCKDMS.HxCCore.Utils.AABBUtils;
+import HxCKDMS.HxCCore.api.Utils.AABBUtils;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
