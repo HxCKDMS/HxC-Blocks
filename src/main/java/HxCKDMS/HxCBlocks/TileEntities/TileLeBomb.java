@@ -1,6 +1,6 @@
 package HxCKDMS.HxCBlocks.TileEntities;
 
-import HxCKDMS.HxCBlocks.Configs.Config;
+import HxCKDMS.HxCBlocks.Configs.Configurations;
 import HxCKDMS.HxCBlocks.Events.Boom;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
@@ -8,9 +8,9 @@ import net.minecraft.world.World;
 import java.util.Random;
 
 public class TileLeBomb extends TileEntity {
-    int delay = Config.LeBombDelay;
+    int delay = Configurations.LeBombDelay;
     Random rand = new Random();
-    int range = rand.nextInt(Config.MaxLeBombRange);
+    int range = rand.nextInt(Configurations.MaxLeBombRange);
     Boom boom;
     @Override
     public void updateEntity() {

@@ -1,6 +1,6 @@
 package HxCKDMS.HxCBlocks.Blocks;
 
-import HxCKDMS.HxCBlocks.Configs.Config;
+import HxCKDMS.HxCBlocks.Configs.Configurations;
 import HxCKDMS.HxCBlocks.Items.ItemSlaughterCore;
 import HxCKDMS.HxCBlocks.Reference.References;
 import HxCKDMS.HxCBlocks.Registry.CreativeTabHxCBlocks;
@@ -16,7 +16,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import java.util.Arrays;
 import java.util.List;
 
 public class BlockSlaughterBlock extends BlockContainer {
@@ -24,9 +23,9 @@ public class BlockSlaughterBlock extends BlockContainer {
 	public BlockSlaughterBlock(Material material) {
 		super(material);
 		setCreativeTab(CreativeTabHxCBlocks.tabHxCBlocks);
-		setBlockName("SlaughterBlock");
+		setUnlocalizedName("SlaughterBlock");
 		setStepSound(soundTypeMetal);
-        setBlockTextureName(References.MOD_ID + ":SlaughterBlock");
+        setTextureName(References.MOD_ID + ":SlaughterBlock");
 		setHardness(1.0F);
 		setResistance(1600.0F);
 	}
@@ -55,13 +54,13 @@ public class BlockSlaughterBlock extends BlockContainer {
             stack = player.getHeldItem();
             item = stack.getItem();
             if (item instanceof ItemSlaughterCore) {
-                if (HxCTile.inventory[1] != null && HxCTile.inventory[1].stackSize <= Config.MaxRange)
+                if (HxCTile.inventory[1] != null && HxCTile.inventory[1].stackSize <= Configurations.MaxBlockRange)
                     HxCTile.inventory[1].stackSize++;
                 else if (HxCTile.inventory[1] == null)
                     HxCTile.inventory[1] = new ItemStack(item);
                 if (!player.capabilities.isCreativeMode) player.inventory.decrStackSize(player.inventory.currentItem, 1);
             }
-            List<String> weaplist = Arrays.asList(Config.Validweapons);
+            List<String> weaplist = Configurations.Validweapons;
             if (item instanceof ItemSword || weaplist.contains(item.getUnlocalizedName())) {
                 if (HxCTile.inventory[0] != null && !world.isRemote)
                     world.spawnEntityInWorld(new EntityItem(world, x, y + 1, z, HxCTile.inventory[0]));

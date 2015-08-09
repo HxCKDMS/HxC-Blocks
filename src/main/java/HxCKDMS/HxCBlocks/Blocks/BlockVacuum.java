@@ -1,6 +1,6 @@
 package HxCKDMS.HxCBlocks.Blocks;
 
-import HxCKDMS.HxCBlocks.Configs.Config;
+import HxCKDMS.HxCBlocks.Configs.Configurations;
 import HxCKDMS.HxCBlocks.Items.ItemBinder;
 import HxCKDMS.HxCBlocks.Items.ItemVacuumCore;
 import HxCKDMS.HxCBlocks.Reference.References;
@@ -21,8 +21,8 @@ public class BlockVacuum extends BlockContainer {
 	public BlockVacuum(Material material) {
         super(material);
         setCreativeTab(CreativeTabHxCBlocks.tabHxCBlocks);
-        setBlockName("Vacuum");
-        setBlockTextureName(References.MOD_ID + ":Vacuum");
+        setUnlocalizedName("Vacuum");
+        setTextureName(References.MOD_ID + ":Vacuum");
         setStepSound(soundTypeMetal);
         setHardness(1.0F);
         setResistance(1600.0F);
@@ -48,7 +48,7 @@ public class BlockVacuum extends BlockContainer {
         Item item = stack.getItem();
         TileVacuum HxCTile = (TileVacuum)tileEntity;
 
-        if (item instanceof ItemVacuumCore && HxCTile.inventory[12] == null || (HxCTile.inventory[12] != null && HxCTile.inventory[12].stackSize <= Config.MaxRange)) {
+        if (item instanceof ItemVacuumCore && HxCTile.inventory[12] == null || (HxCTile.inventory[12] != null && HxCTile.inventory[12].stackSize <= Configurations.MaxBlockRange)) {
             if (HxCTile.inventory[12] == null) HxCTile.inventory[12] = new ItemStack(ModRegistry.VacuumCore, 1);
             else HxCTile.inventory[12] = new ItemStack(ModRegistry.VacuumCore,  HxCTile.inventory[12].stackSize + 1);
             if (!player.capabilities.isCreativeMode) player.inventory.decrStackSize(player.inventory.currentItem, 1);

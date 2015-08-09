@@ -1,7 +1,7 @@
 package HxCKDMS.HxCBlocks.Events;
 
 import HxCKDMS.HxCBlocks.Blocks.BlockGreyGoo;
-import HxCKDMS.HxCBlocks.Configs.Config;
+import HxCKDMS.HxCBlocks.Configs.Configurations;
 import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.util.ChatComponentText;
@@ -12,7 +12,7 @@ import java.util.List;
 public class EventBlockPlace {
     @SubscribeEvent
     public void PlaceEvent(BlockEvent.PlaceEvent event){
-        if (event.block instanceof BlockGreyGoo && Config.SafetyChecks){
+        if (event.block instanceof BlockGreyGoo && Configurations.SafetyChecks){
             if (!event.player.onGround && event.player.isSneaking() && event.player.capabilities.isCreativeMode) {
                 String puuid = event.player.getGameProfile().getId().toString();
                 String pname = event.player.getDisplayName();

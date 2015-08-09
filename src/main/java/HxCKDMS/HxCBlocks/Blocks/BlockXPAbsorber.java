@@ -1,6 +1,6 @@
 package HxCKDMS.HxCBlocks.Blocks;
 
-import HxCKDMS.HxCBlocks.Configs.Config;
+import HxCKDMS.HxCBlocks.Configs.Configurations;
 import HxCKDMS.HxCBlocks.Items.ItemSoulBinder;
 import HxCKDMS.HxCBlocks.Items.ItemSoulFragment;
 import HxCKDMS.HxCBlocks.Reference.References;
@@ -20,8 +20,8 @@ public class BlockXPAbsorber extends BlockContainer {
 	public BlockXPAbsorber(Material material) {
         super(material);
         setCreativeTab(CreativeTabHxCBlocks.tabHxCBlocks);
-        setBlockName("XPAbsorber");
-        setBlockTextureName(References.MOD_ID + ":XPAbsorber");
+        setUnlocalizedName("XPAbsorber");
+        setTextureName(References.MOD_ID + ":XPAbsorber");
         setStepSound(soundTypeMetal);
         setHardness(1.0F);
         setResistance(1600.0F);
@@ -50,7 +50,7 @@ public class BlockXPAbsorber extends BlockContainer {
         if (item instanceof ItemSoulBinder) {
             HxCTile.Item = stack;
             if (!player.capabilities.isCreativeMode) player.inventory.decrStackSize(player.inventory.currentItem, 1);
-        } else if (item instanceof ItemSoulFragment && HxCTile.Range < Config.MaxRange) {
+        } else if (item instanceof ItemSoulFragment && HxCTile.Range < Configurations.MaxBlockRange) {
             HxCTile.Range++;
             if (!player.capabilities.isCreativeMode)player.inventory.decrStackSize(player.inventory.currentItem, 1);
         }

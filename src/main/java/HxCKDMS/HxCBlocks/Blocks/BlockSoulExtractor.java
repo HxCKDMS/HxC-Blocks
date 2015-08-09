@@ -23,9 +23,9 @@ public class BlockSoulExtractor extends Block {
 	public BlockSoulExtractor(Material material) {
         super(material);
         setCreativeTab(CreativeTabHxCBlocks.tabHxCBlocks);
-        setBlockName("SoulExtractor");
+        setUnlocalizedName("SoulExtractor");
         setStepSound(soundTypeMetal);
-        setBlockTextureName(References.MOD_ID + ":SoulExtractor");
+        setTextureName(References.MOD_ID + ":SoulExtractor");
         setHardness(1.0F);
         setResistance(1600.0F);
     }

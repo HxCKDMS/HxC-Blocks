@@ -130,7 +130,7 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
     }
 
     @Override
-    public boolean hasCustomInventoryName() {
+    public boolean isCustomInventoryName() {
         return false;
     }
 
@@ -145,12 +145,12 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
     }
 
     @Override
-    public void openInventory() {
+    public void openChest() {
 
     }
 
     @Override
-    public void closeInventory() {
+    public void closeChest() {
 
     }
 
@@ -160,7 +160,7 @@ public class TileVacuum extends TileEntity implements ISidedInventory {
     }
 
     @Override
-    public int[] getAccessibleSlotsFromSide(int side) {
+    public int[] getSlotsForFace(int p_94128_1_) {
         return accessibleSlots;
     }
 

@@ -12,9 +12,9 @@ public class BlockLeBomb extends BlockContainer {
     public BlockLeBomb(Material material) {
 		super(material);
 		setCreativeTab(CreativeTabHxCBlocks.tabHxCBlocks);
-		setBlockName("LeBomb");
+		setUnlocalizedName("LeBomb");
 		setStepSound(soundTypeMetal);
-        setBlockTextureName(References.MOD_ID + ":LeBomb");
+        setTextureName(References.MOD_ID + ":LeBomb");
 		setHardness(1.0F);
 		setResistance(1600.0F);
 	}

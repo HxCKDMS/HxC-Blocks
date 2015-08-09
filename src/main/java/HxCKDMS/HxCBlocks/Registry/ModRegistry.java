@@ -1,7 +1,7 @@
 package HxCKDMS.HxCBlocks.Registry;
 
 import HxCKDMS.HxCBlocks.Blocks.*;
-import HxCKDMS.HxCBlocks.Configs.Config;
+import HxCKDMS.HxCBlocks.Configs.Configurations;
 import HxCKDMS.HxCBlocks.Events.EventBlockPlace;
 import HxCKDMS.HxCBlocks.Events.EventEntityUpdate;
 import HxCKDMS.HxCBlocks.Items.*;
@@ -55,8 +55,8 @@ public class ModRegistry {
         GameRegistry.registerBlock(Vacuum, "Vacuum");
         GameRegistry.registerBlock(Barrier, "Barrier");
         GameRegistry.registerBlock(Accelerator, "Accelerator");
-        if (Config.GreyGoo)GameRegistry.registerBlock(GreyGoo, "GreyGoo");
-        if (Config.LeBomb)GameRegistry.registerBlock(LeBomb, "LeBomb");
+        if (Configurations.GreyGoo)GameRegistry.registerBlock(GreyGoo, "GreyGoo");
+        if (Configurations.LeBomb)GameRegistry.registerBlock(LeBomb, "LeBomb");
     }
 
     private static void registerItems() {

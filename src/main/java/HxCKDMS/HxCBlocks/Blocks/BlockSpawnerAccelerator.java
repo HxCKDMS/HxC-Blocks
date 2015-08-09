@@ -18,9 +18,9 @@ public class BlockSpawnerAccelerator extends BlockContainer {
     public BlockSpawnerAccelerator(Material material) {
 		super(material);
 		setCreativeTab(CreativeTabHxCBlocks.tabHxCBlocks);
-		setBlockName("Accelerator");
+		setUnlocalizedName("Accelerator");
 		setStepSound(soundTypeMetal);
-        setBlockTextureName(References.MOD_ID + ":Accelerator");
+        setTextureName(References.MOD_ID + ":Accelerator");
 		setHardness(1.0F);
 		setResistance(1600.0F);
 	}

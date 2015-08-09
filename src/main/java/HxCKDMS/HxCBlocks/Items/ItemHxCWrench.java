@@ -24,7 +24,7 @@ public class ItemHxCWrench extends Item {
         setUnlocalizedName("HxCWrench");
         setTextureName(References.MOD_ID + ":HxCWrench");
         setMaxStackSize(1);
-        setMaxDamage(0);
+        setMaxDurability(0);
     }
 
     @Override

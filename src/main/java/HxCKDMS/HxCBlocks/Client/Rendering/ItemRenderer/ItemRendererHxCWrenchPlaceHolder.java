@@ -33,7 +33,7 @@ public class ItemRendererHxCWrenchPlaceHolder implements IItemRenderer {
             if(containedStack.getItem() != null){
                 if(type == ItemRenderType.INVENTORY){
                     RenderHelper.enableGUIStandardItemLighting();
-                    renderItem.renderItemIntoGUI(mc.fontRenderer, mc.renderEngine, containedStack, 0, 0);
+                    renderItem.renderItemIntoGUI(mc.fontRendererObj, mc.renderEngine, containedStack, 0, 0);
                 }else{
                     GL11.glTranslated(0.5, 0.5, 0.5);
                     GL11.glScalef(0.8f, 0.8f, 0.8f);

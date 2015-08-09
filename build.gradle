@@ -26,7 +26,8 @@ archivesBaseName = "HxC-Blocks"
 
 minecraft {
     version = "1.7.10-10.13.4.1448-1.7.10"
-    assetDir = "eclipse/assets"
+    runDir = "eclipse"
+	mappings = "stable_12"
 }
 
 processResources
@@ -43,6 +44,7 @@ processResources
         exclude 'mcmod.info'
     }
 }
+
 sourceSets {
     main { output.resourcesDir = output.classesDir }
 }

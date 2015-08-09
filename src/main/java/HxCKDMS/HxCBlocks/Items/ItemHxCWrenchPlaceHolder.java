@@ -20,7 +20,7 @@ public class ItemHxCWrenchPlaceHolder extends Item {
         setCreativeTab(null);
         setUnlocalizedName("HxCWrenchPlaceHolder");
         setMaxStackSize(1);
-        setMaxDamage(0);
+        setMaxDurability(0);
     }
 
     @Override

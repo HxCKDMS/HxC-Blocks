@@ -12,9 +12,9 @@ public class BlockGreyGoo extends BlockContainer {
     public BlockGreyGoo(Material material) {
 		super(material);
 		setCreativeTab(CreativeTabHxCBlocks.tabHxCBlocks);
-		setBlockName("GreyGoo");
+		setUnlocalizedName("GreyGoo");
 		setStepSound(soundTypeMetal);
-        setBlockTextureName(References.MOD_ID + ":GreyGoo");
+        setTextureName(References.MOD_ID + ":GreyGoo");
 		setHardness(1.0F);
 		setResistance(1600.0F);
 	}

@@ -1,15 +1,19 @@
 package HxCKDMS.HxCBlocks;
 
-import HxCKDMS.HxCBlocks.Configs.Config;
+import HxCKDMS.HxCBlocks.Configs.Configurations;
 import HxCKDMS.HxCBlocks.Proxy.IProxy;
 import HxCKDMS.HxCBlocks.Reference.References;
 import HxCKDMS.HxCBlocks.Registry.ModRegistry;
+import HxCKDMS.HxCCore.HxCCore;
+import HxCKDMS.HxCCore.api.Configuration.Category;
+import HxCKDMS.HxCCore.api.Configuration.HxCConfig;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.common.config.Configuration;
+
+import java.io.File;
 
 @SuppressWarnings("unused")
 @Mod(modid = References.MOD_ID, name = References.MOD_NAME, version = References.VERSION, dependencies = References.DEPENDENCIES)
@@ -20,10 +24,8 @@ public class HxCBlocks {
     @SidedProxy(clientSide = References.CLIENT_PROXY_LOCATION, serverSide = References.SERVER_PROXY_LOCATION)
     public static IProxy proxy;
 
-    public static Config Config;
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event){
-        Config = new Config(new Configuration(event.getSuggestedConfigurationFile()));
         ModRegistry.preInit();
         proxy.preInit();
     }
@@ -35,4 +37,9 @@ public class HxCBlocks {
 
     @Mod.EventHandler
     public void postInit(FMLPostInitializationEvent event){}
+
+    public void registerNewConfigSys(HxCConfig config) {
+        config.registerCategory(new Category("General", "General Stuff"));
+        config.handleConfig(Configurations.class, new File(HxCCore.HxCConfigDir, "HxCBlocks.cfg"));
+    }
 }

@@ -13,9 +13,9 @@ public class BlockBarrier extends BlockContainer {
 	public BlockBarrier(Material material) {
 		super(material);
 		setCreativeTab(CreativeTabHxCBlocks.tabHxCBlocks);
-		setBlockName("Barrier");
+		setUnlocalizedName("Barrier");
 		setStepSound(soundTypeMetal);
-        setBlockTextureName(References.MOD_ID + ":Barrier");
+        setTextureName(References.MOD_ID + ":Barrier");
 		setHardness(1.0F);
 		setResistance(1600.0F);
 		setLightLevel(1);

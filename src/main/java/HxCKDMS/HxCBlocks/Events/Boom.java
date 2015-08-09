@@ -1,11 +1,11 @@
 package HxCKDMS.HxCBlocks.Events;
 
-import HxCKDMS.HxCBlocks.Configs.Config;
+import HxCKDMS.HxCBlocks.Configs.Configurations;
+import HxCKDMS.HxCCore.api.Utils.AABBUtils;
 import HxCKDMS.HxCCore.api.Utils.WorldHelper;
 import net.minecraft.enchantment.EnchantmentProtection;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.init.Blocks;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
@@ -32,10 +32,10 @@ public class Boom {
         System.out.println("The Radius of LeBomb at x:" + explosionX + " y:" + explosionY + " z:" + explosionZ + " is : " + explosionSize);
 
         long beginTime = System.nanoTime();
-        WorldHelper.drawSphere(worldObj, explosionX, explosionY, explosionZ, Blocks.air, explosionSize, false, Config.LeBombAccuracy);
+        WorldHelper.drawSphere(worldObj, explosionX, explosionY, explosionZ, Blocks.air, explosionSize, false, Configurations.LeBombAccuracy);
         System.out.println("LeBomb Took " + ((System.nanoTime()-beginTime) / 1000000000) + " seconds to go off!");
 
-        List<EntityLiving> list = worldObj.getEntitiesWithinAABB(EntityLiving.class, getAreaBoundingBox(explosionX, explosionY, explosionZ, 16));
+        List<EntityLiving> list = worldObj.getEntitiesWithinAABB(EntityLiving.class, AABBUtils.getAreaBoundingBox(explosionX, explosionY, explosionZ, 16));
         for (EntityLiving ent : list) {
             double distance = ent.getDistance(explosionX, explosionY, explosionZ) / explosionSize;
 
@@ -52,10 +52,5 @@ public class Boom {
                 }
             }
         }
-    }
-
-    protected AxisAlignedBB getAreaBoundingBox(int x, int y, int z, int mod) {
-        return AxisAlignedBB.getBoundingBox(x - mod, y - mod, z - mod,
-        /** Indented because CDO :P **/     x + mod, y + mod, z + mod);
     }
 }
