@@ -26,6 +26,8 @@ public class HxCBlocks {
 
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event){
+        HxCConfig hxcconfig = new HxCConfig();
+        registerNewConfigSys(hxcconfig);
         ModRegistry.preInit();
         proxy.preInit();
     }
