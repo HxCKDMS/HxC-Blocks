@@ -15,4 +15,8 @@ item.VacuumCore.name=Vacuum Core
 item.Binder.name=Binder
 item.HxCWrench.name=HxC Wrench
 itemGroup.hxcblocks=HxC-Blocks
+item.MetBlue.name=Methylene blue
+metblue.tooltip=Removes potion effects
 death.attack.SoulExtraction=%1$s extracted their soul.
+
+itemGroup.HxCBlocks=HxC Blocks

@@ -35,6 +35,7 @@ public class ModRegistry {
     public static ItemWitherCore WitherCore = new ItemWitherCore();
     public static ItemHxCWrench HxCWrench = new ItemHxCWrench();
     public static ItemHxCWrenchPlaceHolder HxCWrenchPlaceHolder = new ItemHxCWrenchPlaceHolder();
+    public static ItemMetBlue IMetBlue = new ItemMetBlue();
 
     public static void preInit(){
         registerBlocks();
@@ -68,6 +69,7 @@ public class ModRegistry {
         GameRegistry.registerItem(Binder, "Binder");
         GameRegistry.registerItem(HxCWrench, "HxCWrench");
         GameRegistry.registerItem(HxCWrenchPlaceHolder, "HxCWrenchPlaceHolder");
+        GameRegistry.registerItem(IMetBlue, "MetBlue");
     }
 
     private static void registerTileEntities() {
@@ -92,5 +94,6 @@ public class ModRegistry {
         GameRegistry.addRecipe(new ItemStack(SlaughterBlock), "o o", "sps", "o o", 's', Items.diamond_sword, 'p', Blocks.piston, 'o', Blocks.obsidian);
         GameRegistry.addRecipe(new ItemStack(Vacuum), "oho", "eve", "oho", 'h', Blocks.hopper, 'v', VacuumCore, 'o', Blocks.obsidian, 'e', Items.ender_eye);
         GameRegistry.addRecipe(new ItemStack(Barrier), "oeo", "bbb", "opo", 'b', Blocks.iron_bars, 'o', Blocks.obsidian, 'e', Items.ender_eye, 'p', Items.ender_pearl);
+        GameRegistry.addRecipe(new ItemStack(IMetBlue), "fkl", 'f', Items.sugar, 'k', new ItemStack(Items.dye, 1, 4), 'l', new ItemStack(Items.potionitem,1,0)); // TODO: MAKE SHAPELESS
     }
 }
