@@ -1,5 +1,5 @@
 package HxCKDMS.HxCBlocks.Items;
-
+// Reimplementation of "Methylene Blue" from MineChem
 import HxCKDMS.HxCBlocks.Registry.CreativeTabHxCBlocks;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
@@ -37,8 +37,7 @@ public class ItemMetBlue extends ItemFood {
         for(PotionEffect potionEffect : activePotions) player.removePotionEffect(potionEffect.getPotionID());
         player.addPotionEffect(new PotionEffect(Potion.regeneration.getId(), 600, 1));
         player.addPotionEffect(new PotionEffect(Potion.weakness.getId(), 1200, 2));
-        if(!player.capabilities.isCreativeMode) player.inventory.addItemStackToInventory(new ItemStack(Items.glass_bottle));
-
+        player.inventory.addItemStackToInventory(new ItemStack(Items.glass_bottle));
         super.onFoodEaten(stack, world, player);
     }
 
