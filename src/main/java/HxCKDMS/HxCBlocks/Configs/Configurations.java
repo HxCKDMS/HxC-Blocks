@@ -11,7 +11,7 @@ public class Configurations {
     public static boolean GreyGoo, LeBomb, SafetyChecks = true;
 
     @Config.Integer
-    public static int MaxBlockRange = 32, MaxLeBombRange = 64, LeBombDelay = 160;
+    public static int MaxBlockRange = 32, MaxLeBombRange = 64, SpecialDelay = 160;
 
     @Config.Double(description = "0.001 minimum max 1, Decreasing this increases acuracy of sphere creation and lag")
     public static double LeBombAccuracy = 0.05;

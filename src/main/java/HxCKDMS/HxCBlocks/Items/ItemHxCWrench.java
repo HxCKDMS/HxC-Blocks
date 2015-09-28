@@ -1,13 +1,13 @@
 package HxCKDMS.HxCBlocks.Items;
 
-import HxCKDMS.HxCBlocks.Reference.References;
 import HxCKDMS.HxCBlocks.Registry.CreativeTabHxCBlocks;
-import HxCKDMS.HxCBlocks.Registry.ModRegistry;
+import HxCKDMS.HxCBlocks.lib.Reference;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -22,7 +22,7 @@ public class ItemHxCWrench extends Item {
     public ItemHxCWrench() {
         setCreativeTab(CreativeTabHxCBlocks.tabHxCBlocks);
         setUnlocalizedName("HxCWrench");
-        setTextureName(References.MOD_ID + ":HxCWrench");
+        setTextureName(Reference.MOD_ID + ":HxCWrench");
         setMaxStackSize(1);
         setMaxDurability(0);
     }
@@ -41,8 +41,10 @@ public class ItemHxCWrench extends Item {
                 String BlockUN = GameRegistry.findUniqueIdentifierFor(BlockToGrab).name;
 
                 int BlockMeta = world.getBlockMetadata(x, y, z);
+//
+//                ItemStack DroppedItem = new ItemStack(ModRegistry.HxCWrenchPlaceHolder);
 
-                ItemStack DroppedItem = new ItemStack(ModRegistry.HxCWrenchPlaceHolder);
+                ItemStack DroppedItem = new ItemStack(Items.baked_potato);
 
                 DroppedItem.stackTagCompound = new NBTTagCompound();
                 DroppedItem.stackTagCompound.setString("BlockOwner", BlockOwner);

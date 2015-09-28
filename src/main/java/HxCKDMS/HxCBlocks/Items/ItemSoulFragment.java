@@ -1,6 +1,6 @@
 package HxCKDMS.HxCBlocks.Items;
 
-import HxCKDMS.HxCBlocks.Reference.References;
+import HxCKDMS.HxCBlocks.lib.Reference;
 import HxCKDMS.HxCBlocks.Registry.CreativeTabHxCBlocks;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -15,7 +15,7 @@ public class ItemSoulFragment extends Item{
     public ItemSoulFragment(){
         setCreativeTab(CreativeTabHxCBlocks.tabHxCBlocks);
 		setUnlocalizedName("SoulFragment");
-		setTextureName(References.MOD_ID + ":SoulFragment");
+		setTextureName(Reference.MOD_ID + ":SoulFragment");
 		setMaxStackSize(4);
 	}
 

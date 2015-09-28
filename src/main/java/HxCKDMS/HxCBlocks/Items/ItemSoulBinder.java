@@ -1,6 +1,6 @@
 package HxCKDMS.HxCBlocks.Items;
 
-import HxCKDMS.HxCBlocks.Reference.References;
+import HxCKDMS.HxCBlocks.lib.Reference;
 import HxCKDMS.HxCBlocks.Registry.CreativeTabHxCBlocks;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
@@ -15,7 +15,7 @@ public class ItemSoulBinder extends Item{
     public ItemSoulBinder(){
         setCreativeTab(CreativeTabHxCBlocks.tabHxCBlocks);
 		setUnlocalizedName("SoulBinder");
-		setTextureName(References.MOD_ID + ":SoulBinder");
+		setTextureName(Reference.MOD_ID + ":SoulBinder");
 		setMaxStackSize(1);
 	}
 

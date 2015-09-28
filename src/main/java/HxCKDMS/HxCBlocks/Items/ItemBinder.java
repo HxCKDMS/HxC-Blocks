@@ -1,8 +1,8 @@
 package HxCKDMS.HxCBlocks.Items;
 
-import HxCKDMS.HxCBlocks.Reference.References;
 import HxCKDMS.HxCBlocks.Registry.CreativeTabHxCBlocks;
-import HxCKDMS.HxCBlocks.TileEntities.TileVacuum;
+import HxCKDMS.HxCBlocks.TileEntities.HxCTile;
+import HxCKDMS.HxCBlocks.lib.Reference;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.Item;
@@ -18,13 +18,13 @@ public class ItemBinder extends Item{
     public ItemBinder(){
         setCreativeTab(CreativeTabHxCBlocks.tabHxCBlocks);
         setUnlocalizedName("Binder");
-        setTextureName(References.MOD_ID + ":Binder");
+        setTextureName(Reference.MOD_ID + ":Binder");
         setMaxStackSize(1);
     }
 
     @Override
     public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, int x, int y, int z, int side, float bx, float by, float bz) {
-        if (world.getTileEntity(x, y, z) instanceof IInventory && !(world.getTileEntity(x, y, z) instanceof TileVacuum)) {
+        if (world.getTileEntity(x, y, z) instanceof IInventory && !(world.getTileEntity(x, y, z) instanceof HxCTile)) {
             NBTTagCompound dat = new NBTTagCompound();
             dat.setInteger("x", x);
             dat.setInteger("y", y);

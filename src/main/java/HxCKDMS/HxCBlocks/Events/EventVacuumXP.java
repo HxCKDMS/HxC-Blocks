@@ -1,6 +1,6 @@
 package HxCKDMS.HxCBlocks.Events;
 
-import HxCKDMS.HxCBlocks.TileEntities.TileXPAbsorber;
+import HxCKDMS.HxCBlocks.TileEntities.HxCTile;
 import HxCKDMS.HxCCore.api.Utils.AABBUtils;
 import net.minecraft.entity.item.EntityXPOrb;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,24 +11,23 @@ import java.util.List;
 
 @SuppressWarnings("unchecked")
 public class EventVacuumXP {
-    public void vacuum(int[] coords, World world) {
-        TileEntity tile = world.getTileEntity(coords[0], coords[1], coords[2]);
-        TileXPAbsorber HxCTile = (TileXPAbsorber)tile;
-        int modifier = HxCTile.Range + 1;
-        List list  = world.getEntitiesWithinAABB(EntityXPOrb.class, AABBUtils.getAreaBoundingBox(coords[0], coords[1], coords[2], modifier));
+    public void vacuum(int x, int y, int z, World world) {
+        TileEntity tile = world.getTileEntity(x, y, z);
+        HxCTile hxCTile = (HxCTile)tile;
+        int modifier = hxCTile.inventory[1].stackSize + 1;
+        List list  = world.getEntitiesWithinAABB(EntityXPOrb.class, AABBUtils.getAreaBoundingBox(x, y, z, modifier));
         for (EntityXPOrb entity : (List<EntityXPOrb>) list) {
             if (!entity.isDead) {
-                HxCTile.XP += entity.getXpValue();
+                hxCTile.XP += entity.getXpValue();
                 entity.setDead();
             }
         }
-        if (HxCTile.XP > 1000){
-            String BoundPlayer = HxCTile.Item.getTagCompound().getString("Player");
+        if (hxCTile.XP > 1000) {
+            String BoundPlayer = hxCTile.inventory[0].getTagCompound().getString("Player");
             try {
-                System.out.println(BoundPlayer);
                 EntityPlayer player = world.getPlayerEntityByName(BoundPlayer);
-                player.addExperience(HxCTile.XP);
-                HxCTile.XP = 0;
+                player.addExperience(hxCTile.XP);
+                hxCTile.XP = 0;
             } catch (Exception ignored){}
         }
     }

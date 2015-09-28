@@ -1,9 +1,10 @@
 package HxCKDMS.HxCBlocks;
 
+import HxCKDMS.HxCBlocks.Client.Rendering.GUI.GUIHandler;
 import HxCKDMS.HxCBlocks.Configs.Configurations;
 import HxCKDMS.HxCBlocks.Proxy.IProxy;
-import HxCKDMS.HxCBlocks.Reference.References;
 import HxCKDMS.HxCBlocks.Registry.ModRegistry;
+import HxCKDMS.HxCBlocks.network.HxCTileSync;
 import HxCKDMS.HxCCore.HxCCore;
 import HxCKDMS.HxCCore.api.Configuration.Category;
 import HxCKDMS.HxCCore.api.Configuration.HxCConfig;
@@ -12,16 +13,23 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.common.network.simpleimpl.SimpleNetworkWrapper;
+import cpw.mods.fml.relauncher.Side;
 
 import java.io.File;
 
+import static HxCKDMS.HxCBlocks.lib.Reference.*;
+
 @SuppressWarnings("unused")
-@Mod(modid = References.MOD_ID, name = References.MOD_NAME, version = References.VERSION, dependencies = References.DEPENDENCIES)
+@Mod(modid = MOD_ID, name = MOD_NAME, version = VERSION, dependencies = DEPENDENCIES)
 public class HxCBlocks {
-    @Mod.Instance(References.MOD_ID)
+    @Mod.Instance(MOD_ID)
     public static HxCBlocks HxCBlocks;
 
-    @SidedProxy(clientSide = References.CLIENT_PROXY_LOCATION, serverSide = References.SERVER_PROXY_LOCATION)
+    public static SimpleNetworkWrapper networkWrapper = new SimpleNetworkWrapper(MOD_ID.toLowerCase());
+
+    @SidedProxy(clientSide = CLIENT_PROXY_LOCATION, serverSide = SERVER_PROXY_LOCATION)
     public static IProxy proxy;
 
     @Mod.EventHandler
@@ -30,6 +38,8 @@ public class HxCBlocks {
         registerNewConfigSys(hxcconfig);
         ModRegistry.preInit();
         proxy.preInit();
+        networkWrapper.registerMessage(HxCTileSync.handler.class, HxCTileSync.class, 1, Side.SERVER);
+        NetworkRegistry.INSTANCE.registerGuiHandler(this, new GUIHandler());
     }
 
     @Mod.EventHandler
