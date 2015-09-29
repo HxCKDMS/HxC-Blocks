@@ -7,13 +7,11 @@ import net.minecraft.inventory.Container;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 
-public class PotionBrewerContainer extends Container {
+public class BarrierContainer extends Container {
     public HxCTile hxCTile;
-    public PotionBrewerContainer(EntityPlayer player, HxCTile te){
+    public BarrierContainer(EntityPlayer player, HxCTile te){
         hxCTile = te;
         addSlotToContainer(new Slot(hxCTile, 0, 80, 35));
-        addSlotToContainer(new Slot(hxCTile, 0, 150, 10));
-        addSlotToContainer(new Slot(hxCTile, 0, 150, 40));
         bindPlayerInventory(player.inventory);
     }
 
@@ -38,11 +36,11 @@ public class PotionBrewerContainer extends Container {
         if (slotObject != null && slotObject.getHasStack()) {
             ItemStack stackInSlot = slotObject.getStack();
             stack = stackInSlot.copy();
-            if (slot < 1)
+            if (slot == 0)
                 if (!this.mergeItemStack(stackInSlot, 1, 35, true))
                     return null;
 
-                else if (!this.mergeItemStack(stackInSlot, 0, 1, false))
+                else if (!this.mergeItemStack(stackInSlot, 0, 0, false))
                     return null;
 
             if (stackInSlot.stackSize == 0)

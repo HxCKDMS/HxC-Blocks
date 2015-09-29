@@ -45,16 +45,14 @@ public class HxCBlock extends Block {
     }
 
     @Override
-    public void onPostBlockPlaced(World world, int x, int y, int z, int meta) {
-        HxCTile t = new HxCTile();
-        t.NAME = BLOCKS[meta];
-        world.setTileEntity(x, y, z, t);
-    }
-
-    @Override
     public boolean hasTileEntity(int meta) {
         return meta != BLOCKS.length-1;
     }
+
+//    @Override
+//    public int getRenderType() {
+//        return -1;
+//    }
 
     @Override
     public boolean onBlockActivated(World world, int x, int y, int z, EntityPlayer player, int metadata, float hitX, float hitY, float hitZ) {
@@ -64,7 +62,7 @@ public class HxCBlock extends Block {
         if (tileEntity == null || player.isSneaking() || !hasGui(metadata)) {
             return false;
         }
-        player.openGui(HxCBlocks.HxCBlocks, metadata, world, x, y, z);
+        player.openGui(HxCBlocks.HxCBlocks, tileEntity.blockMetadata, world, x, y, z);
         return true;
     }
 

@@ -42,7 +42,7 @@ public class PotionBrewerGUI extends GuiContainer {
     protected void drawGuiContainerBackgroundLayer(float opacity, int x, int y) {
         GL11.glColor4f(1F, 1F, 1F, 1F);
 
-        mc.getTextureManager().bindTexture(new ResourceLocation(Reference.MOD_ID + ":gui/SlaughterBlock.png"));
+        mc.getTextureManager().bindTexture(new ResourceLocation(Reference.MOD_ID + ":gui/PotionBrewer.png"));
         int xStart = (width - xSize) / 2;
         int yStart = (height - ySize) / 2;
         drawTexturedModalRect(xStart, yStart, 0, 0, xSize, ySize);

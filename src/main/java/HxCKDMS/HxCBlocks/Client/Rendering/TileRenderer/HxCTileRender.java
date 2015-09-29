@@ -1,6 +1,5 @@
 package HxCKDMS.HxCBlocks.Client.Rendering.TileRenderer;
 
-import HxCKDMS.HxCBlocks.TileEntities.HxCTile;
 import HxCKDMS.HxCBlocks.lib.Reference;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -10,13 +9,15 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
+import static HxCKDMS.HxCBlocks.lib.Reference.*;
+
 public class HxCTileRender extends TileEntitySpecialRenderer {
     public HxCTileRender() {}
 
     @Override
     @SideOnly(Side.CLIENT)
     public void renderTileEntityAt(TileEntity tileEntity, double x, double y, double z, float partialTick) {
-        ResourceLocation texture = new ResourceLocation(Reference.MOD_ID + ":textures/blocks/" + ((HxCTile)tileEntity).NAME + ".png");
+        ResourceLocation texture = new ResourceLocation(Reference.MOD_ID + ":textures/blocks/" + BLOCKS[tileEntity.getBlockMetadata()] + ".png");
         System.out.println(texture.getResourcePath());
         GL11.glPushMatrix();
         {

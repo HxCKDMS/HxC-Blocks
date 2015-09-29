@@ -13,10 +13,12 @@ public class GUIHandler implements IGuiHandler {
         TileEntity tileEntity = world.getTileEntity(x, y, z);
         if(tileEntity instanceof HxCTile) {
             switch (id) {
-                case (2) :
-                    return new SlaughterBlockContainer(player, (HxCTile)tileEntity);
+                case (0) :
+                    return new BarrierContainer(player, (HxCTile)tileEntity);
                 case (1) :
                     return new PotionBrewerContainer(player, (HxCTile)tileEntity);
+                case (2) :
+                    return new SlaughterBlockContainer(player, (HxCTile)tileEntity);
                 default : return null;
             }
         }
@@ -26,15 +28,15 @@ public class GUIHandler implements IGuiHandler {
     public Object getClientGuiElement(int id, EntityPlayer player, World world, int x, int y, int z) {
         TileEntity tileEntity = world.getTileEntity(x, y, z);
         if(tileEntity instanceof HxCTile){
-            HxCTile hxCTile = (HxCTile) tileEntity;
-            String name = hxCTile.NAME;
-            switch (name) {
-                case ("SlaughterBlock") :
-                    return new SlaughterBlockGUI(new SlaughterBlockContainer(player, (HxCTile)tileEntity));
-                case ("PotionBrewer") :
+            switch (id) {
+                case (0) :
+                    return new BarrierGUI(new BarrierContainer(player, (HxCTile)tileEntity));
+                case (1) :
                     return new PotionBrewerGUI(new PotionBrewerContainer(player, (HxCTile)tileEntity));
+                case (2) :
+                    return new SlaughterBlockGUI(new SlaughterBlockContainer(player, (HxCTile)tileEntity));
+                default : return null;
             }
-            return null;
         }
         return null;
     }

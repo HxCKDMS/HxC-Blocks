@@ -23,47 +23,52 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.ForgeDirection;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static HxCKDMS.HxCBlocks.lib.Reference.*;
 
 public class HxCTile extends TileEntity implements ISidedInventory {
 //    "Barrier", "PotionBrewer", "SlaughterBlock", "SpawnerAccelerator", "Vacuum", "XPAbsorber","GreyGoo", "LeBomb", "SoulExtractor"
-    public String NAME = "", Mob = "";
+    public String Mob = "";
     public int XP = 0;
     public boolean started, initialized;
+
+    @Override
+    public int getBlockMetadata() {
+        return super.getBlockMetadata();
+    }
+
     public List<String> EFFECTS = new ArrayList<>();
 
     private static final int[] accessibleSlots = {0};
-    protected int[] invSizes = new int[]{1, 3, 2, 1, 27, 2, 0, 0, 0};
-    public ItemStack[] inventory = new ItemStack[invSizes[getMeta()]];
+    protected int[] invSizes = new int[]{1, 3, 2, 0, 16, 2, 0, 0, 0};
+    public ItemStack[] inventory;
 
     public void poke() {
         System.out.println("Poked!");
+        started = true;
     }
 
-    protected int getMeta() {
-        if (!NAME.isEmpty())
-            return Arrays.asList(BLOCKS).indexOf(NAME);
-        else
-            return 0;
+    public void initialize() {
+        inventory = new ItemStack[invSizes[getBlockMetadata()]];
+        initialized = true;
     }
 
     @Override
     public void readFromNBT(NBTTagCompound tag) {
         super.readFromNBT(tag);
-        if (NAME.isEmpty()) NAME = tag.getString("name");
 
-        XP = tag.getInteger("XP");
+        if (initialized) {
+            XP = tag.getInteger("XP");
 
-        NBTTagList tagList = tag.getTagList("Inventory", invSizes[getMeta()]);
-        inventory = new ItemStack[inventory.length];
-        for(int i = 0; i < tagList.tagCount(); ++i) {
-            NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
-            byte slot = tagCompound.getByte("Slot");
-            if(slot >= 0 && slot <= inventory.length) {
-                inventory[slot] = ItemStack.loadItemStackFromNBT(tagCompound);
+            NBTTagList tagList = tag.getTagList("Inventory", invSizes[getBlockMetadata()]);
+            inventory = new ItemStack[inventory.length];
+            for (int i = 0; i < tagList.tagCount(); ++i) {
+                NBTTagCompound tagCompound = tagList.getCompoundTagAt(i);
+                byte slot = tagCompound.getByte("Slot");
+                if (slot >= 0 && slot <= inventory.length) {
+                    inventory[slot] = ItemStack.loadItemStackFromNBT(tagCompound);
+                }
             }
         }
     }
@@ -71,54 +76,54 @@ public class HxCTile extends TileEntity implements ISidedInventory {
     @Override
     public void writeToNBT(NBTTagCompound tag) {
         super.writeToNBT(tag);
-        if (!NAME.isEmpty()) tag.setString("name", NAME);
+        if (initialized) {
+            if (XP != 0) tag.setInteger("XP", XP);
 
-        if (XP != 0) tag.setInteger("XP", XP);
-
-        NBTTagList List = new NBTTagList();
-        for(int currentIndex = 0; currentIndex < inventory.length; ++currentIndex) {
-            if(inventory[currentIndex] != null) {
-                NBTTagCompound tagCompound = new NBTTagCompound();
-                tagCompound.setByte("Slot", (byte)currentIndex);
-                inventory[currentIndex].writeToNBT(tagCompound);
-                List.appendTag(tagCompound);
-                tag.setTag("Inventory", List);
+            NBTTagList List = new NBTTagList();
+            for (int currentIndex = 0; currentIndex < inventory.length; ++currentIndex) {
+                if (inventory[currentIndex] != null) {
+                    NBTTagCompound tagCompound = new NBTTagCompound();
+                    tagCompound.setByte("Slot", (byte) currentIndex);
+                    inventory[currentIndex].writeToNBT(tagCompound);
+                    List.appendTag(tagCompound);
+                    tag.setTag("Inventory", List);
+                }
             }
         }
     }
 
     public void updateEntity() {
-        if (worldObj != null && !worldObj.isRemote && !NAME.isEmpty() && initialized) {
-            switch (NAME) {
-                case ("Barrier") :
-                    barrier(worldObj, xCoord, yCoord, zCoord, inventory[0].stackSize);
+        if (worldObj != null && !worldObj.isRemote && initialized) {
+            switch (getBlockMetadata()) {
+                case 0 :
+                    if (!powered) barrier(worldObj, xCoord, yCoord, zCoord, inventory[0]);
                     break;
-                case ("SlaughterBlock") :
+                case 1 :
+                    if (!powered) brewPot();
+                    break;
+                case 2 :
                     if(!powered && inventory[0] != null) slaughter(worldObj, xCoord, yCoord, zCoord);
                     break;
-                case ("Vacuum") :
-                    if(!powered) vacuum(worldObj, xCoord, yCoord, zCoord);
-                    break;
-                case ("XPAbsorber") :
-                    if(!powered) vacuumXP(worldObj, xCoord, yCoord, zCoord);
-                    break;
-                case ("SpawnerAccelerator") :
+                case 3 :
                     if (powered) {
                         accelerate(worldObj, xCoord, yCoord, zCoord, Mob);
                         Mob = "";
                     }
                     break;
-                case ("GreyGoo") :
+                case 4 :
+                    if(!powered) vacuum(worldObj, xCoord, yCoord, zCoord);
+                    break;
+                case 5 :
+                    if(!powered) vacuumXP(worldObj, xCoord, yCoord, zCoord);
+                    break;
+                case 6 :
                     if (powered) goo(worldObj, xCoord, yCoord, zCoord);
                     break;
-                case ("LeBomb") :
+                case 7 :
                     if (powered) leBomb(worldObj, xCoord, yCoord, zCoord);
                     break;
-                case ("PotionBrewer") :
-                    if (!powered) brewPot();
-                    break;
                 default:
-                    LogHelper.warn(NAME + " doesn't have a predefined action for updating!", MOD_NAME);
+                    LogHelper.warn(BLOCKS[getBlockMetadata()] + " doesn't have a predefined action for updating!", MOD_NAME);
                     break;
             }
             boolean nowPowered = isPowered();
@@ -126,7 +131,7 @@ public class HxCTile extends TileEntity implements ISidedInventory {
                 powered = nowPowered;
             }
         }
-        initialized = true;
+        initialize();
     }
 
     public boolean exportItem(int maxItems){
@@ -166,7 +171,7 @@ public class HxCTile extends TileEntity implements ISidedInventory {
 
     @Override
     public int getSizeInventory() {
-        return invSizes[getMeta()];
+        return invSizes[getBlockMetadata()];
     }
 
     @Override
@@ -257,7 +262,10 @@ public class HxCTile extends TileEntity implements ISidedInventory {
     }
 
     @SuppressWarnings("unchecked")
-    private static void barrier(World world, int x, int y, int z, int height) {
+    private static void barrier(World world, int x, int y, int z, ItemStack stack) {
+        int height;
+        if (stack != null) height = stack.stackSize;
+        else height = 0;
         List<Entity> list  = world.getEntitiesWithinAABB(Entity.class, AABBUtils.getAreaBoundingBox(x, y, z, 0).expand(0, height+2, 0));
         for (Entity entity : list) {
             entity.motionX = -entity.motionX;
