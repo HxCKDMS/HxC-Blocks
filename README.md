@@ -1,9 +1,9 @@
 <p align="center"><img src="http://media-elerium.cursecdn.com/avatars/23/942/635750245789519537.png" width="320" height="320"></p>
 <p align="center">
-  <a href="https://github.com/HxCKDMS/HxCCore/">
-      <img src="http://67.187.15.252:8080/buildStatus/icon?job=HxCCore" alt="Build Status"></a>
-  <a href="https://github.com/HxCKDMS/HxCCore/issues">
-      <img src="https://img.shields.io/github/issues-raw/HxCKDMS/HxCCore.svg" alt="Issues"></a>
+  <a href="https://github.com/HxCKDMS/HxC-Blocks/">
+      <img src="http://67.187.15.252:8080/buildStatus/icon?job=HxC-Blocks" alt="Build Status"></a>
+  <a href="https://github.com/HxCKDMS/HxC-Blocks/issues">
+      <img src="https://img.shields.io/github/issues-raw/HxCKDMS/HxC-Blocks.svg" alt="Issues"></a>
   <a><img src="https://img.shields.io/badge/minecraft-1.7.10-blue.svg" alt="Minecraft Version"></a>
 </p>
 ------------------------
@@ -12,7 +12,7 @@
 
 * All of these will require power eventually.
 
-* Slaughter Block - Attacks mobs within range with weapon it's equipped with, uses HxC fake player.
+* Slaughter Block - Attacks mobs within range with weapon it's equipped with.
   * Uses the enchants on the tool it attacks with.
 * Item Vacuum - Picks up items within range and outputs them to bound inventory.
 * XP Vacuum - Picks up XP within range and when it hits a certain amount it gives it to the player it's bound to.
