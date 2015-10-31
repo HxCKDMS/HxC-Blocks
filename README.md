@@ -7,7 +7,7 @@
   <a><img src="http://img.shields.io/badge/minecraft-1.7.10-blue.svg" alt="Minecraft Version"></a>
 </p>
 ------------------------
-<div align="center"> Testing Mod for things to be added to HxCArcanea and HxCChem. </div>
+<div align="center"> Testing ground for things to be added to HxCArcanea and to a future chemistry mod </div>
 ------------------------
 
 * All of these will require power eventually.
@@ -16,7 +16,7 @@
   * Uses the enchants on the tool it attacks with.
 * Item Vacuum - Picks up items within range and outputs them to bound inventory.
 * XP Vacuum - Picks up XP within range and when it hits a certain amount it gives it to the player it's bound to.
-* Potion Brewer [WIP] - Brews Potions, specially. [WIP]
+* Potion Brewer - Allows for custom potions to be brewed.  <b> [WIP] </b>
 * Soul Extractor - Upon sneak right click this disolve the flesh to expose the soul and tear a piece off.
 * LeBomb - A boredom block that explodes in a spherical shape.
 * GreyGoo - A boredom block that was made to eat my dev world.
