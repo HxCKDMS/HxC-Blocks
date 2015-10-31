@@ -7,7 +7,7 @@
   <a><img src="http://img.shields.io/badge/minecraft-1.7.10-blue.svg" alt="Minecraft Version"></a>
 </p>
 ------------------------
-<div align="center"> Testing ground for things to be added to HxCArcanea and to a future chemistry mod </div>
+<div align="center"> Testing mod for things to be added to HxCArcanea and to a future chemistry mod </div>
 ------------------------
 
 * All of these will require power eventually.
